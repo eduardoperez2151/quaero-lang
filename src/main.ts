@@ -11,7 +11,7 @@ import { ASTNode, Stmt } from './ast/AST';
 import { State } from './interpreter/State';
 
 
-console.log("While :: REPL");
+console.log("Quero :: REPL");
 
 var state = new State();
 
