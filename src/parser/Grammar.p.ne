@@ -13,7 +13,6 @@ import {
   CompareGreat,
   Conjunction,
   Disjunction,
-  DoWhile,
   IfThenElse,
   IfThen,
   Multiplication,
@@ -26,8 +25,6 @@ import {
   Substraction,
   TruthValue,
   Variable,
-  WhileDo,
-  WhileDoElse,
   IfElse,
   Index
 } from '../ast/AST';
@@ -44,7 +41,7 @@ const lexer = new MyLexer(tokens);
 
 ######### Program ############
 
-program -> 
+program ->
    "@" function:* body "@"  {% ([, functions, body,]) => (new Program(functions, body)) %}
 
 ####### Function #############
@@ -55,12 +52,12 @@ function ->
 body ->
   "{" stmt:* "}"   {% ([, statements, ]) => (new Sequence(statements)) %}
 
-args-> 
-  "(" ")"                   {% () => (new Array()) %}                   
+args->
+  "(" ")"                   {% () => (new Array()) %}
   | "(" argsList ")"        {% id %}
 
-argsList -> 
-  identifier                {% ([identifier]) => [identifier]) %}            
+argsList ->
+  identifier                {% ([identifier]) => [identifier]) %}
   identifier "," argsList   {% ([identifier, ,argsList]) => ({argsList.push(identifier); return argsList;}) %}
 
 
@@ -68,12 +65,12 @@ argsList ->
 callFunction ->
   identifier params         {% ([identifier,params]) => (new CallFunction(indentifier,params)) %}
 
-params-> 
-  "(" ")"                   {% () => (new Array()) %}                   
+params->
+  "(" ")"                   {% () => (new Array()) %}
   | "(" expList ")"        {% id %}
 
-expList -> 
-  exp                   {% ([exp]) => [exp]) %}            
+expList ->
+  exp                   {% ([exp]) => [exp]) %}
   exp "," expList   {% ([exp, ,expList]) => ({expList.push(exp); return expList;}) %}
 
 
@@ -84,20 +81,20 @@ stmt ->
 stmtelse ->
   exp";"                                      {% id %}
   |identifier "=" exp ";"                     {% ([id, , exp, ]) => (new Assignment(id, exp)) %}
-  | "{" stmt:* "}"                            {% ([, statements, ]) => (new Sequence(statements)) %} 
+  | "{" stmt:* "}"                            {% ([, statements, ]) => (new Sequence(statements)) %}
   | "if" "(" exp ")" stmtelse "else" stmt     {% ([, ,cond, , thenBody, , elseBody]) => (new IfThenElse(cond, thenBody, elseBody)) %}
   | "for" "(" expList ")" stmt                {% ([, ,expList, ,stmt]) => (new For(expList, stmt)) %}
 
 
 # Expression
 
-list-> 
-  "[" "]"                   {% () => ([]) %}                   
+list->
+  "[" "]"                   {% () => ([]) %}
   | "[" listItem "]"        {% id %}
 
-listItem -> 
-  exp                               {% ([exp]) => [exp]) %}            
- |identifier ":" exp                {% ([identifier, ,exp ]) => [new KeyValue(identifier,exp)]) %}   
+listItem ->
+  exp                               {% ([exp]) => [exp]) %}
+ |identifier ":" exp                {% ([identifier, ,exp ]) => [new KeyValue(identifier,exp)]) %}
  |exp "," listItem                  {% ([exp, ,listItem]) => ({listItem.push(exp); return listItem;}) %}
  |identifier ":" exp "," listItem   {% ([identifier, ,exp, ,listItem]) => ({listItem.push(new KeyValue(identifier,exp)); return listItem;}) %}
 
