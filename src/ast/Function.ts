@@ -7,11 +7,11 @@ import { Sequence } from './AST';
 */
 export class Function implements Stmt {
 
-  identifier: String;
+  identifier: string;
   body:Sequence;
   params:[String];
 
-  constructor(identifier: String, params: [String], body: Sequence) {
+  constructor(identifier: string, params: [String], body: Sequence) {
     this.identifier = identifier;
     this.params = params;
     this.body = body;
@@ -27,11 +27,8 @@ export class Function implements Stmt {
     return `function ${this.identifier} (${params}) { ${this.body.unparse()}}`;
   }
 
-  evaluate(state: State): any {
-    /*
-    var lres = this.lhs.evaluate(state);
-    var rres = this.rhs.evaluate(state);
-    return lres + rres;
-    */
+  evaluate(state: State): State {
+    state.set(this.identifier,this);
+    return state;
   }
 }

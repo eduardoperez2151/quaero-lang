@@ -26,6 +26,10 @@ import {
   TruthValue,
   Variable,
   IfElse,
+  Program;
+  For,
+  Function,
+  CallFunction,
   Index
 } from '../ast/AST';
 

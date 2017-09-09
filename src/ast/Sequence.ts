@@ -33,6 +33,4 @@ export class Sequence implements Stmt {
     return state;
   }
 
-
-  
 }

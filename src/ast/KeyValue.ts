@@ -23,7 +23,7 @@ export class KeyValue implements Stmt {
   }
 
   evaluate(state: State): State {
-    //state.set(this.id,this.exp.evaluate(state));
+    state.set(this.id,this.exp.evaluate(state));
     return state
   }
 }

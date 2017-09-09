@@ -1,11 +1,12 @@
 import { Exp } from './ASTNode';
+import { Stmt } from './ASTNode';
 import { State } from '../interpreter/State';
 import { Sequence } from './AST';
 
 /**
   Representación de Programa.
 */
-export class Program implements Exp {
+export class Program implements Stmt {
 
   functions: [Function];
   body: Sequence;
@@ -24,10 +25,12 @@ export class Program implements Exp {
   }
 
   evaluate(state: State): any {
-    /*
-    var lres = this.lhs.evaluate(state);
-    var rres = this.rhs.evaluate(state);
-    return lres + rres;
-    */
+    let functions: Array<Function> = this.functions;
+    for (let func of functions){
+      state = (func as any).evaluate(state); 
+    }
+    // Evaluar el bloque ...
+    state = this.body.evaluate(state);
+    return state;
   }
 }

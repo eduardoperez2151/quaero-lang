@@ -6,6 +6,11 @@ export * from './Assignment';
 export * from './IfThenElse';
 export * from './IfThen';
 export * from './Sequence';
+export * from './Function';
+export * from './Program';
+export * from './KeyValue';
+export * from './For';
+export * from './CallFunction';
 
 // AExp
 export * from './Addition';
