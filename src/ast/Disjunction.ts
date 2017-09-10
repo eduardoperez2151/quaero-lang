@@ -1,22 +1,11 @@
 import { Exp } from './ASTNode';
 import { State } from '../interpreter/State';
-import { AbstractBinaryExpression } from './AbstractBinaryExpression'
+import { AbstractBooleanComparation } from './AbstractBooleanComparation'
 
 
-export class Disjunction extends AbstractBinaryExpression {
+export class Disjunction extends AbstractBooleanComparation {
 
   constructor(leftHandSide: Exp, rightHandSide: Exp) {
-    super(leftHandSide, rightHandSide, "||");
-  }
-
-  evaluate(state: State): any {
-    var leftSideEvaluation = this.leftHandSideEvaluation(state);
-    var rightHandSideEvaluation = this.rightHandSideEvaluation(state);
-
-    if (this.isBoolean(leftSideEvaluation) && this.isBoolean(leftSideEvaluation)) {
-      return leftSideEvaluation || rightHandSideEvaluation;
-    }
-
-    this.ThrowEvaluationException(leftSideEvaluation, rightHandSideEvaluation);
+    super(leftHandSide, rightHandSide, "||",(a,b)=>a || b);
   }
 }
