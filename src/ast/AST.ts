@@ -23,6 +23,18 @@ export * from './Substraction';
 export * from './Variable';
 export * from './IfElse';
 export * from './Index';
+export * from './Negationation';
+export * from './Concatenation';
+export * from './SetCollection';
+export * from './ListCollection';
+export * from './Difference';
+export * from './Union';
+export * from './Intersection';
+export * from './Membership';
+export * from './Oposite';
+export * from './Cardinal';
+export * from './Dot';
+
 
 // BExp
 export * from './CompareEqual';

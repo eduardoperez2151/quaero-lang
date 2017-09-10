@@ -13,12 +13,21 @@ import {
   CompareGreat,
   Conjunction,
   Disjunction,
-  DoWhile,
   IfThenElse,
   IfThen,
   Multiplication,
   Division,
-  Negation,
+  Negationation,
+  SetCollection,
+  ListCollection,
+  Concatenation,
+  Difference,
+  Union,
+  Intersection,
+  Membership,
+  Oposite,
+  Cardinal,
+  Dot,
   Numeral,
   Literal,
   LengthExp,
@@ -26,9 +35,12 @@ import {
   Substraction,
   TruthValue,
   Variable,
-  WhileDo,
-  WhileDoElse,
   IfElse,
+  Program;
+  For,
+  Function,
+  CallFunction,
+  KeyValue,
   Index
 } from '../ast/AST';
 
@@ -42,72 +54,140 @@ const lexer = new MyLexer(tokens);
 @lexer lexer
 
 
-# Statements
+######## PROGRAM ########
 
-stmt ->
-    stmtelse                              {% id %}
-  | "if" exp "then" stmt                  {% ([, cond, , thenBody]) => (new IfThen(cond, thenBody)) %}
+program ->
+  "@"  function:*  body "@"        		                                {%  ([, functions, body,]) => (new Program(functions, body)) %}
 
-stmtelse ->
-    identifier "=" exp ";"                  {% ([id, , exp, ]) => (new Assignment(id, exp)) %}
-  | "{" stmt:* "}"                          {% ([, statements, ]) => (new Sequence(statements)) %}
-  | "while" exp "do" stmt                   {% ([, cond, , body]) => (new WhileDo(cond, body)) %}
-  | "while" exp "do" stmt "else" stmt       {% ([, cond, , doBody, ,elseBody]) => (new WhileDoElse(cond, doBody, elseBody)) %}
-  | "do" stmt "while" exp                   {% ([, body, , cond]) => (new DoWhile(body, cond)) %}
-  | "if" exp "then" stmtelse "else" stmt    {% ([, cond, , thenBody, , elseBody]) => (new IfThenElse(cond, thenBody, elseBody)) %}
+######## FUNCTION ########
+
+function ->
+  "function"  identifier  arguments body 	                            {%  ([, identifier, , arguments, , body]) => (new Function(identifier,arguments,body)) %}
+
+body ->
+  "{" statements:*  "}"   			                                      {% ([, statements, ]) => (new Sequence(statements)) %}
+
+arguments->
+  "(" ")"                   			                                    {%  ()                    =>  ([])            %}
+  | "(" argumentList  ")"        			                                {%  ([, argumentList, ])  =>  (argumentList)  %}
+
+argumentList ->
+  identifier                		  	                                  {%  ([identifier])                  =>  ([identifier])                                          %}
+  | identifier  "," argumentList   		                                {%  ([identifier, , argumentList])  =>  ({argumentList.push(identifier); return argumentList;}) %}
+
+######## CALL FUNCTION ########
+
+callFunction ->
+  identifier  parameters        		                                  {%  ([identifier, parameters]) => (new CallFunction(identifier,parameters)) %}
+
+parameters->
+  "(" ")"                   			                                    {%  ()                      =>  ([])              %}
+  | "(" expressionList  ")"        			                              {%  ([, expressionList, ])  =>  (expressionList)  %}
+
+expressionList ->
+  expression                   			                                  {%  ([expression])                    =>  ([expression])                                              %}
+  | expression  "," expressionList   			                            {%  ([expression, , expressionList])  =>  ({expressionList.push(expression); return expressionList;}) %}
+
+######## STATEMENTS ########
+
+statements ->
+    statementsElse                             		                    {%  id  %}
+  | "if"  "(" expression  ")" statements                  	          {%  ([, , condition, , body]) =>  (new IfThen(condition, body)) %}
+
+statementsElse ->
+  expression  ";"                                                     {%  ([expression, ])                      =>  (expression)                                %}
+  | identifier  "=" expression  ";"                                   {%  ([identifier, , expression, ])        =>  (new Assignment(identifier, expression))    %}
+  | "{" statements:*  "}"                                             {%  ([, statements, ])                    =>  (new Sequence(statements))                  %}
+  | "if"  "(" expression ")"  statementsElse  "else"  statements      {%  ([, ,condition, , body, , elseBody])  =>  (new IfThenElse(condition, body, elseBody)) %}
+  | "for" "(" expressionList ")"  statements                          {%  ([, , expressionList, , statements])  =>  (new For(expressionList, statements))       %}
+
+######## EXPRESSIONS ######## CHECKED!!!!
+
+collection ->
+  list 				                                                        {%  id  %}
+  | set 				                                                      {%  id  %}
+
+set ->
+  "{" "}"				                                                      {%  ()                      =>  (new SetCollection())               %}
+  | "{" collectionItem  "}"        			                              {%  ([, collectionItem, ])  =>  (new SetCollection(collectionItem)) %}
 
 
-# Expressions
+list->
+  "[" "]"                   			                                    {%  ()                      =>  (new ListCollection())                %}
+  | "[" collectionItem "]"       			                                {%  ([, collectionItem, ])  =>  (new ListCollection(collectionItem))  %}
 
-exp ->
-    exp "&&" comp               {% ([lhs, , rhs]) => (new Conjunction(lhs, rhs)) %}
-  | exp "||" comp               {% ([lhs, , rhs]) => (new Disjunction(lhs, rhs)) %}
-  | comp "if" exp "else" comp   {% ([lhs, ,cexp, ,rhs]) => (new IfElse(lhs,cexp,rhs)) %}
-  | exp "[" comp "]"            {% ([exp, ,index,]) => (new Index(exp,index)) %}
-  | comp                        {% id %}
 
-comp ->
-    comp "==" addsub        {% ([lhs, , rhs]) => (new CompareEqual(lhs, rhs)) %}
-  | comp "!=" addsub        {% ([lhs, , rhs]) => (new CompareNotEqual(lhs, rhs)) %}
-  | comp "<=" addsub        {% ([lhs, , rhs]) => (new CompareLessOrEqual(lhs, rhs)) %}
-  | comp "<" addsub         {% ([lhs, , rhs]) => (new CompareLess(lhs, rhs)) %}
-  | comp ">=" addsub        {% ([lhs, , rhs]) => (new CompareGreatOrEqual(lhs, rhs)) %}
-  | comp ">" addsub         {% ([lhs, , rhs]) => (new CompareGreat(lhs, rhs)) %}
-  | addsub                  {% id %}
+collectionItem ->
+  expression                                                          {%  ([expression])                                =>  ([expression])                                                                        %}
+ |  identifier  ":" expression                                        {%  ([identifier, ,expression ])                  =>  ([new KeyValue(identifier,expression)])                                               %}
+ |  expression  "," collectionItem                                    {%  ([expression, ,collectionItem])               =>  ({collectionItem.push(expression); return collectionItem;})                           %}
+ |  identifier  ":" expression  "," collectionItem                    {%  ([identifier, ,expression, ,collectionItem])  =>  ({collectionItem.push(new KeyValue(identifier,expression)); return collectionItem;})  %}
 
-addsub ->
-    addsub "+" muldiv       {% ([lhs, , rhs]) => (new Addition(lhs, rhs)) %}
-  | addsub "-" muldiv       {% ([lhs, , rhs]) => (new Substraction(lhs, rhs)) %}
-  | muldiv                  {% id %}
+expression ->
+    expression "&&" comparison                                        {%  ([leftHandSide, , rightHandSide])             =>  (new Conjunction(leftHandSide, rightHandSide))      %}
+  | expression "||" comparison                                        {%  ([leftHandSide, , rightHandSide])             =>  (new Disjunction(leftHandSide, rightHandSide))      %}
+  | comparison "if" expression "else" comparison                      {%  ([leftHandSide, ,expression, ,rightHandSide]) =>  (new IfElse(leftHandSide,expression,rightHandSide)) %}
+  | expression "[" comparison "]"                                     {%  ([expression, ,comparison,])                  =>  (new Index(expression,comparison))                  %}
+  | comparison                                                        {%  id  %}
 
-muldiv ->
-    muldiv "*" neg          {% ([lhs, , rhs]) => (new Multiplication(lhs, rhs)) %}
-  | muldiv "/" neg          {% ([lhs, , rhs]) => (new Division(lhs, rhs)) %}
-  | neg                     {% id %}
+comparison ->
+    comparison  "=="  additionSubstraction                            {%  ([leftHandSide, , rightHandSide]) =>  (new CompareEqual(leftHandSide, rightHandSide))         %}
+  | comparison  "/="  additionSubstraction                            {%  ([leftHandSide, , rightHandSide]) =>  (new CompareNotEqual(leftHandSide, rightHandSide))      %}
+  | comparison  "<="  additionSubstraction                            {%  ([leftHandSide, , rightHandSide]) =>  (new CompareLessOrEqual(leftHandSide, rightHandSide))   %}
+  | comparison  "<"   additionSubstraction                            {%  ([leftHandSide, , rightHandSide]) =>  (new CompareLess(leftHandSide, rightHandSide))          %}
+  | comparison  ">="  additionSubstraction                            {%  ([leftHandSide, , rightHandSide]) =>  (new CompareGreatOrEqual(leftHandSide, rightHandSide))  %}
+  | comparison  ">"   additionSubstraction                            {%  ([leftHandSide, , rightHandSide]) =>  (new CompareGreat(leftHandSide, rightHandSide))         %}
+  | additionSubstraction                                              {%  id  %}
 
-neg ->
-    "!" value               {% ([, exp]) => (new Negation(exp)) %}
-  | value                   {% id %}
+additionSubstraction ->
+    additionSubstraction  "+"   multiplicationDivision                {%  ([leftHandSide, , rightHandSide]) =>  (new Addition(leftHandSide, rightHandSide))       %}
+  | additionSubstraction  "-"   multiplicationDivision                {%  ([leftHandSide, , rightHandSide]) =>  (new Substraction(leftHandSide, rightHandSide))   %}
+  | additionSubstraction  "++"  multiplicationDivision                {%  ([leftHandSide, , rightHandSide]) =>  (new Concatenation(leftHandSide, rightHandSide))  %}
+  | additionSubstraction  "--"  multiplicationDivision                {%  ([leftHandSide, , rightHandSide]) =>  (new Difference(leftHandSide, rightHandSide))     %}
+  | multiplicationDivision                                            {%  id  %}
+
+multiplicationDivision ->
+    multiplicationDivision  "*"   negation                            {%  ([leftHandSide, , rightHandSide]) =>  (new Multiplication(leftHandSide, rightHandSide)) %}
+  | multiplicationDivision  "/"   negation                            {%  ([leftHandSide, , rightHandSide]) =>  (new Division(leftHandSide, rightHandSide))       %}
+  | multiplicationDivision  "\\/" negation                            {%  ([leftHandSide, , rightHandSide]) =>  (new Union(leftHandSide, rightHandSide))          %}
+  | multiplicationDivision  "/\\" negation                            {%  ([leftHandSide, , rightHandSide]) =>  (new Intersection(leftHandSide, rightHandSide))   %}
+  | membership                                                        {%  id  %}
+
+membership ->
+  negation                                                            {%  id  %}
+  | membership  "<-"  negation                                        {% ([value, ,listValues]) => (new Membership(value,listValues)) %}
+
+negation ->
+    "!" value                                                         {%  ([, value])     => (new Negationation(value)) %}
+  | "-" negation                                                      {%  ([, negation])  => (new Oposite(negation))    %}
+  | value                                                             {%  id  %}
 
 value ->
-    "(" exp ")"             {% ([, exp, ]) => (exp) %}
-  | number                  {% ([num]) => (new Numeral(num)) %}
-  | "length" "(" addsub ")" {% ([, ,exp,]) => (new LengthExp(exp)) %}
-  | "true"                  {% () => (new TruthValue(true)) %}
-  | "false"                 {% () => (new TruthValue(false)) %}
-  | identifier              {% ([id]) => (new Variable(id)) %}
-  | string                  {% ([id]) => (new Literal(id)) %}
+  "(" expression  ")"                                                 {%  ([, expression, ])      =>  (expression)                %}
+  | list                                                              {%  id  %}
+  | number                                                            {%  ([number])              =>  (new Numeral(number))       %}
+  | "length"  "(" additionSubstraction  ")"                           {%  ([, ,expression,])      =>  (new LengthExp(expression)) %}
+  | "#" list                                                          {%  ([, list])              =>  (new Cardinal(list))        %}
+  | list  "[" value "]"                                               {%  ([list, , index,])      =>  (new Index(list,index))     %}
+  | collection  "." key                                               {%  ([collection, ,key])    =>  (new Dot(collection,key))   %}
+  | "true"                                                            {%  ()                      =>  (new TruthValue(true))      %}
+  | "false"                                                           {%  ()                      =>  (new TruthValue(false))     %}
+  | identifier                                                        {%  ([id])                  =>  (new Variable(id))          %}
+  | literal                                                           {%  ([id])                  =>  (new Literal(id))           %}
 
+key ->
+  identifier                                                          {%  id  %}
+  | literal                                                            {%  id  %} ##Bruno:se deberia de poder?; Edu:Creo que no  ej lista=[1,2,3,x:4], lista["x"] es igual a lista.x pero no deberiamos llamar lista."x" esto no deberia ser asi, capaz me equivoco pero creo que no
 
 # Atoms
 
 identifier ->
-    %identifier             {% ([id]) => (id.value) %}
+    %identifier                                                       {% ([identifier]) => (identifier.value) %}
 
 number ->
-    %integer                {% ([id]) => (parseInt(id.value)) %}
-  | %hex                    {% ([id]) => (parseInt(id.value)) %}
-  | %float                  {% ([id]) => (parseFloat(id.value)) %}
+  %integer                                                            {%  ([integer])   =>  (parseInt(integer.value)) %}
+  | %hex                                                              {%  ([hex])       =>  (parseInt(hex.value))     %}
+  | %float                                                            {%  ([float])     =>  (parseFloat(float.value)) %}
 
-string ->
-    %string                {% ([id]) => (id.value) %}
+literal ->
+  %literal                                                             {%  ([literal]) => (literal.value) %}
