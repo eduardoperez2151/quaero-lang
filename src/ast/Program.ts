@@ -1,6 +1,7 @@
 import { Exp } from './ASTNode';
 import { Stmt } from './ASTNode';
 import { State } from '../interpreter/State';
+import { Function } from './Function';
 import { Sequence } from './AST';
 
 /**
@@ -20,16 +21,12 @@ export class Program implements Stmt {
     return `Program(${this.functions.toString()}, ${this.body.toString()})`;
   }
 
-  unparse(): string { // Ver bien el unparse.
-    return `@ ${this.functions.toString()}  { ${this.body.unparse()} } @`;
+  unparse(): string {
+    return `@ ${this.functions.toString()}  Main { ${this.body.unparse()} } @`;
   }
 
   evaluate(state: State): any {
-    let functions: Array<Function> = this.functions;
-    for (let func of functions){
-      state = (func as any).evaluate(state); 
-    }
-    // Evaluar el bloque ...
+    state=this.functions.reduce((state:State,func:Stmt) => func.evaluate(state),state);
     state = this.body.evaluate(state);
     return state;
   }

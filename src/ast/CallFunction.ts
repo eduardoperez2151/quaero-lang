@@ -27,7 +27,7 @@ export class CallFunction implements Stmt {
   }
 
   evaluate(state: State): any {
-    let func :Function = state.get(this.identifier);
+    var func :Function = state.get(this.identifier);
     
     // Asignar los valores que se pasan por parametro
     // a los parametros de la funcion en el estado

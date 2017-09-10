@@ -2,9 +2,6 @@ import { Exp, Stmt} from './ASTNode';
 import { State } from '../interpreter/State';
 import { Sequence } from './AST';
 
-/**
-  Representación de funciones.
-*/
 export class Function implements Stmt {
 
   identifier: string;
@@ -22,8 +19,7 @@ export class Function implements Stmt {
   }
 
   unparse(): string {
-    var params = this.params.toString();
-    var params = params.substring(1,params.length - 1); // Se quitan []
+    var params = this.params.join(",");
     return `function ${this.identifier} (${params}) { ${this.body.unparse()}}`;
   }
 

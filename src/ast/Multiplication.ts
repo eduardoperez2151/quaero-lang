@@ -1,37 +1,21 @@
 import { Exp } from './ASTNode';
 import { State } from '../interpreter/State';
+import { AbstractBinaryExpression } from './AbstractBinaryExpression'
 
-/**
-  Representación de multiplicaciones.
-*/
-export class Multiplication implements Exp {
+export class Multiplication extends AbstractBinaryExpression {
 
-  lhs: Exp;
-  rhs: Exp;
-
-  constructor(lhs: Exp, rhs: Exp) {
-    this.lhs = lhs;
-    this.rhs = rhs;
-  }
-
-  toString(): string {
-    return `Multiplication(${this.lhs.toString()}, ${this.rhs.toString()})`;
-  }
-
-  unparse(): string {
-    return `(${this.lhs.unparse()} * ${this.rhs.unparse()})`;
+  constructor(leftHandSide: Exp, rightHandSide: Exp) {
+    super(leftHandSide, rightHandSide, "*");
   }
 
   evaluate(state: State): any {
-    var lres = this.lhs.evaluate(state);
-    var rres = this.rhs.evaluate(state);
-    if (typeof lres === "number"){
-      if (typeof rres === "number" ){
-        return lres * rres;
-      }else{
-        return new Array(lres+1).join(rres);
-      }
+    var leftSideEvaluation = this.leftHandSideEvaluation(state);
+    var rightHandSideEvaluation = this.rightHandSideEvaluation(state);
+
+    if (this.isNumber(leftSideEvaluation) && this.isNumber(leftSideEvaluation)) {
+      return leftSideEvaluation * rightHandSideEvaluation;
     }
-    throw new Error("Error de tipos.");
+
+    this.ThrowEvaluationException(leftSideEvaluation, rightHandSideEvaluation);
   }
 }

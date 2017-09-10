@@ -2,7 +2,7 @@ import { Exp } from './ASTNode';
 import { State } from '../interpreter/State';
 import { AbstractBinaryExpression } from './AbstractBinaryExpression'
 
-export class Division  extends AbstractBinaryExpression {
+export class Division extends AbstractBinaryExpression {
   
     constructor(leftHandSide: Exp, rightHandSide: Exp) {
       super(leftHandSide, rightHandSide, "/");
