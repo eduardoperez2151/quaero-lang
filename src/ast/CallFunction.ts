@@ -1,6 +1,7 @@
 import { Exp, Stmt} from './ASTNode';
 import { State } from '../interpreter/State';
 import { Sequence } from './AST';
+import {Function} from './Function'
 
 /**
   Representación de llamada de funcion.
@@ -27,6 +28,7 @@ export class CallFunction implements Stmt {
 
   evaluate(state: State): any {
     let func :Function = state.get(this.identifier);
+    
     // Asignar los valores que se pasan por parametro
     // a los parametros de la funcion en el estado
     // y llamar al body.evaluate(state)??

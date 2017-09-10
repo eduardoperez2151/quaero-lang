@@ -100,7 +100,7 @@ statementsElse ->
   | "{" statements:*  "}"                                             {%  ([, statements, ])                    =>  (new Sequence(statements))                  %}
   | "if"  "(" expression ")"  statementsElse  "else"  statements      {%  ([, ,condition, , body, , elseBody])  =>  (new IfThenElse(condition, body, elseBody)) %}
   | "for" "(" expressionList ")"  statements                          {%  ([, , expressionList, , statements])  =>  (new For(expressionList, statements))       %}
-
+  
 ######## EXPRESSIONS ######## CHECKED!!!!
 
 collection ->
@@ -108,13 +108,19 @@ collection ->
   | set 				                                                      {%  id  %}
 
 set ->
-  "{" "}"				                                                      {%  ()                      =>  (new SetCollection())               %}
-  | "{" collectionItem  "}"        			                              {%  ([, collectionItem, ])  =>  (new SetCollection(collectionItem)) %}
+  "{" "}"				                                                      {%  ()                                                  =>  (new SetCollection())                                       %}
+  | "{" expression  ".."  expression  "}"                             {%  ([, firstElement, , lastElement, ])                 =>  (new EnumerationSet(firstElement,lastElement))              %}
+  | "{" expression  ","   expression  ".."  expression  "}"           {%  ([, firstElement, , nextElement, , lastElement, ])  =>  (new EnumerationSet(firstElement,nextElement,lastElement))  %}
+  | "{" expression statements "}"                                     {%  ([, expression ,statement, ])                       =>  (new ComprehensionSet(expression,statement))                %}  
+  | "{" collectionItem  "}"        			                              {%  ([, collectionItem, ])                              =>  (new SetCollection(collectionItem))                         %}
 
 
 list->
-  "[" "]"                   			                                    {%  ()                      =>  (new ListCollection())                %}
-  | "[" collectionItem "]"       			                                {%  ([, collectionItem, ])  =>  (new ListCollection(collectionItem))  %}
+  "[" "]"                   			                                    {%  ()                                                  =>  (new ListCollection())                                      %}
+  | "[" expression  ".."  expression  "]"                             {%  ([, firstElement, , lastElement, ])                 =>  (new EnumerationList(firstElement,lastElement))             %}
+  | "[" expression  ","   expression  ".."  expression  "]"           {%  ([, firstElement, , nextElement, , lastElement, ])  =>  (new EnumerationList(firstElement,nextElement,lastElement)) %}
+  | "[" expression statements "]"                                     {%  ([, expression ,statement, ])                       =>  (new ComprehensionList(expression,statement))               %}
+  | "[" collectionItem "]"       			                                {%  ([, collectionItem, ])                              =>  (new ListCollection(collectionItem))                        %}
 
 
 collectionItem ->
@@ -177,7 +183,7 @@ value ->
 
 key ->
   identifier                                                          {%  id  %}
-  | literal                                                            {%  id  %} ##Bruno:se deberia de poder?; Edu:Creo que no  ej lista=[1,2,3,x:4], lista["x"] es igual a lista.x pero no deberiamos llamar lista."x" esto no deberia ser asi, capaz me equivoco pero creo que no
+  | literal                                                           {%  id  %} ##Bruno:se deberia de poder?; Edu:Creo que no  ej lista=[1,2,3,x:4], lista["x"] es igual a lista.x pero no deberiamos de poder llamar lista."x" esto no deberia ser asi, capaz me equivoco :\
 
 # Atoms
 
@@ -190,4 +196,4 @@ number ->
   | %float                                                            {%  ([float])     =>  (parseFloat(float.value)) %}
 
 literal ->
-  %literal                                                             {%  ([literal]) => (literal.value) %}
+  %literal                                                            {%  ([literal]) => (literal.value) %}

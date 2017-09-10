@@ -1,30 +1,16 @@
 import { Exp } from './ASTNode';
 import { State } from '../interpreter/State';
+import { AbstractBinaryExpression } from './AbstractBinaryExpression'
 
-/**
-  Representación de sumas.
-*/
-export class Addition implements Exp {
+export class Addition extends AbstractBinaryExpression {
 
-  lhs: Exp;
-  rhs: Exp;
-
-  constructor(lhs: Exp, rhs: Exp) {
-    this.lhs = lhs;
-    this.rhs = rhs;
-  }
-
-  toString(): string {
-    return `Addition(${this.lhs.toString()}, ${this.rhs.toString()})`;
-  }
-
-  unparse(): string {
-    return `(${this.lhs.unparse()} + ${this.rhs.unparse()})`;
+  constructor(leftHandSide: Exp, rightHandSide: Exp) {
+    super(leftHandSide, rightHandSide, "+");
   }
 
   evaluate(state: State): any {
-    var lres = this.lhs.evaluate(state);
-    var rres = this.rhs.evaluate(state);
-    return lres + rres;
+    var leftSideEvaluation = this.leftHandSideEvaluation(state);
+    var rightHandSideEvaluation = this.rightHandSideEvaluation(state);
+    return leftSideEvaluation + rightHandSideEvaluation;
   }
 }

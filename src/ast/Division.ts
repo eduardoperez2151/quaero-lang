@@ -1,30 +1,21 @@
 import { Exp } from './ASTNode';
 import { State } from '../interpreter/State';
+import { AbstractBinaryExpression } from './AbstractBinaryExpression'
 
-export class Division implements Exp {
-
-  lhs: Exp;
-  rhs: Exp;
-
-  constructor(lhs: Exp, rhs: Exp) {
-    this.lhs = lhs;
-    this.rhs = rhs;
-  }
-
-  toString(): string {
-    return `Division(${this.lhs.toString()}, ${this.rhs.toString()})`;
-  }
-
-  unparse(): string {
-    return `(${this.lhs.unparse()} / ${this.rhs.unparse()})`;
-  }
-
-  evaluate(state: State): any {
-    var lres = this.lhs.evaluate(state);
-    var rres = this.rhs.evaluate(state);
-    if (typeof lres === "number" &&  typeof rres === "number"){
-      return lres / rres;
+export class Division  extends AbstractBinaryExpression {
+  
+    constructor(leftHandSide: Exp, rightHandSide: Exp) {
+      super(leftHandSide, rightHandSide, "/");
     }
-    throw new Error("Error de tipos.");
+  
+    evaluate(state: State): any {
+      var leftSideEvaluation = this.leftHandSideEvaluation(state);
+      var rightHandSideEvaluation = this.rightHandSideEvaluation(state);
+  
+      if (this.isNumber(leftSideEvaluation) && this.isNumber(leftSideEvaluation)) {
+        return leftSideEvaluation / rightHandSideEvaluation;
+      }
+  
+      this.ThrowEvaluationException(leftSideEvaluation, rightHandSideEvaluation);
+    }
   }
-}
