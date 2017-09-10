@@ -1,21 +1,10 @@
 import { Exp } from './ASTNode';
 import { State } from '../interpreter/State';
-import { AbstractBinaryExpression } from './AbstractBinaryExpression'
+import { AbstractArimeticComparation } from './AbstractArimeticComparation'
 
-export class Division extends AbstractBinaryExpression {
+export class Division extends AbstractArimeticComparation {
   
     constructor(leftHandSide: Exp, rightHandSide: Exp) {
-      super(leftHandSide, rightHandSide, "/");
-    }
-  
-    evaluate(state: State): any {
-      var leftSideEvaluation = this.leftHandSideEvaluation(state);
-      var rightHandSideEvaluation = this.rightHandSideEvaluation(state);
-  
-      if (this.isNumber(leftSideEvaluation) && this.isNumber(leftSideEvaluation)) {
-        return leftSideEvaluation / rightHandSideEvaluation;
-      }
-  
-      this.ThrowEvaluationException(leftSideEvaluation, rightHandSideEvaluation);
+      super(leftHandSide, rightHandSide, "/",(a,b)=> a / b);
     }
   }

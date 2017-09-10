@@ -4,9 +4,6 @@ import { AbstractGenericComparation } from './AbstractGenericComparation'
 
 export abstract class AbstractBooleanComparation extends AbstractGenericComparation {
   
-  
-  comparatorFunction: Function
-
   protected constructor(leftHandSide: Exp, rightHandSide: Exp, operationSymbol: string, comparatorFunction: Function) {
     super(leftHandSide, rightHandSide, operationSymbol,comparatorFunction);
   }
