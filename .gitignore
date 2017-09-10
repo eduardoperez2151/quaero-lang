@@ -1,3 +1,4 @@
 /bin
 /node_modules
+/src/parser/Grammar.ts
 package-lock.json
