@@ -26,7 +26,7 @@ export class CallFunction implements Exp {
     var func: Function = state.get(this.identifier);
     var functionState = state.clone();
     var functionArgs=func.args;
-    for (var index = 0; index < URLSearchParams.length; index++) {
+    for (var index = 0; index < this.params.length; index++) {
       functionState.set(functionArgs[index],this.params[index]);
     }
     return func.body.evaluate(functionState)
