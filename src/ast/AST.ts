@@ -18,6 +18,7 @@ export * from './Addition';
 export * from './Multiplication';
 export * from './Division';
 export * from './ComprehensionList';
+export * from './ComprehensionSet';
 export * from './Numeral';
 export * from './Literal';
 export * from './LengthExp';

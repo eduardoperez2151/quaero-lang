@@ -18,7 +18,7 @@ export class State {
     this.vars.set(id, value);
   }
 
-  clone(): State {
+  clone(): State { ///Los esta dando al reves
     var state = new State();
     this.vars.forEach((identifier, value) => {
       state.set(identifier, value);

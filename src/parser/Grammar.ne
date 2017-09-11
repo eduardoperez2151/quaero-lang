@@ -12,6 +12,7 @@ import {
   CompareGreatOrEqual,
   CompareGreat,
   ComprehensionList,
+  ComprehensionSet,
   Conjunction,
   Disjunction,
   EnumerationList,
@@ -115,7 +116,7 @@ set ->
   "{" "}"				                                                      {%  ([,])                                               =>  (new SetCollection())                                       %}
  | "{" expression  ".."  expression  "}"                              {%  ([, firstElement, , lastElement, ])                 =>  (new EnumerationSet(firstElement,lastElement))              %}
  | "{" expression  ","   expression  ".."  expression  "}"            {%  ([, firstElement, , nextElement, , lastElement, ])  =>  (new EnumerationSet(firstElement,lastElement,nextElement))  %}
-# | "{" expression statements "}"                                      {%  ([, expression ,statement, ])                       =>  (new ComprehensionSet(expression,statement))                %}
+ | "{" expression "for" expressionList "}"                            {%  ([, expression , ,expList, ])                       =>  (new ComprehensionSet(expression,expList))                  %}
  | "{" collectionItem  "}"        			                              {%  ([, collectionItem, ])                              =>  (new SetCollection(collectionItem))                         %}
 
 
@@ -123,7 +124,7 @@ list->
   "[" "]"                   			                                    {%  ()                                                  =>  (new ListCollection())                                      %}
   | "[" expression  ".."  expression  "]"                             {%  ([, firstElement, , lastElement, ])                 =>  (new EnumerationList(firstElement,lastElement))             %}
   | "[" expression  ","   expression  ".."  expression  "]"           {%  ([, firstElement, , nextElement, , lastElement, ])  =>  (new EnumerationList(firstElement,lastElement,nextElement)) %}
-  | "[" expression "for" expressionList "]"                           {%  ([, expression , ,expList, ])                       =>  (new ComprehensionList(expression,expList))               %}
+  | "[" expression "for" expressionList "]"                           {%  ([, expression , ,expList, ])                       =>  (new ComprehensionList(expression,expList))                 %}
   | "[" collectionItem "]"       			                                {%  ([, collectionItem, ])                              =>  (new ListCollection(collectionItem))                        %}
 
 
