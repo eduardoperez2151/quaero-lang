@@ -1,4 +1,5 @@
 import { Exp } from './ASTNode';
+import { ListCollection,SetCollection,KeyValue } from './AST';
 import { State } from '../interpreter/State';
 
 export class Index implements Exp {
@@ -20,11 +21,22 @@ export class Index implements Exp {
   }
 
   evaluate(state: State): any {
-    var str = this.value.evaluate(state);
+    var list = this.value.evaluate(state);
     var index = this.indexValue.evaluate(state);
-    if (typeof str === "string" &&  typeof index === "number"){
-      return str[index];
+    if (typeof index === "number"){
+      if(typeof list === "string"){
+        return list[index];
+      }
+      else if(list instanceof ListCollection){
+        return list.arr[index];
+      }
     }
-    throw new EvalError("Error de tipos.");
+    else if(typeof index == "string" && (list instanceof ListCollection || list instanceof SetCollection)){
+      for(var i=0;i<list.arr.length;i++){
+        var val = list.arr[i];
+        if(val instanceof KeyValue && val.id == index) return val.exp
+      }
+    }
+    throw new Error("Error de tipos.");
   }
 }

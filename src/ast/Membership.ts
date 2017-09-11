@@ -1,4 +1,5 @@
 import { Exp } from './ASTNode';
+import { ListCollection, SetCollection,KeyValue } from './AST';
 import { State } from '../interpreter/State';
 
 /**
@@ -6,10 +7,10 @@ import { State } from '../interpreter/State';
 */
 export class Membership implements Exp {
 
-  listCol: [Exp];
+  listCol: Exp;
   value: Exp;
 
-  constructor(value: Exp, listCol: [Exp]) {
+  constructor(value: Exp, listCol: Exp) {
     this.value = value;
     this.listCol = listCol;
   }
@@ -24,10 +25,23 @@ export class Membership implements Exp {
   }
 
   evaluate(state: State): any {
-    /*
-    var lres = this.lhs.evaluate(state);
-    var rres = this.rhs.evaluate(state);
-    return lres + rres;
-    */
+    var listCol = this.listCol.evaluate(state);
+    var value = this.value.evaluate(state);
+    if(listCol instanceof ListCollection || listCol instanceof SetCollection ){
+       for(var i = 0;i<listCol.arr.length;i++){
+         if(listCol.arr[i] == value){
+           return true;
+         }
+         else if(listCol.arr[i] instanceof KeyValue && listCol.arr[i].exp== value){
+           return true;
+         }
+       }
+       return false;
+    }
+    else if (typeof listCol === "string"){
+      listCol = listCol.split("");
+      return listCol.includes(value);
+    }
+    throw new Error("Error de tipos.");
   }
 }

@@ -6,9 +6,9 @@ import { State } from '../interpreter/State';
 */
 export class Oposite implements Exp {
 
-  value: number;
+  value: Exp;
 
-  constructor(value: number) {
+  constructor(value: Exp) {
     this.value = value;
   }
 
@@ -21,6 +21,6 @@ export class Oposite implements Exp {
   }
 
   evaluate(state: State): number {
-    return - this.value;
+    return (-1)*this.value.evaluate(state);
   }
 }

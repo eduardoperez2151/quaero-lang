@@ -1,6 +1,7 @@
 export const tokens = {
 
   // Punctuation
+  '<-':         '<-',
   '&&':         '&&',
   '||':         '||',
   '(':          '(',
@@ -9,11 +10,12 @@ export const tokens = {
   '}':          '}',
   '*':          '*',
   '/=':         '/=',
+  '/\\':        '/\\',
   '/':          /\/(?!\*)/,
-  '+':          '+',
   '++':          '++',
-  '-':          '-',
+  '+':          '+',
   '--':          '--',
+  '-':          '-',
   ';':          ';',
   '<=':         '<=',
   '>=':         '>=',
@@ -28,10 +30,8 @@ export const tokens = {
   ':':          ':',
   '..':         '..',
   '.':          '.',
-  '/\\':        '/\\',
   '\\/':        '\\/',
   '#':          '#',
-  '<-':         '<-',
   '@':         '@',
 
   // Keywords
@@ -58,8 +58,8 @@ export const tokens = {
   'boolean':    'boolean',
 
   // Atoms
-  integer:      { match: /[0-9]+/, value: (x: string) => (parseFloat(x)) },
   float:        { match: /[0-9]+\.[0-9]+(?:[eE][-+]?[0-9]+)?/, value: (x: string) => (parseFloat(x)) },
+  integer:      { match: /[0-9]+/, value: (x: string) => (parseFloat(x)) },
   hex:          { match: /0[xX][0-9a-f-A-F]+/, value: (x: string) => (parseInt(x,16)) },
   literal:      { match: /\"[^"\\\n]*(?:\\.[^"\\\n]*)*\"/, value: (x: string) => (x)}, // Strings
   identifier:   /[a-zA-Z_][a-zA-Z0-9_]*/,

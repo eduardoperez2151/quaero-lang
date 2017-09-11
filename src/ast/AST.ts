@@ -3,6 +3,7 @@ export * from './ASTNode';
 
 // Statements
 export * from './Assignment';
+export * from './ExpAsStmt';
 export * from './IfThenElse';
 export * from './IfThen';
 export * from './Sequence';
@@ -23,6 +24,8 @@ export * from './Substraction';
 export * from './Variable';
 export * from './IfElse';
 export * from './Index';
+export * from './EnumerationList';
+export * from './EnumerationSet';
 export * from './Negationation';
 export * from './Concatenation';
 export * from './SetCollection';

@@ -21,6 +21,9 @@ export class Numeral implements Exp {
   }
 
   evaluate(state: State): number {
-    return this.value;
+    if(typeof this.value === 'number'){
+      return this.value;
+    }
+    throw new Error("Error de tipos");
   }
 }

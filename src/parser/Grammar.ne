@@ -13,11 +13,14 @@ import {
   CompareGreat,
   Conjunction,
   Disjunction,
+  EnumerationList,
+  EnumerationSet,
+  ExpAsStmt,
   IfThenElse,
   IfThen,
   Multiplication,
   Division,
-  Negationation,
+  Negation,
   SetCollection,
   ListCollection,
   Concatenation,
@@ -36,12 +39,12 @@ import {
   TruthValue,
   Variable,
   IfElse,
-  Program;
+  Program,
   For,
   Function,
   CallFunction,
   KeyValue,
-  Index
+  Index,
 } from '../ast/AST';
 
 import { tokens } from './Tokens';
@@ -56,38 +59,35 @@ const lexer = new MyLexer(tokens);
 
 ######## PROGRAM ########
 
-program ->
-  "@"  function:*  body "@"        		                                {%  ([, functions, body,]) => (new Program(functions, body)) %}
+#program ->
+#  "@"  function:*  body "@"        		                                {%  ([, functions, body,]) => (new Program(functions, body)) %}
 
 ######## FUNCTION ########
 
-function ->
-  "function"  identifier  arguments body 	                            {%  ([, identifier, , arguments, , body]) => (new Function(identifier,arguments,body)) %}
+#function ->
+#  "function"  identifier  arguments body 	                            {%  ([, identifier, , args, , body]) => (new Function(identifier,args,body)) %}
 
-body ->
-  "{" statements:*  "}"   			                                      {% ([, statements, ]) => (new Sequence(statements)) %}
+#body ->
+#  "{" statements:*  "}"   			                                      {% ([, statements, ]) => (new Sequence(statements)) %}
 
-arguments->
-  "(" ")"                   			                                    {%  ()                    =>  ([])            %}
-  | "(" argumentList  ")"        			                                {%  ([, argumentList, ])  =>  (argumentList)  %}
+#arguments->
+#  "(" ")"                   			                                    {%  ()                    =>  ([])            %}
+#  | "(" argumentList  ")"        			                                {%  ([, argumentList, ])  =>  (argumentList)  %}
 
-argumentList ->
-  identifier                		  	                                  {%  ([identifier])                  =>  ([identifier])                                          %}
-  | identifier  "," argumentList   		                                {%  ([identifier, , argumentList])  =>  ({argumentList.push(identifier); return argumentList;}) %}
+#argumentList ->
+#  identifier                		  	                                  {%  ([identifier])                  =>  ([identifier])                                          %}
+#  | identifier  "," argumentList   		                                {%  ([identifier, , argumentList])  =>  {argumentList.push(identifier); return argumentList;} %}
 
 ######## CALL FUNCTION ########
 
-callFunction ->
-  identifier  parameters        		                                  {%  ([identifier, parameters]) => (new CallFunction(identifier,parameters)) %}
+#callFunction ->
+#  identifier  parameters        		                                  {%  ([identifier, parameters]) => (new CallFunction(identifier,parameters)) %}
 
-parameters->
-  "(" ")"                   			                                    {%  ()                      =>  ([])              %}
-  | "(" expressionList  ")"        			                              {%  ([, expressionList, ])  =>  (expressionList)  %}
+#parameters->
+#  "(" ")"                   			                                    {%  ()                      =>  ([])              %}
+#  | "(" expressionList  ")"        			                              {%  ([, expressionList, ])  =>  (expressionList)  %}
 
-expressionList ->
-  expression                   			                                  {%  ([expression])                    =>  ([expression])                                              %}
-  | expression  "," expressionList   			                            {%  ([expression, , expressionList])  =>  ({expressionList.push(expression); return expressionList;}) %}
-
+#########EpressionList
 ######## STATEMENTS ########
 
 statements ->
@@ -95,45 +95,47 @@ statements ->
   | "if"  "(" expression  ")" statements                  	          {%  ([, , condition, , body]) =>  (new IfThen(condition, body)) %}
 
 statementsElse ->
-  expression  ";"                                                     {%  ([expression, ])                      =>  (expression)                                %}
+  expression  ";"                                                     {%  ([expression, ])                      =>  (new ExpAsStmt(expression))                 %}
   | identifier  "=" expression  ";"                                   {%  ([identifier, , expression, ])        =>  (new Assignment(identifier, expression))    %}
   | "{" statements:*  "}"                                             {%  ([, statements, ])                    =>  (new Sequence(statements))                  %}
   | "if"  "(" expression ")"  statementsElse  "else"  statements      {%  ([, ,condition, , body, , elseBody])  =>  (new IfThenElse(condition, body, elseBody)) %}
   | "for" "(" expressionList ")"  statements                          {%  ([, , expressionList, , statements])  =>  (new For(expressionList, statements))       %}
-  
+
 ######## EXPRESSIONS ######## CHECKED!!!!
+expressionList ->
+  expression                   			                                  {%  ([expression])                    =>  ([expression])                                              %}
+  | expression  "," expressionList   			                            {%  ([expression, , expressionList])  =>  {expressionList.push(expression); return expressionList;} %}
 
 collection ->
   list 				                                                        {%  id  %}
   | set 				                                                      {%  id  %}
 
 set ->
-  "{" "}"				                                                      {%  ()                                                  =>  (new SetCollection())                                       %}
-  | "{" expression  ".."  expression  "}"                             {%  ([, firstElement, , lastElement, ])                 =>  (new EnumerationSet(firstElement,lastElement))              %}
-  | "{" expression  ","   expression  ".."  expression  "}"           {%  ([, firstElement, , nextElement, , lastElement, ])  =>  (new EnumerationSet(firstElement,nextElement,lastElement))  %}
-  | "{" expression statements "}"                                     {%  ([, expression ,statement, ])                       =>  (new ComprehensionSet(expression,statement))                %}  
-  | "{" collectionItem  "}"        			                              {%  ([, collectionItem, ])                              =>  (new SetCollection(collectionItem))                         %}
+  "{" "}"				                                                      {%  ([,])                                               =>  (new SetCollection())                                       %}
+ | "{" expression  ".."  expression  "}"                              {%  ([, firstElement, , lastElement, ])                 =>  (new EnumerationSet(firstElement,lastElement))              %}
+ | "{" expression  ","   expression  ".."  expression  "}"            {%  ([, firstElement, , nextElement, , lastElement, ])  =>  (new EnumerationSet(firstElement,lastElement,nextElement))  %}
+# | "{" expression statements "}"                                      {%  ([, expression ,statement, ])                       =>  (new ComprehensionSet(expression,statement))                %}
+ | "{" collectionItem  "}"        			                              {%  ([, collectionItem, ])                              =>  (new SetCollection(collectionItem))                         %}
 
 
 list->
   "[" "]"                   			                                    {%  ()                                                  =>  (new ListCollection())                                      %}
   | "[" expression  ".."  expression  "]"                             {%  ([, firstElement, , lastElement, ])                 =>  (new EnumerationList(firstElement,lastElement))             %}
-  | "[" expression  ","   expression  ".."  expression  "]"           {%  ([, firstElement, , nextElement, , lastElement, ])  =>  (new EnumerationList(firstElement,nextElement,lastElement)) %}
-  | "[" expression statements "]"                                     {%  ([, expression ,statement, ])                       =>  (new ComprehensionList(expression,statement))               %}
+  | "[" expression  ","   expression  ".."  expression  "]"           {%  ([, firstElement, , nextElement, , lastElement, ])  =>  (new EnumerationList(firstElement,lastElement,nextElement)) %}
+#  | "[" expression statements "]"                                     {%  ([, expression ,statement, ])                       =>  (new ComprehensionList(expression,statement))               %}
   | "[" collectionItem "]"       			                                {%  ([, collectionItem, ])                              =>  (new ListCollection(collectionItem))                        %}
 
 
 collectionItem ->
   expression                                                          {%  ([expression])                                =>  ([expression])                                                                        %}
- |  identifier  ":" expression                                        {%  ([identifier, ,expression ])                  =>  ([new KeyValue(identifier,expression)])                                               %}
- |  expression  "," collectionItem                                    {%  ([expression, ,collectionItem])               =>  ({collectionItem.push(expression); return collectionItem;})                           %}
- |  identifier  ":" expression  "," collectionItem                    {%  ([identifier, ,expression, ,collectionItem])  =>  ({collectionItem.push(new KeyValue(identifier,expression)); return collectionItem;})  %}
+ |  key  ":" expression                                        {%  ([identifier, ,expression ])                  =>  ([new KeyValue(identifier,expression)])                                               %}
+ |  expression  "," collectionItem                                    {%  ([expression, ,collectionItem])               =>  {collectionItem.push(expression); return collectionItem;}                             %}
+ |  key  ":" expression  "," collectionItem                    {%  ([identifier, ,expression, ,collectionItem])  =>  {collectionItem.push(new KeyValue(identifier,expression)); return collectionItem;}    %}
 
 expression ->
     expression "&&" comparison                                        {%  ([leftHandSide, , rightHandSide])             =>  (new Conjunction(leftHandSide, rightHandSide))      %}
   | expression "||" comparison                                        {%  ([leftHandSide, , rightHandSide])             =>  (new Disjunction(leftHandSide, rightHandSide))      %}
   | comparison "if" expression "else" comparison                      {%  ([leftHandSide, ,expression, ,rightHandSide]) =>  (new IfElse(leftHandSide,expression,rightHandSide)) %}
-  | expression "[" comparison "]"                                     {%  ([expression, ,comparison,])                  =>  (new Index(expression,comparison))                  %}
   | comparison                                                        {%  id  %}
 
 comparison ->
@@ -164,18 +166,18 @@ membership ->
   | membership  "<-"  negation                                        {% ([value, ,listValues]) => (new Membership(value,listValues)) %}
 
 negation ->
-    "!" value                                                         {%  ([, value])     => (new Negationation(value)) %}
+    "!" value                                                         {%  ([, value])     => (new Negation(value)) %}
   | "-" negation                                                      {%  ([, negation])  => (new Oposite(negation))    %}
   | value                                                             {%  id  %}
 
 value ->
   "(" expression  ")"                                                 {%  ([, expression, ])      =>  (expression)                %}
-  | list                                                              {%  id  %}
+  | collection                                                        {%  id  %}
   | number                                                            {%  ([number])              =>  (new Numeral(number))       %}
   | "length"  "(" additionSubstraction  ")"                           {%  ([, ,expression,])      =>  (new LengthExp(expression)) %}
-  | "#" list                                                          {%  ([, list])              =>  (new Cardinal(list))        %}
-  | list  "[" value "]"                                               {%  ([list, , index,])      =>  (new Index(list,index))     %}
-  | collection  "." key                                               {%  ([collection, ,key])    =>  (new Dot(collection,key))   %}
+  | "#" value                                                          {%  ([, list])              =>  (new Cardinal(list))        %}
+  | value  "[" value "]"                                               {%  ([list, , index,])      =>  (new Index(list,index))     %}
+  | value  "." key                                               {%  ([collection, ,key])    =>  (new Dot(collection,key))   %}
   | "true"                                                            {%  ()                      =>  (new TruthValue(true))      %}
   | "false"                                                           {%  ()                      =>  (new TruthValue(false))     %}
   | identifier                                                        {%  ([id])                  =>  (new Variable(id))          %}
@@ -194,6 +196,8 @@ number ->
   %integer                                                            {%  ([integer])   =>  (parseInt(integer.value)) %}
   | %hex                                                              {%  ([hex])       =>  (parseInt(hex.value))     %}
   | %float                                                            {%  ([float])     =>  (parseFloat(float.value)) %}
+  | %Infinity                                                         {%  ([])     =>  (Number.POSITIVE_INFINITY) %}
+  | %NaN                                                              {%  ([])    =>  (Number.NaN) %}
 
 literal ->
   %literal                                                            {%  ([literal]) => (literal.value) %}

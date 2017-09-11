@@ -1,4 +1,5 @@
 import { Exp } from './ASTNode';
+import { ListCollection, SetCollection} from './AST';
 import { State } from '../interpreter/State';
 
 /**
@@ -6,10 +7,10 @@ import { State } from '../interpreter/State';
 */
 export class Union implements Exp {
 
-  lhs: [Exp];
-  rhs: [Exp];
+  lhs: Exp;
+  rhs: Exp;
 
-  constructor(lhs: [Exp], rhs: [Exp]) {
+  constructor(lhs: Exp, rhs: Exp) {
     this.lhs = lhs;
     this.rhs = rhs;
   }
@@ -24,10 +25,32 @@ export class Union implements Exp {
   }
 
   evaluate(state: State): any {
-    /*
-    var lres = this.lhs.evaluate(state);
-    var rres = this.rhs.evaluate(state);
-    return lres + rres;
-    */
+    var lhs = this.lhs.evaluate(state);
+    var rhs = this.rhs.evaluate(state);
+    var union
+    if(typeof lhs ==="string"){
+      var l = lhs.split("");
+      if(typeof rhs === "string"){
+        var r = rhs.split("");
+        union = [...new Set([...l, ...r])];
+        return new ListCollection(union);
+      }
+      else if(rhs instanceof ListCollection || rhs instanceof SetCollection){
+        union = [...new Set([...l, ...rhs.arr])];
+        return new ListCollection(union);
+      }
+    }
+    else if((lhs instanceof ListCollection || lhs instanceof SetCollection)){
+      if((rhs instanceof ListCollection || rhs instanceof SetCollection)){
+        union = [...new Set([...lhs.arr, ...rhs.arr])];
+        return new ListCollection(union);
+      }
+      else if(typeof rhs === "string"){
+        r = rhs.split("");
+        union = [...new Set([...lhs.arr, ...r])];
+        return new ListCollection(union);
+      }
+    }
+    throw new Error("Error de tipos");
   }
 }

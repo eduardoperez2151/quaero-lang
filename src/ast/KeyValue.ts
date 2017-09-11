@@ -22,8 +22,7 @@ export class KeyValue implements Stmt {
     return `${this.id} : ${this.exp.unparse()}`;
   }
 
-  evaluate(state: State): State {
-    state.set(this.id,this.exp.evaluate(state));
-    return state
+  evaluate(state: State): any {
+    return new KeyValue(this.id, this.exp.evaluate(state));
   }
 }

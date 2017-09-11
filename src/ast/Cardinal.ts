@@ -1,4 +1,5 @@
 import { Exp } from './ASTNode';
+import { ListCollection,SetCollection } from './AST';
 import { State } from '../interpreter/State';
 
 /**
@@ -6,9 +7,9 @@ import { State } from '../interpreter/State';
 */
 export class Cardinal implements Exp {
 
-  listCol: [Exp];
+  listCol: Exp;
 
-  constructor(listCol: [Exp]) {
+  constructor(listCol: Exp) {
     this.listCol = listCol;
   }
 
@@ -22,6 +23,13 @@ export class Cardinal implements Exp {
   }
 
   evaluate(state: State): any {
-    return this.listCol.length;
+    var list = this.listCol.evaluate(state)
+    if(list instanceof ListCollection || list instanceof SetCollection){
+      return list.arr.length;
+    }
+    else if(typeof list === "string"){
+      return list.split("").length
+    }
+    throw new Error("Error de tipos.");
   }
 }
