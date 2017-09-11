@@ -26,8 +26,12 @@ export abstract class AbstractGenericComparation extends AbstractBinaryExpressio
   evaluate(state: State): any {
     var leftSideEvaluation = this.leftHandSideEvaluation(state);
     var rightHandSideEvaluation = this.rightHandSideEvaluation(state);
-    return this.evaluation(leftSideEvaluation, rightHandSideEvaluation);
+    var evaluation= this.evaluation(leftSideEvaluation, rightHandSideEvaluation);
+    if (evaluation!=null){
+      return evaluation;
+    }
+    this.ThrowEvaluationException(leftSideEvaluation,rightHandSideEvaluation);
   }
 
-  protected abstract evaluation(leftSideEvaluation, rightHandSideEvaluation);
+  protected abstract evaluation(leftSideEvaluation, rightHandSideEvaluation):any;
 }

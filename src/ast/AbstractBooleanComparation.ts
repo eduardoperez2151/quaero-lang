@@ -8,11 +8,7 @@ export abstract class AbstractBooleanComparation extends AbstractGenericComparat
     super(leftHandSide, rightHandSide, operationSymbol,comparatorFunction);
   }
 
-  protected evaluation(leftSideEvaluation: any, rightHandSideEvaluation: any) {
-    var evaluation=this.evaluateBoolean(leftSideEvaluation,rightHandSideEvaluation);
-    if(evaluation==null){
-      this.ThrowEvaluationException(leftSideEvaluation,rightHandSideEvaluation);
-    }
-    return evaluation;
+  protected evaluation(leftSideEvaluation: any, rightHandSideEvaluation: any):any {
+    return this.evaluateBoolean(leftSideEvaluation,rightHandSideEvaluation);
   }
 }

@@ -10,16 +10,7 @@ export  abstract class AbstractArimeticBooleanOperation extends AbstractGenericC
 
   protected evaluation(leftSideEvaluation: any, rightHandSideEvaluation: any) {
     var booleanEvaluation=this.evaluateBoolean(leftSideEvaluation,rightHandSideEvaluation);
-    if(booleanEvaluation==null){
-      var arimeticEvaluation=this.evaluateNumber(leftSideEvaluation,rightHandSideEvaluation);
-      if(arimeticEvaluation==null){
-        this.ThrowEvaluationException(leftSideEvaluation,rightHandSideEvaluation);
-      }else{
-        return arimeticEvaluation;
-      }
-    }else{
-      return booleanEvaluation;
-    } 
+    return booleanEvaluation==null ? this.evaluateNumber(leftSideEvaluation,rightHandSideEvaluation): booleanEvaluation;
   }
 
 }

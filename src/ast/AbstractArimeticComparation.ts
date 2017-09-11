@@ -8,13 +8,8 @@ export abstract class AbstractArimeticComparation extends AbstractGenericCompara
     super(leftHandSide, rightHandSide, operationSymbol, comparatorFunction);
   }
 
-  protected evaluation(leftSideEvaluation: any, rightHandSideEvaluation: any) {
-    var arimeticEvaluation = this.evaluateNumber(leftSideEvaluation, rightHandSideEvaluation);
-    if (arimeticEvaluation == null) {
-      this.ThrowEvaluationException(leftSideEvaluation, rightHandSideEvaluation);
-    } else {
-      return arimeticEvaluation;
-    }
+  protected evaluation(leftSideEvaluation: any, rightHandSideEvaluation: any):any {
+    return this.evaluateNumber(leftSideEvaluation, rightHandSideEvaluation);
   }
 
 }
