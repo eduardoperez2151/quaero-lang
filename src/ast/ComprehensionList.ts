@@ -1,6 +1,6 @@
 import { Exp, Stmt} from './ASTNode';
 import { State } from '../interpreter/State';
-import { Sequence,Membership,Variable } from './AST';
+import { Sequence,Membership,Variable,ListCollection } from './AST';
 
 /**
   Representación de ComprehensionList .
@@ -47,7 +47,7 @@ export class ComprehensionList implements Exp {
     }
     return state;
   }
-  evaluate(state: State): any[] {
+  evaluate(state: State): any {
     let memberships : Membership[] = [];
     let booleans : Exp[] = [];
     var nState = state.clone();
@@ -62,6 +62,7 @@ export class ComprehensionList implements Exp {
       }
     }
     nState = this.calculate(memberships.reverse(),booleans,nState);
-    return nState.get("#resultado");
+    var lista = nState.get("#resultado");
+    return new ListCollection(lista);
   }
 }
