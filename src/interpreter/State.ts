@@ -17,4 +17,13 @@ export class State {
   set(id: string, value: any) {
     this.vars.set(id, value);
   }
+
+  clone(): State {
+    var state = new State();
+    this.vars.forEach((identifier, value) => {
+      state.set(identifier, value);
+    });
+    return state;
+  }
+
 }

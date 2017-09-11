@@ -1,15 +1,12 @@
-import { Exp, Stmt} from './ASTNode';
+import { Exp, Stmt } from './ASTNode';
 import { State } from '../interpreter/State';
 import { Sequence } from './AST';
-import {Function} from './Function'
+import { Function } from './Function'
 
-/**
-  Representación de llamada de funcion.
-*/
-export class CallFunction implements Stmt {
+export class CallFunction implements Exp {
 
   identifier: string;
-  params:[Exp];
+  params: [Exp];
 
   constructor(identifier: string, params: [Exp]) {
     this.identifier = identifier;
@@ -21,17 +18,17 @@ export class CallFunction implements Stmt {
   }
 
   unparse(): string {
-    var params = this.params.toString();
-    var params = params.substring(1,params.length - 1); // Se quitan []
+    var params = this.params.join(",");
     return `function ${this.identifier} (${params}) `;
   }
 
   evaluate(state: State): any {
-    var func :Function = state.get(this.identifier);
-    
-    // Asignar los valores que se pasan por parametro
-    // a los parametros de la funcion en el estado
-    // y llamar al body.evaluate(state)??
-    //return state;
+    var func: Function = state.get(this.identifier);
+    var functionState = state.clone();
+    var functionArgs=func.args;
+    for (var index = 0; index < URLSearchParams.length; index++) {
+      functionState.set(functionArgs[index],this.params[index]);
+    }
+    return func.body.evaluate(functionState)
   }
 }

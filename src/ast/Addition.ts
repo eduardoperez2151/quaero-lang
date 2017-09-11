@@ -1,16 +1,10 @@
 import { Exp } from './ASTNode';
 import { State } from '../interpreter/State';
-import { AbstractBinaryExpression } from './AbstractBinaryExpression'
+import { AbstractArimeticComparation } from './AbstractArimeticComparation'
 
-export class Addition extends AbstractBinaryExpression {
-
-  constructor(leftHandSide: Exp, rightHandSide: Exp) {
-    super(leftHandSide, rightHandSide, "+");
+export class Addition extends AbstractArimeticComparation {
+  
+    constructor(leftHandSide: Exp, rightHandSide: Exp) {
+      super(leftHandSide, rightHandSide, "+",(a,b)=> a + b);
+    }
   }
-
-  evaluate(state: State): any {
-    var leftSideEvaluation = this.leftHandSideEvaluation(state);
-    var rightHandSideEvaluation = this.rightHandSideEvaluation(state);
-    return leftSideEvaluation + rightHandSideEvaluation;
-  }
-}
