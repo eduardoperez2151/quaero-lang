@@ -3,14 +3,14 @@ import { State } from '../interpreter/State';
 import { Sequence,Membership,Variable } from './AST';
 
 /**
-  Representación de for .
+  Representación de ComprehensionList .
 */
-export class For implements Stmt {
+export class ComprehensionList implements Exp {
 
   expList: [Exp];
-  forBody: Stmt;
+  forBody: Exp;
 
-  constructor(expList: [Exp], forBody: Stmt) {
+  constructor(forBody: Exp,expList: [Exp]) {
     this.expList = expList;
     this.forBody = forBody;
   }
@@ -39,19 +39,20 @@ export class For implements Stmt {
         state.set(v,list[i]);
         for(var j =0;j<booleans.length;j++){
           if(!(booleans[j].evaluate(state))){
-            state.vars.delete(v);
             return state;
           }
         }
-        state = this.forBody.evaluate(state);
+        state.get("#resultado").push(this.forBody.evaluate(state));
       }
     }
-    state.vars.delete(v);
     return state;
   }
-  evaluate(state: State): State {
+  evaluate(state: State): any[] {
     let memberships : Membership[] = [];
     let booleans : Exp[] = [];
+    var nState = state.clone();
+    nState.set("#resultado",[]);
+    console.log(this.expList);
     for(var i = 0;i<this.expList.length;i++){
       var m = this.expList[i]
       if(m instanceof Membership){
@@ -60,6 +61,7 @@ export class For implements Stmt {
         booleans.push(m);
       }
     }
-    return this.calculate(memberships.reverse(),booleans,state);
+    nState = this.calculate(memberships.reverse(),booleans,nState);
+    return nState.get("#resultado");
   }
 }

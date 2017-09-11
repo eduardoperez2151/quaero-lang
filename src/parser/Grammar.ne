@@ -11,6 +11,7 @@ import {
   CompareLess,
   CompareGreatOrEqual,
   CompareGreat,
+  ComprehensionList,
   Conjunction,
   Disjunction,
   EnumerationList,
@@ -122,7 +123,7 @@ list->
   "[" "]"                   			                                    {%  ()                                                  =>  (new ListCollection())                                      %}
   | "[" expression  ".."  expression  "]"                             {%  ([, firstElement, , lastElement, ])                 =>  (new EnumerationList(firstElement,lastElement))             %}
   | "[" expression  ","   expression  ".."  expression  "]"           {%  ([, firstElement, , nextElement, , lastElement, ])  =>  (new EnumerationList(firstElement,lastElement,nextElement)) %}
-#  | "[" expression statements "]"                                     {%  ([, expression ,statement, ])                       =>  (new ComprehensionList(expression,statement))               %}
+  | "[" expression "for" expressionList "]"                           {%  ([, expression , ,expList, ])                       =>  (new ComprehensionList(expression,expList))               %}
   | "[" collectionItem "]"       			                                {%  ([, collectionItem, ])                              =>  (new ListCollection(collectionItem))                        %}
 
 

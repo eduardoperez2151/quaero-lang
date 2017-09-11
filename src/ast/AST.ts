@@ -17,6 +17,7 @@ export * from './CallFunction';
 export * from './Addition';
 export * from './Multiplication';
 export * from './Division';
+export * from './ComprehensionList';
 export * from './Numeral';
 export * from './Literal';
 export * from './LengthExp';
