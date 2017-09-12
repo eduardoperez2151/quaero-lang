@@ -47,6 +47,7 @@ import {
   CallFunction,
   KeyValue,
   Index,
+  Return,
 } from '../ast/AST';
 
 import { tokens } from './Tokens';
@@ -64,30 +65,32 @@ const lexer = new MyLexer(tokens);
 #program ->
 #  "@"  function:*  body "@"        		                                {%  ([, functions, body,]) => (new Program(functions, body)) %}
 
+srt ->
+      statements                                                      {% id %}
 ######## FUNCTION ########
 
-#function ->
-#  "function"  identifier  arguments body 	                            {%  ([, identifier, , args, , body]) => (new Function(identifier,args,body)) %}
+function ->
+  "function" identifier arguments body 	                            {%  ([ ,identifier,args,body]) => (new Function(identifier,args,body)) %}
 
-#body ->
-#  "{" statements:*  "}"   			                                      {% ([, statements, ]) => (new Sequence(statements)) %}
+body ->
+  "{" statements:*  "}"   			                                      {% ([, statements, ]) => (new Sequence(statements)) %}
 
-#arguments->
-#  "(" ")"                   			                                    {%  ()                    =>  ([])            %}
-#  | "(" argumentList  ")"        			                                {%  ([, argumentList, ])  =>  (argumentList)  %}
+arguments->
+  "(" ")"                   			                                    {%  ()                    =>  ([])            %}
+  | "(" argumentList  ")"        			                                {%  ([, argumentList, ])  =>  (argumentList)  %}
 
-#argumentList ->
-#  identifier                		  	                                  {%  ([identifier])                  =>  ([identifier])                                          %}
-#  | identifier  "," argumentList   		                                {%  ([identifier, , argumentList])  =>  {argumentList.push(identifier); return argumentList;} %}
+argumentList ->
+  identifier                		  	                                  {%  ([identifier])                  =>  ([identifier])                                          %}
+  | identifier  "," argumentList   		                                {%  ([identifier, , argumentList])  =>  {argumentList.push(identifier); return argumentList;} %}
 
 ######## CALL FUNCTION ########
 
-#callFunction ->
-#  identifier  parameters        		                                  {%  ([identifier, parameters]) => (new CallFunction(identifier,parameters)) %}
+callFunction ->
+  identifier parameters        		                                  {%  ([identifier, parameters]) => (new CallFunction(identifier,parameters)) %}
 
-#parameters->
-#  "(" ")"                   			                                    {%  ()                      =>  ([])              %}
-#  | "(" expressionList  ")"        			                              {%  ([, expressionList, ])  =>  (expressionList)  %}
+parameters->
+  "(" ")"                   			                                    {%  ()                      =>  ([])              %}
+  | "(" expressionList  ")"        			                              {%  ([, expressionList, ])  =>  (expressionList)  %}
 
 #########EpressionList
 ######## STATEMENTS ########
@@ -98,8 +101,10 @@ statements ->
 
 statementsElse ->
   expression  ";"                                                     {%  ([expression, ])                      =>  (new ExpAsStmt(expression))                 %}
+  | function                                                          {% id %}
   | identifier  "=" expression  ";"                                   {%  ([identifier, , expression, ])        =>  (new Assignment(identifier, expression))    %}
   | "{" statements:*  "}"                                             {%  ([, statements, ])                    =>  (new Sequence(statements))                  %}
+  | "return" expression ";"                                           {% ([ , exp,])                             =>  (new Return(exp))                           %}
   | "if"  "(" expression ")"  statementsElse  "else"  statements      {%  ([, ,condition, , body, , elseBody])  =>  (new IfThenElse(condition, body, elseBody)) %}
   | "for" "(" expressionList ")"  statements                          {%  ([, , expressionList, , statements])  =>  (new For(expressionList, statements))       %}
 
@@ -184,6 +189,7 @@ value ->
   | "false"                                                           {%  ()                      =>  (new TruthValue(false))     %}
   | identifier                                                        {%  ([id])                  =>  (new Variable(id))          %}
   | literal                                                           {%  ([id])                  =>  (new Literal(id))           %}
+  | callFunction                                                      {%                      id                                  %}
 
 key ->
   identifier                                                          {%  id  %}

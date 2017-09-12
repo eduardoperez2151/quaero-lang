@@ -24,11 +24,14 @@ export class CallFunction implements Exp {
 
   evaluate(state: State): any {
     var func: Function = state.get(this.identifier);
-    var functionState = state.clone();
+    var functionState = state.clone().clone();
     var functionArgs=func.args;
     for (var index = 0; index < this.params.length; index++) {
-      functionState.set(functionArgs[index],this.params[index]);
+      functionState.set(functionArgs[index],this.params[index].evaluate(functionState));
     }
-    return func.body.evaluate(functionState)
+    var retValue = func.body.evaluate(functionState).get("Return");
+    if(retValue){
+      return retValue;
+    }
   }
 }

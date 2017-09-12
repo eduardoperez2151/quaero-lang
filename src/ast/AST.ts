@@ -12,6 +12,7 @@ export * from './Program';
 export * from './KeyValue';
 export * from './For';
 export * from './CallFunction';
+export * from './Return';
 
 // AExp
 export * from './Addition';
