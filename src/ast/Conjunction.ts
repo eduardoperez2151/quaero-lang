@@ -1,9 +1,9 @@
 import { Exp } from './ASTNode';
 import { State } from '../interpreter/State';
-import { AbstractBooleanComparation } from './AbstractBooleanComparation'
+import { AbstractBooleanExpression } from './AbstractBooleanExpression'
 
 
-export class Conjunction extends AbstractBooleanComparation {
+export class Conjunction extends AbstractBooleanExpression {
 
   constructor(leftHandSide: Exp, rightHandSide: Exp) {
     super(leftHandSide, rightHandSide, "&&",(a,b)=>a && b);

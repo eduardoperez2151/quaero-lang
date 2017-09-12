@@ -63,14 +63,14 @@ const lexer = new MyLexer(tokens);
 ######## PROGRAM ########
 
 #program ->
-#  "@"  function:*  body "@"        		                                {%  ([, functions, body,]) => (new Program(functions, body)) %}
+#  "@"  function:*  body "@"        		                              {%  ([, functions, body,]) => (new Program(functions, body)) %}
 
 srt ->
       statements                                                      {% id %}
 ######## FUNCTION ########
 
 function ->
-  "function" identifier arguments body 	                            {%  ([ ,identifier,args,body]) => (new Function(identifier,args,body)) %}
+  "function" identifier arguments body 	                              {%  ([ ,identifier,args,body]) => (new Function(identifier,args,body)) %}
 
 body ->
   "{" statements:*  "}"   			                                      {% ([, statements, ]) => (new Sequence(statements)) %}
@@ -86,7 +86,7 @@ argumentList ->
 ######## CALL FUNCTION ########
 
 callFunction ->
-  identifier parameters        		                                  {%  ([identifier, parameters]) => (new CallFunction(identifier,parameters)) %}
+  identifier parameters        		                                    {%  ([identifier, parameters]) => (new CallFunction(identifier,parameters)) %}
 
 parameters->
   "(" ")"                   			                                    {%  ()                      =>  ([])              %}
@@ -135,9 +135,9 @@ list->
 
 collectionItem ->
   expression                                                          {%  ([expression])                                =>  ([expression])                                                                        %}
- |  key  ":" expression                                        {%  ([identifier, ,expression ])                  =>  ([new KeyValue(identifier,expression)])                                               %}
+ |  key  ":" expression                                               {%  ([identifier, ,expression ])                  =>  ([new KeyValue(identifier,expression)])                                               %}
  |  expression  "," collectionItem                                    {%  ([expression, ,collectionItem])               =>  {collectionItem.push(expression); return collectionItem;}                             %}
- |  key  ":" expression  "," collectionItem                    {%  ([identifier, ,expression, ,collectionItem])  =>  {collectionItem.push(new KeyValue(identifier,expression)); return collectionItem;}    %}
+ |  key  ":" expression  "," collectionItem                           {%  ([identifier, ,expression, ,collectionItem])  =>  {collectionItem.push(new KeyValue(identifier,expression)); return collectionItem;}    %}
 
 expression ->
     expression "&&" comparison                                        {%  ([leftHandSide, , rightHandSide])             =>  (new Conjunction(leftHandSide, rightHandSide))      %}
@@ -173,7 +173,7 @@ membership ->
   | membership  "<-"  negation                                        {% ([value, ,listValues]) => (new Membership(value,listValues)) %}
 
 negation ->
-    "!" value                                                         {%  ([, value])     => (new Negation(value)) %}
+    "!" value                                                         {%  ([, value])     => (new Negation(value))      %}
   | "-" negation                                                      {%  ([, negation])  => (new Oposite(negation))    %}
   | value                                                             {%  id  %}
 
@@ -182,9 +182,9 @@ value ->
   | collection                                                        {%  id  %}
   | number                                                            {%  ([number])              =>  (new Numeral(number))       %}
   | "length"  "(" additionSubstraction  ")"                           {%  ([, ,expression,])      =>  (new LengthExp(expression)) %}
-  | "#" value                                                          {%  ([, list])              =>  (new Cardinal(list))        %}
-  | value  "[" value "]"                                               {%  ([list, , index,])      =>  (new Index(list,index))     %}
-  | value  "." key                                               {%  ([collection, ,key])    =>  (new Dot(collection,key))   %}
+  | "#" value                                                         {%  ([, list])              =>  (new Cardinal(list))        %}
+  | value  "[" value "]"                                              {%  ([list, , index,])      =>  (new Index(list,index))     %}
+  | value  "." key                                                    {%  ([collection, ,key])    =>  (new Dot(collection,key))   %}
   | "true"                                                            {%  ()                      =>  (new TruthValue(true))      %}
   | "false"                                                           {%  ()                      =>  (new TruthValue(false))     %}
   | identifier                                                        {%  ([id])                  =>  (new Variable(id))          %}

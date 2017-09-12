@@ -1,23 +1,22 @@
 import { Exp } from './ASTNode';
 import { State } from '../interpreter/State';
+import { AbstractExpression } from "./AbstractExpression";
+import ErrorTypeInfo from "./ErrorTypeInfo";
 
 /**
   Representación abstracta de una expresion binarias.
 */
-export abstract class AbstractBinaryExpression implements Exp {
+export abstract class AbstractBinaryExpression extends AbstractExpression {
 
   protected leftHandSide: Exp;
   protected rightHandSide: Exp;
   private operationSymbol: string;
 
   protected constructor(leftHandSide: Exp, rightHandSide: Exp, operationSymbol: string) {
+    super();
     this.leftHandSide = leftHandSide;
     this.rightHandSide = rightHandSide;
     this.operationSymbol = operationSymbol;
-  }
-
-  protected evaluateExpression(expression:Exp,state:State):any{
-    return expression.evaluate(state);
   }
   
   protected leftHandSideEvaluation(state:State):any{
@@ -27,22 +26,15 @@ export abstract class AbstractBinaryExpression implements Exp {
   protected rightHandSideEvaluation(state:State):any{
     return this.evaluateExpression(this.rightHandSide,state);
   }
-  protected isBoolean(evaluation:any):boolean {
-    return typeof evaluation === "boolean";
-  }
   
-  protected isNumber(evaluation:any):boolean {
-    return typeof evaluation === "number";
-  }
-  
-  protected isString(evaluation:any):boolean {
-    return typeof evaluation === "string";
-  }
-
   protected ThrowEvaluationException (rightHandSideEvaluation:any,leftHandSideEvaluation:any){
-    throw new EvalError(`Error de tipos. rightHandSide type: ${typeof rightHandSideEvaluation }, leftHandSide type: ${typeof leftHandSideEvaluation }`);
+    var errors:[ErrorTypeInfo]=[
+      new ErrorTypeInfo("rightHandSide",rightHandSideEvaluation),
+      new ErrorTypeInfo("leftHandSide",leftHandSideEvaluation)
+    ];
+    super.ThrowExceptionOnErrorCheckType(errors);
   }
-
+  
   toString(): string {
     return `${this.constructor.name}(${this.leftHandSide.toString()}, ${this.rightHandSide.toString()})`;
   }
