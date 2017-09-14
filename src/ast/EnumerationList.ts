@@ -32,17 +32,18 @@ export class EnumerationList implements Exp {
     var srt = this.srt.evaluate(state);
     var end = this.end.evaluate(state);
     var stp = this.stp.evaluate(state);
-    if(srt >= end && stp>0){return new ListCollection([]);}
-    if(srt <= end && stp<0){return new ListCollection([]);}
     if(typeof srt === "number" && typeof end  === "number" && typeof stp === "number"){
       let list: any[]= [];
       if(srt < end){
+        stp = stp - srt;
+        if(stp < 0)return new ListCollection([]);
         for(var i = srt;i<= end;i = i+stp){
           list.push(i);
         }
       }else{
-        //stp = stp*-1; #<- si no admitimos negativos
-        for(var i = srt;i>= end;i = i+stp){
+        stp = srt - stp;
+        if(stp < 0)return new ListCollection([]);
+        for(var i = srt;i>= end;i = i-stp){
           list.push(i);
         }
       }
