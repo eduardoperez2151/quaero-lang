@@ -54,6 +54,7 @@ import {
   Mod,
   Null,
   Div,
+  CString,
 } from '../ast/AST';
 
 import { tokens } from './Tokens';
@@ -202,6 +203,7 @@ value ->
   | "number"  "(" expression  ")"                                     {%  ([, ,expression,])      =>  (new CNumber(expression))   %}
   | "mod"  "(" expression "," expression  ")"                         {%  ([, ,exp1 ,, exp2,])     =>  (new Mod(exp1, exp2))      %}
   | "div"  "(" expression "," expression  ")"                         {%  ([, ,exp1 ,, exp2,])     =>  (new Div(exp1, exp2))      %}
+  | "string"  "(" expression  ")"                                     {%  ([, ,expression,])      =>  (new CString(expression))  %}
 key ->
   identifier                                                          {%  id  %}
   | literal                                                           {%  id  %} ##Bruno:se deberia de poder?; Edu:Creo que no  ej lista=[1,2,3,x:4], lista["x"] es igual a lista.x pero no deberiamos de poder llamar lista."x" esto no deberia ser asi, capaz me equivoco :\
