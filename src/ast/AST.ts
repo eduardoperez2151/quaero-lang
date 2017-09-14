@@ -40,6 +40,12 @@ export * from './Membership';
 export * from './Oposite';
 export * from './Cardinal';
 export * from './Dot';
+export * from './CBoolean';
+export * from './Null';
+export * from './CInt';
+export * from './CNumber';
+export * from './Mod';
+export * from './Div';
 
 
 // BExp

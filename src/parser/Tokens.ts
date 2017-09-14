@@ -51,6 +51,7 @@ export const tokens = {
   'signum':     'signum',
   'print':      'print',
   'div':        'div',
+  'mod':        'mod',
   'mode':       'mode',
   'string':     'string',
   'int':        'int',
