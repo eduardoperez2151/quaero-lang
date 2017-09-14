@@ -37,8 +37,8 @@ export class Concatenation implements Exp {
         return new ListCollection(l.concat(rhs.arr));
       }
     }
-    else if((lhs instanceof ListCollection || lhs instanceof SetCollection)){
-      if((rhs instanceof ListCollection || rhs instanceof SetCollection)){
+    else if(lhs instanceof ListCollection){
+      if(rhs instanceof ListCollection){
         return new ListCollection(lhs.arr.concat(rhs.arr));
       }
       else if(typeof rhs === "string"){

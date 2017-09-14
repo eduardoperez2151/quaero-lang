@@ -38,7 +38,7 @@ export class For implements Stmt {
       for(var i = 0;i<list.length;i++){
         state.set(v,list[i]);
         for(var j =0;j<booleans.length;j++){
-          if(!(booleans[j].evaluate(state))){
+          if(!(booleans[j].evaluate(state)) || state.get("return")){
             state.vars.delete(v);
             return state;
           }
@@ -60,6 +60,7 @@ export class For implements Stmt {
         booleans.push(m);
       }
     }
+    console.log(memberships);
     return this.calculate(memberships.reverse(),booleans,state);
   }
 }

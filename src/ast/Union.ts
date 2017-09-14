@@ -37,20 +37,22 @@ export class Union implements Exp {
       }
       else if(rhs instanceof ListCollection || rhs instanceof SetCollection){
         union = [...new Set([...l, ...rhs.arr])];
-        return new ListCollection(union);
+          return new ListCollection(union);
       }
     }
-    else if((lhs instanceof ListCollection || lhs instanceof SetCollection)){
-      if((rhs instanceof ListCollection || rhs instanceof SetCollection)){
+    else if((lhs instanceof ListCollection || lhs instanceof SetCollection) && (rhs instanceof SetCollection || rhs instanceof ListCollection)){
+      if((lhs instanceof SetCollection && rhs instanceof SetCollection)){
         union = [...new Set([...lhs.arr, ...rhs.arr])];
-        return new ListCollection(union);
+        return new SetCollection(union);
       }
-      else if(typeof rhs === "string"){
+      union = [...new Set([...lhs.arr, ...rhs.arr])];
+      return new ListCollection(union);
+    }
+    else if(typeof rhs === "string"){
         r = rhs.split("");
         union = [...new Set([...lhs.arr, ...r])];
         return new ListCollection(union);
       }
-    }
     throw new Error("Error de tipos");
   }
 }

@@ -50,7 +50,7 @@ export class ComprehensionList implements Exp {
   evaluate(state: State): any {
     let memberships : Membership[] = [];
     let booleans : Exp[] = [];
-    var nState = state.clone().clone();
+    var nState = state.clone();
     nState.set("#resultado",[]);
     for(var i = 0;i<this.expList.length;i++){
       var m = this.expList[i]

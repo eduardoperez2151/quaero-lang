@@ -40,17 +40,19 @@ export class Intersection implements Exp {
         return new ListCollection(inters);
       }
     }
-    else if((lhs instanceof ListCollection || lhs instanceof SetCollection)){
-      if((rhs instanceof ListCollection || rhs instanceof SetCollection)){
-        inters = [...new Set(lhs.arr)].filter(x => new Set(rhs.arr).has(x));
-        return new ListCollection(inters);
+    else if((lhs instanceof ListCollection || lhs instanceof SetCollection) && (rhs instanceof SetCollection || rhs instanceof ListCollection)){
+      if((lhs instanceof SetCollection && rhs instanceof SetCollection)){
+        inters = [...new Set(l)].filter(x => new Set(rhs.arr).has(x));
+        return new SetCollection(inters);
       }
-      else if(typeof rhs === "string"){
-        r = rhs.split("");
-        inters = [...new Set(lhs.arr)].filter(x => new Set(rhs.arr).has(x));
-        return new ListCollection(inters);
-      }
+      inters = [...new Set(l)].filter(x => new Set(rhs.arr).has(x));
+      return new ListCollection(inters);
     }
+    else if((lhs instanceof ListCollection || lhs instanceof SetCollection) && rhs === "string"){
+        r = rhs.split("");
+        inters = [...new Set(l)].filter(x => new Set(rhs.arr).has(x));
+        return new ListCollection(inters);
+      }
     throw new Error("Error de tipos");
   }
 }
