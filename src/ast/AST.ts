@@ -47,6 +47,7 @@ export * from './CNumber';
 export * from './Mod';
 export * from './Div';
 export * from './CString';
+export * from './PrintFunction';
 
 
 // BExp
