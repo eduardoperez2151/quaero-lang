@@ -5,7 +5,7 @@ import { State } from '../interpreter/State';
   Representación de funcion Print
 */
 export class PrintFunction implements Exp {
-  
+
     exp: Exp;
 
   constructor(exp: Exp) {
@@ -21,6 +21,6 @@ export class PrintFunction implements Exp {
   }
 
   evaluate(state: State): any {
-    console.log(state);
+    console.log(this.exp.evaluate(state));
   }
 }

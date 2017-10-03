@@ -1,4 +1,6 @@
 import { Exp } from './ASTNode';
+import { ListCollection } from './AST';
+import { SetCollection } from './AST';
 import { State } from '../interpreter/State';
 
 /**
@@ -21,7 +23,15 @@ export class CBoolean implements Exp {
 
   evaluate(state: State): any {
     var v = this.exp.evaluate(state);
-    if (v == 0 || v == null || v == "")
+    if (v === null)
+      return false;
+    if (v === "")
+      return false;
+    if (v === 0)
+      return false;
+    if (this.exp instanceof ListCollection && this.exp.arr.length === 0)
+      return false;
+    if (this.exp instanceof SetCollection && this.exp.arr.length === 0)
       return false;
     return true;
   }
