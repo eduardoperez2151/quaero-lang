@@ -1,4 +1,5 @@
 import { Exp } from './ASTNode';
+import { ListCollection } from './AST';
 import { State } from '../interpreter/State';
 import { AbstractBinaryExpression } from './AbstractBinaryExpression'
 
@@ -22,7 +23,13 @@ export abstract class AbstractGenericComparation extends AbstractBinaryExpressio
       ? this.comparatorFunction.call(this, leftEvaluation, rightEvaluation)
       : null;
   }
-
+/*
+  protected evaluateList(leftEvaluation: any, rightEvaluation: any): boolean {
+    return this.isList(leftEvaluation) && this.isList(rightEvaluation)
+      ? this.compareList(leftEvaluation, rightEvaluation)
+      : null;
+  }
+  */
   evaluate(state: State): any {
     var leftSideEvaluation = this.leftHandSideEvaluation(state);
     var rightHandSideEvaluation = this.rightHandSideEvaluation(state);
@@ -32,6 +39,16 @@ export abstract class AbstractGenericComparation extends AbstractBinaryExpressio
     }
     this.ThrowEvaluationException(leftSideEvaluation,rightHandSideEvaluation);
   }
+/*
+  compareList(leftHandSide: Exp, rightHandSide: Exp):boolean{
+    var array1 = (leftHandSide as ListCollection).arr;
+    var array2 = (leftHandSide as ListCollection).arr;
 
+    var is_same = (array1.length == array2.length) && array1.every(function(element, index) {
+        return element === array2[index];
+    });
+    return is_same;
+  }
+  */
   protected abstract evaluation(leftSideEvaluation, rightHandSideEvaluation):any;
 }
