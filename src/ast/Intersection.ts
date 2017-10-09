@@ -1,5 +1,5 @@
 import { Exp } from './ASTNode';
-import { ListCollection, SetCollection} from './AST';
+import { ListCollection, SetCollection, KeyValue} from './AST';
 import { State } from '../interpreter/State';
 
 /**
@@ -27,7 +27,25 @@ export class Intersection implements Exp {
   evaluate(state: State): any {
     var lhs = this.lhs.evaluate(state);
     var rhs = this.rhs.evaluate(state);
-    var inters
+    var inters = [];
+    if(typeof lhs === "string")
+      lhs = new ListCollection (lhs.split(""));
+    if (typeof rhs === "string")
+      rhs = new ListCollection (rhs.split(""));
+
+    if((lhs instanceof SetCollection && rhs instanceof SetCollection)){
+      inters = lhs.arr.filter(x => rhs.has(x,state));
+      return new SetCollection(inters);
+    }
+    else{
+      inters = lhs.arr.filter(x => rhs.has(x,state));
+      return new ListCollection(inters);
+    }
+  }
+
+
+    /* CODIGO QUE ESTABA ANTES, SE PUEDE BORRAR!!
+
     if(typeof lhs ==="string"){
       var l = lhs.split("");
       if(typeof rhs === "string"){
@@ -55,4 +73,5 @@ export class Intersection implements Exp {
       }
     throw new Error("Error de tipos");
   }
+  */
 }
