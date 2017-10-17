@@ -10,7 +10,7 @@ export abstract class AbstractBinaryExpression extends AbstractExpression {
 
   protected leftHandSide: Exp;
   protected rightHandSide: Exp;
-  private operationSymbol: string;
+  protected operationSymbol: string;
 
   protected constructor(leftHandSide: Exp, rightHandSide: Exp, operationSymbol: string) {
     super();
@@ -18,7 +18,7 @@ export abstract class AbstractBinaryExpression extends AbstractExpression {
     this.rightHandSide = rightHandSide;
     this.operationSymbol = operationSymbol;
   }
-  
+
   protected leftHandSideEvaluation(state:State):any{
     return this.evaluateExpression(this.leftHandSide,state);
   }
@@ -26,7 +26,7 @@ export abstract class AbstractBinaryExpression extends AbstractExpression {
   protected rightHandSideEvaluation(state:State):any{
     return this.evaluateExpression(this.rightHandSide,state);
   }
-  
+
   protected ThrowEvaluationException (rightHandSideEvaluation:any,leftHandSideEvaluation:any){
     var errors:[ErrorTypeInfo]=[
       new ErrorTypeInfo("rightHandSide",rightHandSideEvaluation),
@@ -34,7 +34,7 @@ export abstract class AbstractBinaryExpression extends AbstractExpression {
     ];
     super.ThrowExceptionOnErrorCheckType(errors);
   }
-  
+
   toString(): string {
     return `${this.constructor.name}(${this.leftHandSide.toString()}, ${this.rightHandSide.toString()})`;
   }

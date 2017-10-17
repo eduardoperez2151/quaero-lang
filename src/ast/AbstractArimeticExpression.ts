@@ -9,7 +9,7 @@ export abstract class AbstractArimeticExpression extends AbstractGenericComparat
   }
 
   protected evaluation(leftSideEvaluation: any, rightHandSideEvaluation: any):any {
-    return this.evaluateNumber(leftSideEvaluation, rightHandSideEvaluation);
+    return this.evaluateComparation(leftSideEvaluation, rightHandSideEvaluation);
   }
 
 }

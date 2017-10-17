@@ -8,9 +8,8 @@ export  abstract class AbstractArimeticBooleanOperation extends AbstractGenericC
     super(leftHandSide, rightHandSide, operationSymbol,comparatorFunction);
   }
 
-  protected evaluation(leftSideEvaluation: any, rightHandSideEvaluation: any) {
-    var booleanEvaluation=this.evaluateBoolean(leftSideEvaluation,rightHandSideEvaluation);
-    return booleanEvaluation==null ? this.evaluateNumber(leftSideEvaluation,rightHandSideEvaluation): booleanEvaluation;
+  protected evaluation(leftSideEvaluation: any, rightSideEvaluation: any):any {
+    return this.evaluateComparation(leftSideEvaluation,rightSideEvaluation);
   }
 
 }

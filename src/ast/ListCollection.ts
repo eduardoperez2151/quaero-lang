@@ -52,4 +52,11 @@ export class ListCollection implements Exp {
         return arrSet.has(item);
       }
     }
+
+    processItems():Array<any>{
+      var ev: any[]= this.arr.map(function(value){
+         return (value instanceof KeyValue) ? value.exp : value;});
+      return ev;
+    }
+
 }
