@@ -7,17 +7,17 @@ import { State } from '../interpreter/State';
 */
 export class EnumerationList implements Exp {
 
-  srt: Exp;
-  stp: Exp;
+  first: Exp;
+  second: Exp;
   end: Exp;
 
-  constructor(srt:Exp,end:Exp,stp?:Exp) {
-    this.srt = srt;
+  constructor(first:Exp,end:Exp,second?:Exp) {
+    this.first = first;
     this.end = end;
-    if(stp){
-      this.stp = stp;
+    if(second){
+      this.second = second;
     }else{
-      this.stp = new Numeral(1);
+      this.second = new Numeral(NaN);
     }
   }
   toString(): string {
@@ -29,26 +29,34 @@ export class EnumerationList implements Exp {
      return "Hacer unparse()";
   }
   evaluate(state: State): any {
-    var srt = this.srt.evaluate(state);
+    var first = this.first.evaluate(state);
     var end = this.end.evaluate(state);
-    var stp = this.stp.evaluate(state);
-    if(typeof srt === "number" && typeof end  === "number" && typeof stp === "number"){
+    var second = this.second.evaluate(state);
+    if(typeof first === "number" && typeof end  === "number" && typeof second === "number"){
+      var step = this.getStep(first,second);
       let list: any[]= [];
-      if(srt < end){
-        stp = stp - srt;
-        if(stp < 0)return new ListCollection([]);
-        for(var i = srt;i<= end;i = i+stp){
-          list.push(i);
-        }
-      }else{
-        stp = srt - stp;
-        if(stp < 0)return new ListCollection([]);
-        for(var i = srt;i>= end;i = i-stp){
-          list.push(i);
-        }
+      if(first <= end && step <= 0 || first > end && step >= 0){
+        return new ListCollection([]);
+      }
+      var act = first + step;
+      while(this.checkFinish(first,act,end)){
+        list.push(act);
+        act = act + step;
       }
       return new ListCollection(list);
     }
     throw new Error("Error de tipos");
+  }
+  checkFinish(first,act,end){
+    if(first > end){
+      return act >= end;
+    }
+    else{
+      return act <= end;
+    }
+  }
+  getStep(first,second){
+    if(isNaN(second)) second = first + 1;
+    return second - first;
   }
 }
