@@ -1,6 +1,7 @@
-import { Exp, Stmt} from './ASTNode';
+import { AbstractArimeticBooleanOperation } from './AbstractArimeticBooleanOperation';
+import { Exp, Stmt } from './ASTNode';
 import { State } from '../interpreter/State';
-import { Sequence,Membership,Variable,ListCollection } from './AST';
+import { Sequence, Membership, Variable, ListCollection } from './AST';
 
 /**
   Representación de ComprehensionList .
@@ -10,7 +11,7 @@ export class ComprehensionList implements Exp {
   expList: [Exp];
   forBody: Exp;
 
-  constructor(forBody: Exp,expList: [Exp]) {
+  constructor(forBody: Exp, expList: [Exp]) {
     this.expList = expList;
     this.forBody = forBody;
   }
@@ -23,45 +24,39 @@ export class ComprehensionList implements Exp {
     return "unparse";
     //return `for ${this.expList.unparse()} {${this.forBody.unparse()}}`;
   }
-  calculate(memberships:Membership[],booleans:Exp[],state:State): State{
-    let mem : Membership = memberships[0];
-    let nMembers = memberships.slice(1);
-    var v = (mem.value as Variable).id;
-    let list = mem.listCol.evaluate(state).arr;
-    if(nMembers.length > 0){
-      for (var j = 0;j<list.length;j++){
-        state.set(v,list[j]);
-        state = this.calculate(nMembers,booleans,state);
-      }
-    }
-    else{
-      for(var i = 0;i<list.length;i++){
-        state.set(v,list[i]);
-        for(var j =0;j<booleans.length;j++){
-          if(!(booleans[j].evaluate(state))){
-            return state;
-          }
-        }
-        state.get("#resultado").push(this.forBody.evaluate(state));
-      }
-    }
-    return state;
-  }
+
   evaluate(state: State): any {
-    let memberships : Membership[] = [];
-    let booleans : Exp[] = [];
-    var nState = state.clone();
-    nState.set("#resultado",[]);
-    for(var i = 0;i<this.expList.length;i++){
-      var m = this.expList[i]
-      if(m instanceof Membership){
-        memberships.push(m);
-      }else{
-        booleans.push(m);
+    console.log("original= " + this.expList);
+    let resultList = [];
+    this.comprenhentionListEvaluation(state, this.expList, resultList);
+    return resultList;
+  }
+
+  private comprenhentionListEvaluation(state: State, expList, resultList) {
+    if (expList.length == 0) {
+
+      resultList.push(this.forBody.evaluate(state));
+    }
+    let clonedState = state.clone();
+    let headExpression = expList[(expList.length - 1)];
+    let expListTail = expList.slice(0, (expList.length - 1));
+    if (headExpression instanceof Membership) {
+      if (headExpression.value instanceof Variable) {
+        let variable = headExpression.value.id;
+        let membershipList = headExpression.listCol.evaluate(clonedState);
+        membershipList.arr.forEach(membership => {
+          clonedState.set(variable, membership);
+          this.comprenhentionListEvaluation(clonedState, expListTail, resultList);
+        });
+
       }
     }
-    nState = this.calculate(memberships.reverse(),booleans,nState);
-    var lista = nState.get("#resultado");
-    return new ListCollection(lista);
+
+    if (headExpression instanceof AbstractArimeticBooleanOperation) {
+      let condition = headExpression.evaluate(clonedState);
+      if ((typeof condition) == 'boolean' && condition) {
+        this.comprenhentionListEvaluation(clonedState, expListTail, resultList);
+      }
+    }
   }
 }
