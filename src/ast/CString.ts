@@ -15,7 +15,7 @@ export class CString implements Exp {
     return `CString(${this.exp})`;
   }
 
-  unparse(): string {
+  unParse(): string {
     return `string(${this.exp})`;
   }
 

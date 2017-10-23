@@ -19,8 +19,8 @@ export class IfElse implements  Exp {
     return `IfElse(${this.lhs.toString()},if ${this.cexp.toString()} else  ${this.rhs.toString()})`;
   }
 
-  unparse(): string {
-    return `IfElse(${this.lhs.unparse()},if ${this.cexp.unparse()} else  ${this.rhs.unparse()})`;
+  unParse(): string {
+    return `IfElse(${this.lhs.unParse()},if ${this.cexp.unParse()} else  ${this.rhs.unParse()})`;
   }
 
   evaluate(state: State): any {

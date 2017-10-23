@@ -19,15 +19,15 @@ export class For implements Stmt {
     return `For(${this.expList.toString()} , ${this.forBody.toString()})}`;
   }
 
-  unparse(): string {
-    return "unparse";
-    //return `for ${this.expList.unparse()} {${this.forBody.unparse()}}`;
+  unParse(): string {
+    return "unParse";
+    //return `for ${this.expList.unParse()} {${this.forBody.unParse()}}`;
   }
   calculate(memberships:Membership[],booleans:Exp[],state:State): State{
     let mem : Membership = memberships[0];
     let nMembers = memberships.slice(1);
     var v = (mem.value as Variable).id;
-    let list = mem.listCol.evaluate(state).arr;
+    let list = mem.listExp.evaluate(state).arr;
     if(nMembers.length > 0){
       for (var j = 0;j<list.length;j++){
         state.set(v,list[j]);

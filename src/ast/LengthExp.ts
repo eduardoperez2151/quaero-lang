@@ -16,8 +16,8 @@ export class LengthExp implements  Exp {
     return `LengthExp(${this.exp.toString()})`;
   }
 
-  unparse(): string {
-    return `LengthExp(${this.exp.unparse()})`;
+  unParse(): string {
+    return `LengthExp(${this.exp.unParse()})`;
   }
 
   evaluate(state: State): any {

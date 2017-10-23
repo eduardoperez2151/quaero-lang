@@ -2,7 +2,7 @@ import { State } from '../interpreter/State';
 
 export interface ASTNode {
   toString(): string;
-  unparse(): string;
+  unParse(): string;
 }
 
 /**

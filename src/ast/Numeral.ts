@@ -16,7 +16,7 @@ export class Numeral implements Exp {
     return `Numeral(${this.value})`;
   }
 
-  unparse(): string {
+  unParse(): string {
     return `${this.value}`;
   }
 

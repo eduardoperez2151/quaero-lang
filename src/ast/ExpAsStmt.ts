@@ -16,8 +16,8 @@ export class ExpAsStmt implements Stmt {
     return `ExpAsStmt(${this.exp.toString()})`;
   }
 
-  unparse(): string {
-    return `${this.exp.unparse()}`;
+  unParse(): string {
+    return `${this.exp.unParse()}`;
   }
 
   evaluate(state: State): State {

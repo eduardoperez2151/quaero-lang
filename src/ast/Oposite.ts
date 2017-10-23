@@ -16,7 +16,7 @@ export class Oposite implements Exp {
     return `Oposite(${this.value})`;
   }
 
-  unparse(): string {
+  unParse(): string {
     return `- ${this.value}`;
   }
 

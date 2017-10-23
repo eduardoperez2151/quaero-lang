@@ -16,7 +16,7 @@ export class Negationation implements Exp {
     return `Negationation(${this.value})`;
   }
 
-  unparse(): string {
+  unParse(): string {
     return this.value ? "! true" : "! false";
   }
 

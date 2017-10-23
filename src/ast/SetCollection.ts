@@ -29,9 +29,9 @@ export class SetCollection implements Exp {
     return `SetCollection(${this.arr.toString()})`;
   }
 
-  unparse(): string {
-    //return `(${this.lhs.unparse()} + ${this.rhs.unparse()})`;
-     return "Hacer unparse()";
+  unParse(): string {
+    //return `(${this.lhs.unParse()} + ${this.rhs.unParse()})`;
+     return "Hacer unParse()";
   }
   evaluate(state: State): any {
     let ev: any[]= this.arr.map(function(value){return value.evaluate(state);});

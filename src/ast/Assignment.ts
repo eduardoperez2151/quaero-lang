@@ -18,8 +18,8 @@ export class Assignment implements Stmt {
     return `Assignment(${this.id}, ${this.exp.toString()})`;
   }
 
-  unparse(): string {
-    return `${this.id} = ${this.exp.unparse()}`;
+  unParse(): string {
+    return `${this.id} = ${this.exp.unParse()}`;
   }
 
   evaluate(state: State): State {

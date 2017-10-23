@@ -19,9 +19,9 @@ export class Dot implements Exp {
     return `Dot(${this.listCol.toString()}, ${this.key.toString()})`;
   }
 
-  unparse(): string {
-    //return `(${this.lhs.unparse()} ++ ${this.rhs.unparse()})`;
-    return "Hacer unparse";
+  unParse(): string {
+    //return `(${this.lhs.unParse()} ++ ${this.rhs.unParse()})`;
+    return "Hacer unParse";
   }
 
   evaluate(state: State): any {

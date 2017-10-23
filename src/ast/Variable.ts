@@ -15,7 +15,7 @@ export class Variable implements Exp {
     return `Variable(${this.id})`;
   }
 
-  unparse(): string {
+  unParse(): string {
     return this.id;
   }
 

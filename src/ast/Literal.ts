@@ -16,7 +16,7 @@ export class Literal implements Exp {
     return `String(${this.value})`;
   }
 
-  unparse(): string {
+  unParse(): string {
     return `${this.value}`;
   }
 

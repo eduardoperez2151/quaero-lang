@@ -20,7 +20,7 @@ export class Sequence implements Stmt {
     return `Sequence(${statements})`
   }
 
-  unparse(): string {
+  unParse(): string {
     const statements = this.statements
       .filter((stmt) => (stmt !== undefined))
       .map((stmt) => (stmt.toString()))

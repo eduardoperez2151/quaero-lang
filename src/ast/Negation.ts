@@ -16,8 +16,8 @@ export class Negation implements Exp {
     return `Negation(${this.exp.toString()})`;
   }
 
-  unparse(): string {
-    return `(!${this.exp.unparse()})`;
+  unParse(): string {
+    return `(!${this.exp.unParse()})`;
   }
 
   evaluate(state: State): any {

@@ -16,7 +16,7 @@ export class PrintFunction implements Exp {
     return `PrintFunction(${this.exp})`;
   }
 
-  unparse(): string {
+  unParse(): string {
     return `PrintFunction(${this.exp})`;
   }
 

@@ -16,7 +16,7 @@ export class TruthValue implements Exp {
     return `TruthValue(${this.value})`;
   }
 
-  unparse(): string {
+  unParse(): string {
     return this.value ? "true" : "false";
   }
 

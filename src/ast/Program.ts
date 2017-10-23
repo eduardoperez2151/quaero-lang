@@ -21,8 +21,8 @@ export class Program implements Stmt {
     return `Program(${this.functions.toString()}, ${this.body.toString()})`;
   }
 
-  unparse(): string {
-    return `@ ${this.functions.toString()}  Main { ${this.body.unparse()} } @`;
+  unParse(): string {
+    return `@ ${this.functions.toString()}  Main { ${this.body.unParse()} } @`;
   }
 
   evaluate(state: State): any {

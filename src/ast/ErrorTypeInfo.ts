@@ -1,5 +1,5 @@
 
-export default class ErrorTypeInfo {
+export class ErrorTypeInfo {
 
     expressionName:string
     expressionEvaluation:any

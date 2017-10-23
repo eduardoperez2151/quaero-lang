@@ -11,12 +11,12 @@ export * from './Function';
 export * from './Program';
 export * from './KeyValue';
 export * from './For';
-export * from './CallFunction';
+export * from './expressions/CallFunction';
 export * from './Return';
 
 // AExp
-export * from './Addition';
-export * from './Multiplication';
+export * from './expressions/Addition';
+export * from './expressions/Multiplication';
 export * from './Division';
 export * from './ComprehensionList';
 export * from './ComprehensionSet';
@@ -36,14 +36,14 @@ export * from './ListCollection';
 export * from './Difference';
 export * from './Union';
 export * from './Intersection';
-export * from './Membership';
+export * from './expressions/Membership';
 export * from './Oposite';
-export * from './Cardinal';
+export * from './expressions/Cardinal';
 export * from './Dot';
-export * from './CBoolean';
+export * from './expressions/CBoolean';
 export * from './Null';
-export * from './CInt';
-export * from './CNumber';
+export * from './expressions/CInt';
+export * from './expressions/CNumber';
 export * from './Mod';
 export * from './Div';
 export * from './CString';
@@ -51,12 +51,12 @@ export * from './PrintFunction';
 
 
 // BExp
-export * from './CompareEqual';
-export * from './CompareNotEqual';
-export * from './CompareLessOrEqual';
-export * from './CompareLess';
-export * from './CompareGreatOrEqual';
-export * from './CompareGreat';
+export * from './expressions/CompareEqual';
+export * from './expressions/CompareNotEqual';
+export * from './expressions/CompareLessOrEqual';
+export * from './expressions/CompareLess';
+export * from './expressions/CompareGreatOrEqual';
+export * from './expressions/CompareGreat';
 export * from './Conjunction';
 export * from './Disjunction';
 export * from './Negation';

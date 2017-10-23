@@ -1,8 +1,8 @@
-import { Exp, Stmt } from './ASTNode';
-import { State } from '../interpreter/State';
+import {Exp, Stmt} from './ASTNode';
+import {State} from '../interpreter/State';
 
 /**
-  Representación de las asignaciones de valores a variables.
+  Representación de un mapa clave valor.
 */
 export class KeyValue implements Stmt {
 
@@ -18,8 +18,8 @@ export class KeyValue implements Stmt {
     return `KeyValue(${this.id}, ${this.exp.toString()})`;
   }
 
-  unparse(): string {
-    return `${this.id} : ${this.exp.unparse()}`;
+  unParse(): string {
+    return `${this.id} : ${this.exp.unParse()}`;
   }
 
   evaluate(state: State): any {

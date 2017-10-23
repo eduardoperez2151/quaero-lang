@@ -18,9 +18,9 @@ export class Function implements Stmt {
     return `Function(${this.identifier} , ${this.args.toString()} , ${this.body.toString()})`;
   }
 
-  unparse(): string {
+  unParse(): string {
     var args = this.args.join(",");
-    return `function ${this.identifier} (${args}) { ${this.body.unparse()}}`;
+    return `function ${this.identifier} (${args}) { ${this.body.unParse()}}`;
   }
 
   evaluate(state: State): State {

@@ -25,9 +25,9 @@ export class EnumerationList implements Exp {
     return `EnumerationList(${this.first.toString() + " " + this.second.toString() + " " + this.end.toString()})`;
   }
 
-  unparse(): string {
-    //return `(${this.lhs.unparse()} + ${this.rhs.unparse()})`;
-    return "Hacer unparse()";
+  unParse(): string {
+    //return `(${this.lhs.unParse()} + ${this.rhs.unParse()})`;
+    return "Hacer unParse()";
   }
 
   evaluate(state: State): any {

@@ -16,8 +16,8 @@ export class Index implements Exp {
     return `IndexOf(${this.value.toString()},[ ${this.indexValue.toString()}])`;
   }
 
-  unparse(): string {
-    return `${this.value.unparse()}[${this.indexValue.unparse()}]`;
+  unParse(): string {
+    return `${this.value.unParse()}[${this.indexValue.unParse()}]`;
   }
 
   evaluate(state: State): any {

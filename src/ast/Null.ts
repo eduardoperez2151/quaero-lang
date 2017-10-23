@@ -11,7 +11,7 @@ export class Null implements Exp {
     return `Null(null)`;
   }
 
-  unparse(): string {
+  unParse(): string {
     return "null";
   }
 

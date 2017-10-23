@@ -1,8 +1,8 @@
 import { Exp } from './ASTNode';
 import { State } from '../interpreter/State';
-import { AbstractArimeticExpression } from './AbstractArimeticExpression'
+import { AbstractArithmeticExpression } from './expressions/AbstractArithmeticExpression'
 
-export class Division extends AbstractArimeticExpression {
+export class Division extends AbstractArithmeticExpression {
   
     constructor(leftHandSide: Exp, rightHandSide: Exp) {
       super(leftHandSide, rightHandSide, "/",(a,b)=> a / b);
