@@ -1,6 +1,7 @@
 import {Exp} from '../ASTNode';
 import {State} from '../../interpreter/State';
 import {AbstractExpression} from "./AbstractExpression";
+import {TruthValue} from "../TruthValue";
 
 export class CBoolean extends AbstractExpression {
 
@@ -25,9 +26,9 @@ export class CBoolean extends AbstractExpression {
             case null:
             case "":
             case 0:
-                return false;
+                return new TruthValue(false);
             default:
-                return !(this.isCollection(this.expression) && evaluation.arr.length === 0);
+                return new TruthValue(!(this.isCollection(this.expression) && evaluation.arr.length === 0));
         }
     }
 }
