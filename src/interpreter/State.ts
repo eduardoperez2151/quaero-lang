@@ -15,6 +15,7 @@ export class State {
   }
 
   set(id: string, value: any) {
+    console.log("#####>>>>"+ id,+" "+value);
     this.vars.set(id, value);
   }
 

@@ -26,9 +26,9 @@ export class CBoolean extends AbstractExpression {
             case null:
             case "":
             case 0:
-                return new TruthValue(false);
+                return false;
             default:
-                return new TruthValue(!(this.isCollection(this.expression) && evaluation.arr.length === 0));
+                return !(this.isCollection(this.expression) && evaluation.arr.length === 0);
         }
     }
 }

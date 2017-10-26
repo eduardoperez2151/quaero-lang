@@ -1,15 +1,14 @@
-
 export class ErrorTypeInfo {
 
-    expressionName:string
-    expressionEvaluation:any
+    expressionName: string;
+    expressionEvaluation: any;
 
-    constructor(expressionName:string,expressionEvaluation:any){
-        this.expressionName=expressionName;
-        this.expressionEvaluation=expressionEvaluation;
+    constructor(expressionName: string, expressionEvaluation: any) {
+        this.expressionName = expressionName;
+        this.expressionEvaluation = expressionEvaluation;
     }
 
-    toString(){
+    toString() {
         return `Expresion:[${this.expressionName}] del tipo:[${typeof this.expressionEvaluation}]`;
     }
 }

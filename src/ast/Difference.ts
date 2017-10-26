@@ -2,9 +2,6 @@ import { Exp } from './ASTNode';
 import { ListCollection, SetCollection} from './AST';
 import { State } from '../interpreter/State';
 
-/**
-  Representación de sumas.
-*/
 export class Difference implements Exp {
 
   lhs: Exp;
