@@ -16,10 +16,14 @@ export abstract class AbstractGenericComparator extends AbstractBinaryExpression
         let isNumberEvaluation = this.isNumber(leftEvaluation) && this.isNumber(rightEvaluation);
         let isStringEvaluation = this.isString(leftEvaluation) && this.isString(rightEvaluation);
         let isListEvaluation = this.isList(leftEvaluation) && this.isList(rightEvaluation);
-        if (isListEvaluation) {// Al tener objetos KeyValue usamos nuestros comparadores.
+        let isSet = this.isSet(leftEvaluation) && this.isSet(rightEvaluation);
+        if (isListEvaluation) {
             let processedLeftArray = leftEvaluation.processItems();
             let processedRightArray = rightEvaluation.processItems();
             return this.compareList(this.operationSymbol, this.comparatorFunction, processedLeftArray, processedRightArray);
+        }
+        if (isSet){
+          // Codigo aqui ...
         }
         return (isBooleanEvaluation || isNumberEvaluation || isStringEvaluation) ? this.comparatorFunction.call(this, leftEvaluation, rightEvaluation) : null;
     }
@@ -38,6 +42,23 @@ export abstract class AbstractGenericComparator extends AbstractBinaryExpression
             default:
                 return comparatorFunction.call(this, leftArray, rightArray);
         }
+    }
+    private compareSet(symbolOperation: string,leftArray: Array<any>, rightArray: Array<any>): boolean {
+/*
+        switch (symbolOperation) {
+            case "==":
+                return checkLength && leftArray.every(function (element, index) {
+                    return comparatorFunction.call(this, element, rightArray[index]);
+                });
+            case "/=":
+                return checkLength || leftArray.some(function (element, index) {
+                    return comparatorFunction.call(this, element, rightArray[index]);
+                });
+            default:
+                return true;
+        }
+        */
+        return true;
     }
 
     evaluate(state: State): any {

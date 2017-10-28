@@ -27,6 +27,23 @@ export class Concatenation implements Exp {
   evaluate(state: State): any {
     var lhs = this.lhs.evaluate(state);
     var rhs = this.rhs.evaluate(state);
+    var inters = [];
+    if(typeof lhs === "string")
+      lhs = new ListCollection (lhs.split(""));
+    if (typeof rhs === "string")
+      rhs = new ListCollection (rhs.split(""));
+
+    inters = lhs.arr.concat(rhs.arr);
+    if((lhs instanceof SetCollection && rhs instanceof SetCollection)){
+      return new SetCollection(inters);
+    }
+    else{
+      return new ListCollection(inters);
+    }
+  }
+    /*
+    var lhs = this.lhs.evaluate(state);
+    var rhs = this.rhs.evaluate(state);
     if(typeof lhs ==="string"){
       var l = lhs.split("");
       if(typeof rhs === "string"){
@@ -47,5 +64,7 @@ export class Concatenation implements Exp {
       }
     }
     throw new Error("Error de tipos");
+
   }
+  */
 }

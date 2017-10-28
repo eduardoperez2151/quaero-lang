@@ -37,6 +37,8 @@ export class SetCollection implements Exp {
     let ev: any[]= this.arr.map(function(value){return value.evaluate(state);});
     return new SetCollection(ev);
   }
+  // Los métodos has y processItems se repite en ListCollection y SetCollection
+  // se podria quitar para una tercera clase.
   has(item:any, state:State):boolean{
     // True si this.arr contine al item, false si no contine al item.
     if (item instanceof KeyValue){
@@ -52,5 +54,11 @@ export class SetCollection implements Exp {
         var arrSet = new Set(this.arr);
         return arrSet.has(item);
       }
+    }
+
+    processItems():Array<any>{
+      var ev: any[]= this.arr.map(function(value){
+         return (value instanceof KeyValue) ? value.exp : value;});
+      return ev;
     }
 }

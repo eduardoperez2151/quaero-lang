@@ -24,6 +24,26 @@ export class Difference implements Exp {
   evaluate(state: State): any {
     var lhs = this.lhs.evaluate(state);
     var rhs = this.rhs.evaluate(state);
+    var inters = [];
+    if(typeof lhs === "string")
+      lhs = new ListCollection (lhs.split(""));
+    if (typeof rhs === "string")
+      rhs = new ListCollection (rhs.split(""));
+
+    inters = lhs.arr.filter(x => !rhs.has(x,state));
+    if((lhs instanceof SetCollection && rhs instanceof SetCollection)){
+      return new SetCollection(inters);
+    }
+    else{
+      return new ListCollection(inters);
+    }
+  }
+
+
+/* Lo que estaba antes ...
+
+    var lhs = this.lhs.evaluate(state);
+    var rhs = this.rhs.evaluate(state);
     var diff
     if(typeof lhs ==="string"){
       var l = lhs.split("");
@@ -52,4 +72,5 @@ export class Difference implements Exp {
       }
     throw new Error("Error de tipos");
   }
+  */
 }

@@ -33,12 +33,11 @@ export class Intersection implements Exp {
     if (typeof rhs === "string")
       rhs = new ListCollection (rhs.split(""));
 
+    inters = lhs.arr.filter(x => rhs.has(x,state));
     if((lhs instanceof SetCollection && rhs instanceof SetCollection)){
-      inters = lhs.arr.filter(x => rhs.has(x,state));
       return new SetCollection(inters);
     }
     else{
-      inters = lhs.arr.filter(x => rhs.has(x,state));
       return new ListCollection(inters);
     }
   }
