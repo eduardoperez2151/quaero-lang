@@ -2,9 +2,6 @@ import { Exp } from './ASTNode';
 import { ListCollection, SetCollection, KeyValue} from './AST';
 import { State } from '../interpreter/State';
 
-/**
-  Representación de sumas.
-*/
 export class Intersection implements Exp {
 
   lhs: Exp;

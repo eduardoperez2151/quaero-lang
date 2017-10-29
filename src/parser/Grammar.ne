@@ -30,7 +30,7 @@ import {
   Union,
   Intersection,
   Membership,
-  Oposite,
+  Opposite,
   Cardinal,
   Dot,
   Numeral,
@@ -182,7 +182,7 @@ membership ->
 
 negation ->
     "!" value                                                         {%  ([, value])     => (new Negation(value))      %}
-  | "-" negation                                                      {%  ([, negation])  => (new Oposite(negation))    %}
+  | "-" negation                                                      {%  ([, negation])  => (new Opposite(negation))    %}
   | value                                                             {%  id  %}
 
 value ->

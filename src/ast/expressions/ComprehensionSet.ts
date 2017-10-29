@@ -1,7 +1,7 @@
 import {Exp} from '../ASTNode';
 import {State} from '../../interpreter/State';
 import {AbstractComprehension} from "./AbstractComprehension";
-import {SetCollection} from "../SetCollection";
+import {SetCollection} from "./SetCollection";
 
 export class ComprehensionSet extends AbstractComprehension {
 
