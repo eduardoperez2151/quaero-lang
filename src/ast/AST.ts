@@ -19,7 +19,7 @@ export * from './expressions/Addition';
 export * from './expressions/Multiplication';
 export * from './Division';
 export * from './expressions/ComprehensionList';
-export * from './ComprehensionSet';
+export * from './expressions/ComprehensionSet';
 export * from './Numeral';
 export * from './Literal';
 export * from './expressions/LengthExp';

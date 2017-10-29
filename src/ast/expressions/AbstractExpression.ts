@@ -3,6 +3,8 @@ import {State} from '../../interpreter/State';
 import {ErrorTypeInfo} from "../ErrorTypeInfo";
 import {ListCollection, SetCollection} from '../AST';
 import {KeyValue} from "../KeyValue";
+import {Membership} from "./Membership";
+import {Variable} from "../Variable";
 
 
 export abstract class AbstractExpression implements Exp {
@@ -37,6 +39,10 @@ export abstract class AbstractExpression implements Exp {
 
     protected isKeyValue(expressionEvaluation: any): boolean {
         return expressionEvaluation instanceof KeyValue;
+    }
+
+    protected isVariable(expressionEvaluation: any): boolean {
+        return expressionEvaluation instanceof Variable;
     }
 
     protected throwExceptionOnErrorCheckType(errorInfo: [ErrorTypeInfo]) {
