@@ -29,7 +29,6 @@ export class ComprehensionList implements Exp {
     }
 
     private comprehensionListEvaluation(state: State, expList, resultList) {
-        console.log(expList);
         if (expList.length === 0) {
             resultList.push(this.forBody.evaluate(state));
         }
