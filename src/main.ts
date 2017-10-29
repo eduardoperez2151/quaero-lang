@@ -2,8 +2,8 @@ import * as readlineSync from "readline-sync";
 
 import { Parser } from "nearley";
 
-import { tokens } from "./parser/Tokens";
-import { MyLexer } from "./parser/Lexer"
+import { tokens } from "./lexer/Tokens";
+import { MyLexer } from "./lexer/Lexer"
 import { ParserRules, ParserStart } from "./parser/Grammar";
 
 import { ASTNode, Stmt } from './ast/AST';
