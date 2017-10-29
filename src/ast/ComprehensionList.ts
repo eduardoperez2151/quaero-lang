@@ -18,8 +18,11 @@ export class ComprehensionList implements Exp {
     }
 
     unParse(): string {
-        return "unParse";
-        //return `for ${this.expList.unParse()} {${this.forBody.unParse()}}`;
+        let expressionsUnParse = this.expList
+            .filter(exp => exp)
+            .map(exp => exp.unParse())
+            .join(",");
+        return `comprehensionList (${this.forBody.unParse()},${expressionsUnParse})`;
     }
 
     evaluate(state: State): any {
