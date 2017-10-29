@@ -89,7 +89,7 @@ arguments->
 
 argumentList ->
   identifier                		  	                                  {%  ([identifier])                  =>  ([identifier])                                          %}
-  | identifier  "," argumentList   		                                {%  ([identifier, , argumentList])  =>  {argumentList.push(identifier); return argumentList;} %}
+  | identifier  "," argumentList   		                                {%  ([identifier, , argumentList])  =>  {argumentList.unshift(identifier); return argumentList;} %}
 
 ######## CALL FUNCTION ########
 
@@ -119,7 +119,7 @@ statementsElse ->
 ######## EXPRESSIONS ######## CHECKED!!!!
 expressionList ->
   expression                   			                                  {%  ([expression])                    =>  ([expression])                                              %}
-  | expression  "," expressionList   			                            {%  ([expression, , expressionList])  =>  {expressionList.push(expression); return expressionList;} %}
+  | expression  "," expressionList   			                            {%  ([expression, , expressionList])  =>  {expressionList.unshift(expression); return expressionList;} %}
 
 collection ->
   list 				                                                        {%  id  %}
@@ -138,14 +138,14 @@ list->
   | "[" expression  ".."  expression  "]"                             {%  ([, firstElement, , lastElement, ])                 =>  (new EnumerationList(firstElement,lastElement))             %}
   | "[" expression  ","   expression  ".."  expression  "]"           {%  ([, firstElement, , nextElement, , lastElement, ])  =>  (new EnumerationList(firstElement,lastElement,nextElement)) %}
   | "[" expression "for" expressionList "]"                           {%  ([, expression , ,expList, ])                       =>  (new ComprehensionList(expression,expList))                 %}
-  | "[" collectionItem "]"       			                                {%  ([, collectionItem, ])                              =>  (new ListCollection(collectionItem))                        %}
+  | "[" collectionItem "]"       			                          {%  ([, collectionItem, ])                              =>  (new ListCollection(collectionItem))                        %}
 
 
 collectionItem ->
   expression                                                          {%  ([expression])                                =>  ([expression])                                                                        %}
  |  key  ":" expression                                               {%  ([identifier, ,expression ])                  =>  ([new KeyValue(identifier,expression)])                                               %}
- |  expression  "," collectionItem                                    {%  ([expression, ,collectionItem])               =>  {collectionItem.push(expression); return collectionItem;}                             %}
- |  key  ":" expression  "," collectionItem                           {%  ([identifier, ,expression, ,collectionItem])  =>  {collectionItem.push(new KeyValue(identifier,expression)); return collectionItem;}    %}
+ |  expression  "," collectionItem                                    {%  ([expression, ,collectionItem])               =>  {collectionItem.unshift(expression); return collectionItem;}                             %}
+ |  key  ":" expression  "," collectionItem                           {%  ([identifier, ,expression, ,collectionItem])  =>  {collectionItem.unshift(new KeyValue(identifier,expression)); return collectionItem;}    %}
 
 expression ->
     expression "&&" comparison                                        {%  ([leftHandSide, , rightHandSide])             =>  (new Conjunction(leftHandSide, rightHandSide))      %}

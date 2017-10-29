@@ -23,39 +23,33 @@ export class ComprehensionList implements Exp {
     }
 
     evaluate(state: State): any {
-        console.log("original= " + this.expList);
         let resultList = [];
-        this.comprenhentionListEvaluation(state, this.expList, resultList);
+        this.comprehensionListEvaluation(state, this.expList, resultList);
         return new ListCollection(resultList);
     }
 
-    private comprenhentionListEvaluation(state: State, expList, resultList) {
-
+    private comprehensionListEvaluation(state: State, expList, resultList) {
         console.log(expList);
-        if (expList.length == 0) {
+        if (expList.length === 0) {
             resultList.push(this.forBody.evaluate(state));
         }
         let clonedState = state.clone();
-        let headExpression = expList[(expList.length - 1)];
-        let expListTail = expList.slice(0, (expList.length - 1));
-        console.log(headExpression);
-        console.log(expListTail);
-        if (headExpression instanceof Membership) {
-            if (headExpression.value instanceof Variable) {
-                let variable = headExpression.value.id;
-                let membershipList = headExpression.listExp.evaluate(clonedState);
-                console.log(membershipList.arr);
+        let [head, ...tail] = expList;
+        if (head instanceof Membership) {
+            if (head.value instanceof Variable) {
+                let variable = head.value.id;
+                let membershipList = head.listExp.evaluate(clonedState);
                 membershipList.arr.forEach(membership => {
                     clonedState.set(variable, membership);
-                    this.comprenhentionListEvaluation(clonedState, expListTail, resultList);
+                    this.comprehensionListEvaluation(clonedState, tail, resultList);
                 });
             }
         }
 
-        if (headExpression instanceof AbstractArithmeticBooleanOperation) {
-            let condition = headExpression.evaluate(clonedState);
+        if (head instanceof AbstractArithmeticBooleanOperation) {
+            let condition = head.evaluate(clonedState);
             if ((typeof condition) == 'boolean' && condition) {
-                this.comprenhentionListEvaluation(clonedState, expListTail, resultList);
+                this.comprehensionListEvaluation(clonedState, tail, resultList);
             }
         }
     }
