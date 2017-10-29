@@ -21,7 +21,9 @@ export class CNumber extends AbstractExpression {
 
     evaluate(state: State): any {
         let evaluation = this.expression.evaluate(state);
-        if (this.isString(evaluation) || this.isNumber(evaluation)) return Number(evaluation);
+        if (this.isString(evaluation) || this.isNumber(evaluation)) {
+            return Number(evaluation);
+        }
         let error = new ErrorTypeInfo("evaluation", evaluation);
         this.throwExceptionOnErrorCheckType([error]);
     }

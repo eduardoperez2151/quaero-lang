@@ -1,5 +1,5 @@
-import { Exp } from './ASTNode';
-import { State } from '../interpreter/State';
+import { Exp } from '../ASTNode';
+import { State } from '../../interpreter/State';
 
 export class Variable implements Exp {
   id: string;

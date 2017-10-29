@@ -4,7 +4,7 @@ import {ErrorTypeInfo} from "../ErrorTypeInfo";
 import {ListCollection, SetCollection} from '../AST';
 import {KeyValue} from "../KeyValue";
 import {Membership} from "./Membership";
-import {Variable} from "../Variable";
+import {Variable} from "../statements/Variable";
 
 
 export abstract class AbstractExpression implements Exp {

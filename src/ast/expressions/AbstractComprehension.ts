@@ -1,5 +1,5 @@
 import {Exp} from "../ASTNode";
-import {Variable} from "../Variable";
+import {Variable} from "../statements/Variable";
 import {Membership} from "./Membership";
 import {State} from "../../interpreter/State";
 import {AbstractExpression} from "./AbstractExpression";

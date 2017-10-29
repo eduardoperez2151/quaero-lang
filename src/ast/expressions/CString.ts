@@ -1,9 +1,6 @@
-import { Exp } from './ASTNode';
-import { State } from '../interpreter/State';
+import { Exp } from '../ASTNode';
+import { State } from '../../interpreter/State';
 
-/**
-  Representación de funcion String
-*/
 export class CString implements Exp {
   exp: Exp;
 
@@ -20,7 +17,7 @@ export class CString implements Exp {
   }
 
   evaluate(state: State): any {
-    var v = this.exp.evaluate(state);
-    return v.toString();
+    let expressionEvaluation = this.exp.evaluate(state);
+    return expressionEvaluation.toString();
   }
 }

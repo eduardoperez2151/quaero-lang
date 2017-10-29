@@ -1,29 +1,30 @@
-import { Exp } from './ASTNode';
-import { State } from '../interpreter/State';
+import {Exp} from './ASTNode';
+import {State} from '../interpreter/State';
+import {AbstractExpression} from "./expressions/AbstractExpression";
+import {ErrorTypeInfo} from "./ErrorTypeInfo";
 
-/**
-  Representación de constantes numéricas o numerales.
-*/
-export class Numeral implements Exp {
+export class Numeral extends AbstractExpression {
 
-  value: number;
+    value: number;
 
-  constructor(value: number) {
-    this.value = value;
-  }
-
-  toString(): string {
-    return `Numeral(${this.value})`;
-  }
-
-  unParse(): string {
-    return `${this.value}`;
-  }
-
-  evaluate(state: State): number {
-    if(typeof this.value === 'number'){
-      return this.value;
+    constructor(value: number) {
+        super();
+        this.value = value;
     }
-    throw new Error("Error de tipos");
-  }
+
+    toString(): string {
+        return `Numeral(${this.value})`;
+    }
+
+    unParse(): string {
+        return `${this.value}`;
+    }
+
+    evaluate(state: State): number {
+        if (this.isNumber(this.value)) {
+            return this.value;
+        }
+        let error: [ErrorTypeInfo] = [new ErrorTypeInfo("value", this.value)];
+        this.throwExceptionOnErrorCheckType(error);
+    }
 }

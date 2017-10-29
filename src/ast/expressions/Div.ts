@@ -1,6 +1,5 @@
-import { Exp } from './ASTNode';
-import { State } from '../interpreter/State';
-import { AbstractArithmeticExpression } from './expressions/AbstractArithmeticExpression'
+import {Exp} from '../ASTNode';
+import {AbstractArithmeticExpression} from './AbstractArithmeticExpression'
 
 export class Div extends AbstractArithmeticExpression {
 

@@ -2,9 +2,6 @@ import { Exp } from './ASTNode';
 import { Numeral,SetCollection } from './AST';
 import { State } from '../interpreter/State';
 
-/**
-  Representación de sumas.
-*/
 export class EnumerationSet implements Exp {
 
   srt: Exp;

@@ -1,5 +1,5 @@
-import {Exp} from './ASTNode';
-import {State} from '../interpreter/State';
+import {Exp} from '../ASTNode';
+import {State} from '../../interpreter/State';
 
 export class Literal implements Exp {
 

@@ -1,16 +1,15 @@
 import { Exp } from './ASTNode';
 import { ListCollection,SetCollection,KeyValue} from './AST';
 import { State } from '../interpreter/State';
+import {AbstractExpression} from "./expressions/AbstractExpression";
 
-/**
-  Representación de sumas.
-*/
-export class Dot implements Exp {
+export class Dot extends AbstractExpression{
 
   listCol: Exp;
   key: string;
 
   constructor(listCol: Exp, key: string, ) {
+    super();
     this.key = key;
     this.listCol = listCol;
   }
@@ -25,10 +24,11 @@ export class Dot implements Exp {
   }
 
   evaluate(state: State): any {
-    var list = this.listCol.evaluate(state)
-    if(list instanceof ListCollection || list instanceof SetCollection){
-      for(var i=0;i<list.arr.length;i++){
-        var val = list.arr[i];
+    let listEvaluation = this.listCol.evaluate(state)
+    if(this.isCollection(listEvaluation)){
+      
+      for(var i=0;i<listEvaluation.arr.length;i++){
+        var val = listEvaluation.arr[i];
         if(val instanceof KeyValue && val.id == this.key) return val.exp
       }
     }

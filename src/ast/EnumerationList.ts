@@ -2,9 +2,7 @@ import { Exp } from './ASTNode';
 import { Numeral, ListCollection } from './AST';
 import { State } from '../interpreter/State';
 
-/**
- Representación de sumas.
- */
+
 export class EnumerationList implements Exp {
 
   first: Exp;

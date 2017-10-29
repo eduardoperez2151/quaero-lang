@@ -1,10 +1,7 @@
-import { Exp } from './ASTNode';
-import { State } from '../interpreter/State';
+import { Exp } from '../ASTNode';
+import { State } from '../../interpreter/State';
 
-/**
-  Representación de constantes numéricas o numerales.
-*/
-export class Oposite implements Exp {
+export class Opposite implements Exp {
 
   value: Exp;
 
