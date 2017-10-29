@@ -58,8 +58,8 @@ import {
   PrintFunction,
 } from '../ast/AST';
 
-import { tokens } from "./lexer/Tokens";
-import { MyLexer } from "./lexer/Lexer"
+import { tokens } from "../lexer/Tokens";
+import { MyLexer } from "../lexer/Lexer"
 
 const lexer = new MyLexer(tokens);
 
