@@ -1,9 +1,6 @@
-import { Exp,Stmt } from './ASTNode';
-import { State } from '../interpreter/State';
+import { Exp,Stmt } from '../ASTNode';
+import { State } from '../../interpreter/State';
 
-/**
-  Representación de las asignaciones de valores a variables.
-*/
 export class Return implements  Stmt{
 
   exp: Exp;
@@ -21,7 +18,7 @@ export class Return implements  Stmt{
   }
 
   evaluate(state: State): State {
-    var result = this.exp.evaluate(state);
+    let result = this.exp.evaluate(state);
     state.set("Return", result);
     return state
   }

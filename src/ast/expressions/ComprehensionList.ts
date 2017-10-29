@@ -1,7 +1,7 @@
-import {AbstractArithmeticBooleanOperation} from './expressions/AbstractArithmeticBooleanOperation';
-import {Exp} from './ASTNode';
-import {State} from '../interpreter/State';
-import { ListCollection, Membership, Variable } from './AST';
+import {AbstractArithmeticBooleanOperation} from './AbstractArithmeticBooleanOperation';
+import {Exp} from '../ASTNode';
+import {State} from '../../interpreter/State';
+import { ListCollection, Membership, Variable } from '../AST';
 
 export class ComprehensionList implements Exp {
 

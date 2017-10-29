@@ -1,6 +1,6 @@
-import { Exp, Stmt} from './ASTNode';
-import { State } from '../interpreter/State';
-import { Sequence } from './AST';
+import { Exp, Stmt} from '../ASTNode';
+import { State } from '../../interpreter/State';
+import { Sequence } from '../AST';
 
 export class Function implements Stmt {
 
@@ -19,8 +19,8 @@ export class Function implements Stmt {
   }
 
   unParse(): string {
-    var args = this.args.join(",");
-    return `function ${this.identifier} (${args}) { ${this.body.unParse()}}`;
+    let argumentString = this.args.join(",");
+    return `function ${this.identifier} (${argumentString}) { ${this.body.unParse()}}`;
   }
 
   evaluate(state: State): State {

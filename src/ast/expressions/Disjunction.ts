@@ -1,6 +1,5 @@
-import { Exp } from './ASTNode';
-import { State } from '../interpreter/State';
-import { AbstractBooleanExpression } from './expressions/AbstractBooleanExpression'
+import {Exp} from '../ASTNode';
+import {AbstractBooleanExpression} from './AbstractBooleanExpression'
 
 
 export class Disjunction extends AbstractBooleanExpression {

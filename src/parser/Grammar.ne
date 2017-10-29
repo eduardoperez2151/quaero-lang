@@ -37,7 +37,7 @@ import {
   Literal,
   LengthExp,
   Sequence,
-  Substraction,
+  Subtraction,
   TruthValue,
   Variable,
   IfElse,
@@ -164,7 +164,7 @@ comparison ->
 
 additionSubstraction ->
     additionSubstraction  "+"   multiplicationDivision                {%  ([leftHandSide, , rightHandSide]) =>  (new Addition(leftHandSide, rightHandSide))       %}
-  | additionSubstraction  "-"   multiplicationDivision                {%  ([leftHandSide, , rightHandSide]) =>  (new Substraction(leftHandSide, rightHandSide))   %}
+  | additionSubstraction  "-"   multiplicationDivision                {%  ([leftHandSide, , rightHandSide]) =>  (new Subtraction(leftHandSide, rightHandSide))   %}
   | additionSubstraction  "++"  multiplicationDivision                {%  ([leftHandSide, , rightHandSide]) =>  (new Concatenation(leftHandSide, rightHandSide))  %}
   | additionSubstraction  "--"  multiplicationDivision                {%  ([leftHandSide, , rightHandSide]) =>  (new Difference(leftHandSide, rightHandSide))     %}
   | multiplicationDivision                                            {%  id  %}

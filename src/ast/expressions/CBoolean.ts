@@ -1,7 +1,7 @@
 import {Exp} from '../ASTNode';
 import {State} from '../../interpreter/State';
 import {AbstractExpression} from "./AbstractExpression";
-import {TruthValue} from "../TruthValue";
+import {TruthValue} from "./TruthValue";
 
 export class CBoolean extends AbstractExpression {
 

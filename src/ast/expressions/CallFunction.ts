@@ -1,6 +1,6 @@
-import {Null} from '../Null';
+import {Null} from './Null';
 import {Exp} from '../ASTNode';
-import {Function} from '../Function';
+import {Function} from '../statements/Function';
 import {State} from '../../interpreter/State';
 
 export class CallFunction implements Exp {

@@ -1,9 +1,6 @@
 import {Exp, Stmt} from './ASTNode';
 import {State} from '../interpreter/State';
 
-/**
-  Representación de un mapa clave valor.
-*/
 export class KeyValue implements Stmt {
 
   id: string;

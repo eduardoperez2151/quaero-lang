@@ -1,9 +1,6 @@
-import { Stmt } from './ASTNode';
-import { State } from '../interpreter/State';
+import { Stmt } from '../ASTNode';
+import { State } from '../../interpreter/State';
 
-/**
-  Representación de las secuencias de sentencias.
-*/
 export class Sequence implements Stmt {
 
   statements: [Stmt];

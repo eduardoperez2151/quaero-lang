@@ -1,9 +1,6 @@
-import { Exp } from './ASTNode';
-import { State } from '../interpreter/State';
+import { Exp } from '../ASTNode';
+import { State } from '../../interpreter/State';
 
-/**
-  Representación de valores de verdad (cierto o falso).
-*/
 export class TruthValue implements Exp {
 
   value: boolean;
