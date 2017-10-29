@@ -33,7 +33,7 @@ export class ListCollection implements Exp {
      return "Hacer unParse()";
   }
   evaluate(state: State): any {
-    let ev: any[]= this.arr.map(function(value){return value.evaluate(state);}).reverse();
+    let ev: any[]= this.arr.map(function(value){return value.evaluate(state);});
     return new ListCollection(ev);
   }
   has(item:any, state:State):boolean{
