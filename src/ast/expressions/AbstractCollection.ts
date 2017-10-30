@@ -45,7 +45,7 @@ export abstract class AbstractCollection extends AbstractExpression {
         return this.arr.map(item => (item instanceof KeyValue) ? item.exp : item);
     }
 
-    public has(item: any, state: State): boolean {
+    public has(item: any): boolean {
         return item instanceof KeyValue
             ? this.arr.find(elem => {return elem.id === item.id && elem.exp === item.exp})
             : new Set(this.arr).has(item);

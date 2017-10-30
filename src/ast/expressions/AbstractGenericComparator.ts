@@ -1,5 +1,6 @@
 import {Exp} from '../ASTNode';
 import {State} from '../../interpreter/State';
+import {SetCollection} from '.././AST';
 import {AbstractBinaryExpression} from './AbstractBinaryExpression'
 
 export abstract class AbstractGenericComparator extends AbstractBinaryExpression {
@@ -23,7 +24,7 @@ export abstract class AbstractGenericComparator extends AbstractBinaryExpression
             return this.compareList(this.operationSymbol, this.comparatorFunction, processedLeftArray, processedRightArray);
         }
         if (isSet){
-          // Codigo aqui ...
+          return this.compareSet(this.operationSymbol, leftEvaluation, rightEvaluation );
         }
         return (isBooleanEvaluation || isNumberEvaluation || isStringEvaluation) ? this.comparatorFunction.call(this, leftEvaluation, rightEvaluation) : null;
     }
@@ -43,22 +44,28 @@ export abstract class AbstractGenericComparator extends AbstractBinaryExpression
                 return comparatorFunction.call(this, leftArray, rightArray);
         }
     }
-    private compareSet(symbolOperation: string,leftArray: Array<any>, rightArray: Array<any>): boolean {
-/*
+    private compareSet(symbolOperation: string, leftEvaluation: SetCollection, rigthEvaluation: SetCollection): boolean {
+
+      var funcIncluded = function ():boolean{
+            var result = leftEvaluation.arr.filter((item) => rigthEvaluation.has(item));
+            return result.length == leftEvaluation.arr.length;
+      }
+      var funcInclude = function ():boolean{
+            var result = rigthEvaluation.arr.filter((item) => leftEvaluation.has(item));
+            return result.length == rigthEvaluation.arr.length;
+      }
+
         switch (symbolOperation) {
-            case "==":
-                return checkLength && leftArray.every(function (element, index) {
-                    return comparatorFunction.call(this, element, rightArray[index]);
-                });
-            case "/=":
-                return checkLength || leftArray.some(function (element, index) {
-                    return comparatorFunction.call(this, element, rightArray[index]);
-                });
-            default:
-                return true;
+          case "<":
+            return funcIncluded.call(this);
+          case ">":
+            return funcInclude.call(this);
+          case "==":
+            return funcInclude.call(this) && funcIncluded.call(this);
+          default:
+            console.log("La función [" + symbolOperation + "] no está definida para los conjuntos.");
+            return false;
         }
-        */
-        return true;
     }
 
     evaluate(state: State): any {
