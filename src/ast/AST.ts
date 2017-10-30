@@ -29,7 +29,6 @@ export * from './IfElse';
 export * from './expressions/Index';
 export * from './EnumerationList';
 export * from './EnumerationSet';
-export * from './Negationation';
 export * from './Concatenation';
 export * from './expressions/SetCollection';
 export * from './expressions/ListCollection';
