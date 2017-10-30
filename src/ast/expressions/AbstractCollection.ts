@@ -45,4 +45,20 @@ export abstract class AbstractCollection extends AbstractExpression {
         return this.arr.map(item => (item instanceof KeyValue) ? item.exp : item);
     }
 
+    public has(item: any, state: State): boolean {
+        // True si this.arr contine al item, false si no contine al item.
+        if (item instanceof KeyValue) {
+            for (var i = 0; i < this.arr.length; i++) {
+                if (this.arr[i] instanceof KeyValue) {
+                    var kv = this.arr[i];
+                    if (kv.exp === item.exp && kv.id === item.id) return true;
+                }
+            }
+            return false;
+        } else {
+            var arrSet = new Set(this.arr);
+            return arrSet.has(item);
+        }
+    }
+
 }
