@@ -25,7 +25,6 @@ export abstract class AbstractCollection extends AbstractExpression {
                 return item.id;
             }
         }).filter(item => item);
-        console.log(itemArrayMapped);
         return itemArrayMapped.some(item => itemsSet.size === itemsSet.add(item).size);
     }
 
