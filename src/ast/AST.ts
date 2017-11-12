@@ -38,7 +38,7 @@ export * from './expressions/Intersection';
 export * from './expressions/Membership';
 export * from './expressions/Opposite';
 export * from './expressions/Cardinal';
-export * from './Dot';
+export * from './expressions/Dot';
 export * from './expressions/CBoolean';
 export * from './expressions/Null';
 export * from './expressions/CInt';

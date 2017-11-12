@@ -57,6 +57,7 @@ export const tokens = {
   'int':        'int',
   'number':     'number',
   'boolean':    'boolean',
+  'main:':       'main:',
 
   // Atoms
   hex:          { match: /0[xX][0-9a-f-A-F]+/, value: (x: string) => (parseInt(x,16)) },

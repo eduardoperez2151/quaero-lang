@@ -1,7 +1,7 @@
 import {Exp, Stmt} from './ASTNode';
 import {State} from '../interpreter/State';
 
-export class KeyValue implements Stmt {
+export class KeyValue implements Exp {
 
   id: string;
   exp: Exp;

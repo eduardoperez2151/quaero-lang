@@ -70,8 +70,8 @@ const lexer = new MyLexer(tokens);
 
 ######## PROGRAM ########
 
-#program ->
-#  "@"  function:*  body "@"        		                              {%  ([, functions, body,]) => (new Program(functions, body)) %}
+program ->
+"@"  function:* "main:" body "@"        		                              {%  ([,functions, ,body,]) => (new Program(functions, body)) %}
 
 srt ->
       statements                                                      {% id %}
@@ -100,7 +100,6 @@ parameters->
   "(" ")"                   			                                    {%  ()                      =>  ([])              %}
   | "(" expressionList  ")"        			                              {%  ([, expressionList, ])  =>  (expressionList)  %}
 
-#########EpressionList
 ######## STATEMENTS ########
 
 statements ->
