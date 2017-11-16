@@ -26,7 +26,11 @@ export class Sequence implements Stmt {
   }
 
   evaluate(state: State): State {
-    state=this.statements.reduce((state:State,stmt:Stmt) => stmt.evaluate(state),state);
+    //state=this.statements.reduce((state:State,stmt:Stmt) => stmt.evaluate(state),state);
+    for (var i = 0;i<this.statements.length;i++){
+      this.statements[i].evaluate(state);
+      if(state.get("return")) break;
+    }
     return state;
   }
 

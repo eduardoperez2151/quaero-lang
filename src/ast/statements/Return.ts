@@ -19,7 +19,7 @@ export class Return implements  Stmt{
 
   evaluate(state: State): State {
     let result = this.exp.evaluate(state);
-    state.set("Return", result);
+    state.set("return", result);
     return state
   }
 }

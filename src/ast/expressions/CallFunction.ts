@@ -29,11 +29,10 @@ export class CallFunction implements Exp {
         this.params.forEach((parameter, index) => param.push(parameter.evaluate(state)));
         return func(...param)
        }
-      func = state.get(this.identifier);
       let functionState = state.clone();
       let functionArguments = func.args;
       this.params.forEach((parameter, index) => functionState.set(functionArguments[index], parameter.evaluate(functionState)));
-      let returnValue = func.body.evaluate(functionState).get("Return");
+      let returnValue = func.body.evaluate(functionState).get("return");
       return returnValue ? returnValue : null;
     }
 }

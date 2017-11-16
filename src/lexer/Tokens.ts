@@ -49,14 +49,6 @@ export const tokens = {
   'NaN':        'NaN',
   'join':       'join',
   'signum':     'signum',
-  'print':      'print',
-  'div':        'div',
-  'mod':        'mod',
-  'mode':       'mode',
-  'string':     'string',
-  'int':        'int',
-  'number':     'number',
-  'boolean':    'boolean',
   'main:':       'main:',
 
   // Atoms
