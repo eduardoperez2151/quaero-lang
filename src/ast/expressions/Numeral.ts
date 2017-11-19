@@ -1,7 +1,6 @@
-import {Exp} from '../ASTNode';
 import {State} from '../../interpreter/State';
+import {ErrorTypeInfo} from "./../AST";
 import {AbstractExpression} from "./AbstractExpression";
-import {ErrorTypeInfo} from "../ErrorTypeInfo";
 
 export class Numeral extends AbstractExpression {
 

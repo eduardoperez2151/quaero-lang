@@ -1,5 +1,5 @@
 import {Exp} from '../ASTNode';
-import {Numeral, SetCollection} from '../AST';
+import {SetCollection} from '../AST';
 import {State} from '../../interpreter/State';
 import {AbstractEnumerationCollection} from "./AbstractEnumerationCollection";
 

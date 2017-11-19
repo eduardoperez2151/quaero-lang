@@ -1,5 +1,6 @@
 // Abstract nodes
 export * from './ASTNode';
+export * from './expressions/AbstractExpression'
 
 // Statements
 export * from './statements/Assignment';
@@ -48,7 +49,6 @@ export * from './expressions/Div';
 export * from './expressions/CString';
 export * from './expressions/PrintFunction';
 
-
 // BExp
 export * from './expressions/CompareEqual';
 export * from './expressions/CompareNotEqual';
@@ -60,3 +60,6 @@ export * from './expressions/Conjunction';
 export * from './expressions/Disjunction';
 export * from './expressions/Negation';
 export * from './expressions/TruthValue';
+
+//Utils
+export * from './ErrorTypeInfo'
