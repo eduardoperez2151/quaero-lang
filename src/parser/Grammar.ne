@@ -70,8 +70,8 @@ const lexer = new MyLexer(tokens);
 
 ######## PROGRAM ########
 
-#program ->
-#"@"  function:* "main:" body "@"        		                              {%  ([,functions, ,body,]) => (new Program(functions, body)) %}
+program ->
+"@"  function:* "main:" body "@"        		                              {%  ([,functions, ,body,]) => (new Program(functions, body)) %}
 
 srt ->
       statements                                                      {% id %}
