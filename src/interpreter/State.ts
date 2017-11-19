@@ -1,3 +1,4 @@
+import { Function } from '../ast/AST';
 export class State {
 
   vars: Map<string, any>;
@@ -7,7 +8,8 @@ export class State {
   }
 
   toString(): string {
-    return `{ ${Array.from(this.vars.entries()).map(([key, value]) => (`${key} = ${value}`)).join("; ")} }`;
+    return `{ ${(Array.from(this.vars.entries())).filter(([key, value]) =>(! (value instanceof Function) && !(typeof value === 'function'))).map(([key, value]) => (`${key} = ${value}`)).join("; ")} }`;
+    //return `{ ${(Array.from(this.vars.entries())).map(([key, value]) => (`${key} = ${value}`)).join("; ")} }`;
   }
 
   get(id: string): any {
@@ -18,7 +20,7 @@ export class State {
     this.vars.set(id, value);
   }
 
-  clone(): State { 
+  clone(): State {
     var state = new State();
     this.vars.forEach((value, identifier) => {
       state.set(identifier, value);

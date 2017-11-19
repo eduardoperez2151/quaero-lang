@@ -1,5 +1,6 @@
 import { Exp, Stmt} from './ASTNode';
 import { State } from '../interpreter/State';
+import {AbstractArithmeticBooleanOperation} from './expressions/AbstractArithmeticBooleanOperation'
 import { Sequence,Membership,Variable } from './AST';
 
 /**
@@ -23,44 +24,32 @@ export class For implements Stmt {
     return "unParse";
     //return `for ${this.expList.unParse()} {${this.forBody.unParse()}}`;
   }
-  calculate(memberships:Membership[],booleans:Exp[],state:State): State{
-    let mem : Membership = memberships[0];
-    let nMembers = memberships.slice(1);
-    var v = (mem.value as Variable).id;
-    let list = mem.listExp.evaluate(state).arr;
-    if(nMembers.length > 0){
-      for (var j = 0;j<list.length;j++){
-        state.set(v,list[j]);
-        state = this.calculate(nMembers,booleans,state);
-      }
+  calculate(state: State, expList) {
+    if(state.get("return")) return state;
+    if (expList.length === 0) {
+        this.forBody.evaluate(state);
     }
-    else{
-      for(var i = 0;i<list.length;i++){
-        state.set(v,list[i]);
-        for(var j =0;j<booleans.length;j++){
-          if(!(booleans[j].evaluate(state)) || state.get("return")){
-            state.vars.delete(v);
-            return state;
-          }
+    let [head, ...tail] = expList;
+    if (head instanceof Membership) {
+        if (head.value instanceof Variable) {
+            let variable = head.value.id;
+            let membershipList = head.listExp.evaluate(state);
+            membershipList.arr.forEach(membership => {
+                state.set(variable, membership);
+                state = this.calculate(state, tail);
+            });
         }
-        state = this.forBody.evaluate(state);
-      }
     }
-    state.vars.delete(v);
+
+    if (head instanceof AbstractArithmeticBooleanOperation) {
+        let condition = head.evaluate(state);
+        if (typeof condition === "boolean" && condition) {
+            state = this.calculate(state, tail);
+        }
+    }
     return state;
   }
   evaluate(state: State): State {
-    let memberships : Membership[] = [];
-    let booleans : Exp[] = [];
-    for(var i = 0;i<this.expList.length;i++){
-      var m = this.expList[i]
-      if(m instanceof Membership){
-        memberships.push(m);
-      }else{
-        booleans.push(m);
-      }
-    }
-    console.log(memberships);
-    return this.calculate(memberships.reverse(),booleans,state);
+    return this.calculate(state,this.expList);
   }
 }
