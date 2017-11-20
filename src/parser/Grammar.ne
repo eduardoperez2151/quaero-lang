@@ -108,7 +108,6 @@ statements ->
 
 statementsElse ->
   expression  ";"                                                     {%  ([expression, ])                      =>  (new ExpAsStmt(expression))                 %}
-  | function                                                          {% id %}
   | identifier  "=" expression  ";"                                   {%  ([identifier, , expression, ])        =>  (new Assignment(identifier, expression))    %}
   | "{" statements:*  "}"                                             {%  ([, statements, ])                    =>  (new Sequence(statements))                  %}
   | "return" expression ";"                                           {% ([ , exp,])                             =>  (new Return(exp))                           %}
