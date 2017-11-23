@@ -1,0 +1,1 @@
+@ function suma(a,b){return a+b;} main: {result = suma(5,5);}@
