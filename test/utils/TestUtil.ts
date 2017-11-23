@@ -5,7 +5,7 @@ import {MyLexer} from "../../src/lexer/Lexer";
 import {tokens} from "../../src/lexer/Tokens";
 import {State} from "../../src/interpreter/State";
 import {ParserRules, ParserStart} from "../../src/parser/Grammar";
-const baseDir = process.env.PWD;
+const baseDir = process.env.PWD ? process.env.PWD : process.cwd();
 
 export class TestUtil {
 
