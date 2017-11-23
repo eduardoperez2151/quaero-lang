@@ -23,8 +23,8 @@ export class MyLexer implements Lexer {
   }
 
   next(): Token {
-    var token = this.wrapped.next();
-    while (token != undefined && token.type.length > 0 && token.type[0] == "_") {
+      let token = this.wrapped.next();
+      while (token != undefined && token.type.length > 0 && token.type[0] == "_") {
       token = this.wrapped.next();
     }
     return token;

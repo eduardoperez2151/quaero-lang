@@ -27,6 +27,9 @@ gulp.task('test', function () {
         "preprocessorIgnorePatterns": [
             "<rootDir>/dist/", "<rootDir>/node_modules/"
         ],
+        "testPathIgnorePatterns":[
+            "/utils/"
+        ],
         "automock": false
     }));
 });
