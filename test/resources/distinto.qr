@@ -1,0 +1,9 @@
+@
+    function dis(a,b){
+        return a/=b;
+    }
+
+    main:{
+        result = dis(4,4);
+    }
+@

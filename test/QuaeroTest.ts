@@ -54,4 +54,11 @@ describe('Test Quaero:', () => {
         expect(result).not.toBeFalsy();
     });
 
+    test('Compare_notEquals with function', () => {
+        let state:State = testUtil.executeInterpreter('distinto.qr');
+        expect(state).not.toBeFalsy();
+        let result=state.get('result');
+        expect(result).toBeFalsy();
+    });
+
 });
