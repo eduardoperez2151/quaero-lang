@@ -47,4 +47,11 @@ describe('Test Quaero:', () => {
         console.log(state);
     });
 
+    test('Compare_equals with function', () => {
+        let state:State = testUtil.executeInterpreter('igual.qr');
+        expect(state).not.toBeFalsy();
+        let result=state.get('result');
+        expect(result).not.toBeFalsy();
+    });
+
 });

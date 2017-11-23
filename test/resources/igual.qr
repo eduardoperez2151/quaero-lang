@@ -1,0 +1,9 @@
+@
+    function igu(a,b){
+        return a==b;
+    }
+
+    main:{
+        result = igu(4,4);
+    }
+@
