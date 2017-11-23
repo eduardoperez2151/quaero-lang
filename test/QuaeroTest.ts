@@ -19,6 +19,15 @@ describe('Test Quaero:', () => {
 
     });
 
+    test('Division with function', () => {
+        let state:State = testUtil.executeInterpreter('division.qr');
+        expect(state).not.toBeFalsy();
+        let result=state.get('result');
+        expect(result).not.toBeFalsy();
+        expect(result).toEqual(2);
+    
+    });
+
     test('Cartesian Product with List Comprenhention', () => {
         let state:State = testUtil.executeInterpreter('cartesianProduct.qr');
         expect(state).not.toBeFalsy();
