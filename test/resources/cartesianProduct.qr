@@ -1,1 +1,5 @@
-@ main:{cartesian=[[x,y] for x<-[0..10],y<-[2..7]];} @
+@
+    main:{
+        cartesian=[[x,y] for x<-[0..10],y<-[2..7]];
+    }
+@

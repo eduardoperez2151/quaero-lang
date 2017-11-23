@@ -13,7 +13,10 @@ describe('Test Quaero:', () => {
     test('Multiplication with function', () => {
         let state:State = testUtil.executeInterpreter('mutiplication.qr');
         expect(state).not.toBeFalsy();
-        console.log(state);
+        let result=state.get('result');
+        expect(result).not.toBeFalsy();
+        expect(result).toEqual(25);
+
     });
 
     test('Cartesian Product with List Comprenhention', () => {

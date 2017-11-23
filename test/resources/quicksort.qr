@@ -1,1 +1,15 @@
-@ function quickSort(list){ if (list==[]) return [];  else {piv=list[0]; lower=[x for x<-list, x< piv]; upper=[x for x<-list, x>= piv]; return quickSort(lower) ++ quickSort(upper);} } main:{ a=[3,5,7,1,2,87,78,9,4];  b=quickSort(a);} @
+@
+    function quickSort(list){
+        if (list==[]) return [];
+        else {
+            piv=list[0];
+            lower=[x for x<-list, x< piv];
+            upper=[x for x<-list, x> piv];
+            return quickSort(lower) ++[piv]++ quickSort(upper);
+        }
+    }
+    main:{
+        a=[3,5,7,1,2,87,78,9,4];
+        b=quickSort(a);
+    }
+@
