@@ -10,6 +10,12 @@ describe('Test Quaero:', () => {
         expect(state.get('result')).toBe(10);
     });
 
+    test('Substraction with function', () => {
+        let state:State = testUtil.executeInterpreter('simpleSub.qr');
+        expect(state).not.toBeFalsy();
+        expect(state.get('result')).toBe(5);
+    });
+
     test('Multiplication with function', () => {
         let state:State = testUtil.executeInterpreter('mutiplication.qr');
         expect(state).not.toBeFalsy();
