@@ -41,5 +41,4 @@ export class TestUtil {
                 throw new Error("Error al leer el archivo " + fileName, error)
             });
     };
-
 }
