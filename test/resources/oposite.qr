@@ -1,0 +1,1 @@
+@ function opuesto(a){return -a;} main: {result = opuesto(3);}@

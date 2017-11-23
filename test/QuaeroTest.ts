@@ -4,6 +4,13 @@ import {State} from "../src/interpreter/State";
 describe('Test Quaero:', () => {
 
     let testUtil= new TestUtil();
+
+    test('Opposite with function', () => {
+        let state:State = testUtil.executeInterpreter('oposite.qr');
+        expect(state).not.toBeFalsy();
+        expect(state.get('result')).toBe(-3);
+    });
+
     test('Addition with function', () => {
         let state:State = testUtil.executeInterpreter('simpleSum.qr');
         expect(state).not.toBeFalsy();
