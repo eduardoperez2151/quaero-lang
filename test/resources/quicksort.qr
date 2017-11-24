@@ -1,11 +1,11 @@
 @
-    function quickSort(list){
+    function quicksort(list){
         if (list==[]) return [];
         else {
             piv=list[0];
-            lower=[x for x<-list, x< piv];
-            upper=[x for x<-list, x> piv];
-            return quickSort(lower) ++[piv]++ quickSort(upper);
+            l=[y for y <- list, y <= piv];
+            r=[y for y <- list, y > piv]
+            return quicksort(l) ++ quicksort(r);
         }
     }
     main:{

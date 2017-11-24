@@ -1,0 +1,16 @@
+@
+    function factorial(n){
+        if (n==1 || n==0)
+            return 1;
+        else {
+            return n*factorial(n-1);
+        }
+    }
+
+    main:{
+        result1=factorial(0);
+        result2=factorial(1);
+        result3=factorial(5);
+        result4=factorial(6);
+    }
+@
