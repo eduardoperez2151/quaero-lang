@@ -48,13 +48,9 @@ import {
   KeyValue,
   Index,
   Return,
-  CBoolean,
-  CInt,
-  CNumber,
   Mod,
   Null,
   Div,
-  CString,
   PrintFunction,
 } from '../ast/AST';
 

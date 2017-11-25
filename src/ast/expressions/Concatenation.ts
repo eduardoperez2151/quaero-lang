@@ -13,15 +13,14 @@ export class Concatenation extends AbstractBinaryExpression {
         let leftHandSideEvaluation = this.leftHandSideEvaluation(state);
         let rightHandSideEvaluation = this.rightHandSideEvaluation(state);
 
-        if (this.isString(leftHandSideEvaluation)) leftHandSideEvaluation = new ListCollection(leftHandSideEvaluation.split(""));
-        if (this.isString(rightHandSideEvaluation)) rightHandSideEvaluation = new ListCollection(rightHandSideEvaluation.split(""));
-
-        let concatenation = leftHandSideEvaluation.arr.concat(rightHandSideEvaluation.arr);
-        if (this.isSet(leftHandSideEvaluation) && this.isSet(rightHandSideEvaluation)) {
-            return new SetCollection(concatenation);
-        }
-        if (this.isList(leftHandSideEvaluation) && this.isList(rightHandSideEvaluation)) {
-            return new ListCollection(concatenation);
+        if (this.isString(leftHandSideEvaluation)) leftHandSideEvaluation = leftHandSideEvaluation.split("");
+        if (this.isString(rightHandSideEvaluation)) rightHandSideEvaluation = rightHandSideEvaluation.split("");
+        if(this.isList(leftHandSideEvaluation) && this.isList(rightHandSideEvaluation)){
+          let concatenation = leftHandSideEvaluation.concat(rightHandSideEvaluation);
+          concatenation["keyValues"] = new Map();
+          concatenation = this.setKeys(concatenation,leftHandSideEvaluation["keyValues"]);
+          concatenation = this.setKeys(concatenation,rightHandSideEvaluation["keyValues"]);
+          return concatenation;
         }
         this.ThrowEvaluationException(rightHandSideEvaluation, leftHandSideEvaluation);
     }

@@ -22,9 +22,11 @@ export class Cardinal extends AbstractExpression {
 
     evaluate(state: State): any {
         let list = this.collection.evaluate(state);
-        if (this.isCollection(list)) {
-            return list.arr.length;
-        } else if (this.isString(list)) {
+        if (this.isList(list)) {
+            return list.length;
+        } else if (this.isSet(list)) {
+            return list.size;
+        }else if (this.isString(list)) {
             return list.split("").length
         }
         let error = new ErrorTypeInfo("list", list);

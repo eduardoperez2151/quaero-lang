@@ -11,6 +11,6 @@ export class ComprehensionSet extends AbstractComprehension {
 
     evaluate(state: State): any {
         let comprehensionResult = this.comprehensionEvaluation(state);
-        return new SetCollection(comprehensionResult);
+        return comprehensionResult;
     }
 }

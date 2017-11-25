@@ -36,13 +36,44 @@ export abstract class AbstractCollection extends AbstractExpression {
         return this.arr.map(item => item.unParse()).join(',');
     }
 
-    protected collectionEvaluate(state: State): any[] {
-        return this.arr.map(item => item.evaluate(state));
+    protected createList(state: State): any[] {
+        let result = [];
+        let aux;
+        let map = new Map();
+        for (let i =0;i<this.arr.length;i++){
+          let aux = this.arr[i].evaluate(state);
+          if (aux instanceof Map){
+            result[aux.get("key")] = aux.get("value");
+            result[i] = aux.get("value");
+            map.set(aux.get("key"),aux.get("value"));
+          }else{
+            result[i] = aux;
+          }
+        }
+        result["keyValues"] = map;
+        return result;//this.arr.map(item => item.evaluate(state));
+    }
+    protected createSet(state: State) {
+        let result = new Set();
+        let aux;
+        let map = new Map()
+        for (let i =0;i<this.arr.length;i++){
+          let aux = this.arr[i].evaluate(state);
+          if (aux instanceof Map){
+            result[aux.get("key")] = aux.get("value");
+            result.add(aux.get("value"));
+            map.set(aux.get("key"), aux.get("value"));
+          }else{
+            result.add(aux);
+          }
+        }
+        result["keyValues"] = map;
+        return result;//this.arr.map(item => item.evaluate(state));
     }
 
-    public processItems(): Array<any> {
-        return this.arr.map(item => (item instanceof KeyValue) ? item.exp : item);
-    }
+//    public processItems(): Array<any> {
+//        return this.arr.map(item => (item instanceof KeyValue) ? item.exp : item);
+//    }
 
     public has(item: any): boolean {
         return item instanceof KeyValue

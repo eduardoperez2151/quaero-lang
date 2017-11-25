@@ -17,7 +17,7 @@ export class SetCollection extends AbstractCollection {
     }
 
     evaluate(state: State): any {
-        let collectionEvaluation = this.collectionEvaluate(state);
-        return new SetCollection(collectionEvaluation);
+        let collectionEvaluation = this.createSet(state);
+        return collectionEvaluation;
     }
 }

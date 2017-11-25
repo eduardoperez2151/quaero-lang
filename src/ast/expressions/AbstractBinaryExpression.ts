@@ -28,7 +28,20 @@ export abstract class AbstractBinaryExpression extends AbstractExpression {
         let errors: [ErrorTypeInfo] = [new ErrorTypeInfo("rightHandSide", rightHandSideEvaluation), new ErrorTypeInfo("leftHandSide", leftHandSideEvaluation)];
         super.throwExceptionOnErrorCheckType(errors);
     }
-
+    protected setKeys(array,map){
+      //let delKeys = new Map(); Que se deberia hacer si se quita una key del array pero luego aparece otra vez
+      let keys = [...map.keys()]
+      for (let i = 0;i<keys.length;i++){
+        if(array[keys[i]]){
+          throw new Error("Claves duplicadas")
+        }
+        if(array.includes(map.get(keys[i]))){
+          array[keys[i]] = map.get(keys[i]);
+          array["keyValues"].set(keys[i],map.get(keys[i]));
+        }
+      }
+      return array;
+    }
     toString(): string {
         return `${this.constructor.name}(${this.leftHandSide.toString()}, ${this.rightHandSide.toString()})`;
     }

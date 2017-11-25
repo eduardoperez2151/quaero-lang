@@ -23,12 +23,13 @@ export class Membership extends AbstractExpression {
     }
 
     evaluate(state: State): any {
-        let listExpEvaluation = this.evaluateExpression(this.listExp,state);
-        let valueEvaluation =  this.evaluateExpression(this.value,state);
-        if (this.isCollection(listExpEvaluation)) {
-            return listExpEvaluation.arr.some(expression =>
-                expression === valueEvaluation || (this.isKeyValue(expression) && expression.exp === valueEvaluation));
-        } else if (this.isString(listExpEvaluation)) {
+        let listExpEvaluation = this.listExp.evaluate(state);
+        let valueEvaluation =  this.value.evaluate(state);
+        if (this.isList(listExpEvaluation)) {
+            return listExpEvaluation.includes(valueEvaluation);
+        } else if(this.isSet(listExpEvaluation)){
+            return listExpEvaluation.has(valueEvaluation);
+        }else if (this.isString(listExpEvaluation)) {
             let stringEvaluation= listExpEvaluation.split("");
             return stringEvaluation.includes(valueEvaluation);
         }

@@ -4,10 +4,10 @@ import {ErrorTypeInfo} from "./ErrorTypeInfo";
 
 export class KeyValue implements Exp {
 
-    id: Exp;
+    id: string;
     exp: Exp;
 
-    constructor(id: Exp, exp: Exp) {
+    constructor(id: string, exp: Exp) {
         this.id = id;
         this.exp = exp;
     }
@@ -21,7 +21,7 @@ export class KeyValue implements Exp {
     }
 
     evaluate(state: State): any {
-        let identifier = id.evaluate(state);
+        let identifier = this.id//.evaluate(state);
         if (typeof identifier === 'string') {
             let keyValue= new Map();
             keyValue.set('key',identifier);

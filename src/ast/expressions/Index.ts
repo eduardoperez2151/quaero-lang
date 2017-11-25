@@ -1,6 +1,7 @@
 import {Exp} from '../ASTNode';
 import {State} from '../../interpreter/State';
 import {ErrorTypeInfo} from "../ErrorTypeInfo";
+import {Variable} from "../statements/Variable";
 import {AbstractExpression} from "./AbstractExpression";
 
 export class Index extends AbstractExpression {
@@ -25,18 +26,20 @@ export class Index extends AbstractExpression {
     evaluate(state: State): any {
         let listEvaluation = this.value.evaluate(state);
         let indexEvaluation = this.indexValue.evaluate(state);
+        if(!indexEvaluation && this.indexValue instanceof Variable){  /////Problema con identificador y variable si queres variables dentro de indexValue que pasa si existe una misma varibale con ese identificador
+           indexEvaluation = this.indexValue.id;
+        }else{
+
+        }
         if (this.isNumber(indexEvaluation)) {
             if (this.isString(listEvaluation)) {
                 return listEvaluation[indexEvaluation];
+
             } else if (this.isList(listEvaluation)) {
-                return listEvaluation.arr[indexEvaluation];
+                return listEvaluation[indexEvaluation];
             }
         } else if (this.isString(indexEvaluation) && this.isCollection(listEvaluation)) {
-            for (let item of listEvaluation.arr) {
-                if (this.isKeyValue(item) && item.id === indexEvaluation) {
-                    return item.exp;
-                }
-            }
+            return listEvaluation[indexEvaluation];
         }
         let errors: [ErrorTypeInfo] = [new ErrorTypeInfo("listEvaluation", listEvaluation), new ErrorTypeInfo("indexEvaluation", indexEvaluation)];
         super.throwExceptionOnErrorCheckType(errors);

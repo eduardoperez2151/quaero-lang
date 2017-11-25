@@ -17,6 +17,6 @@ export class EnumerationList extends AbstractEnumerationCollection {
 
     evaluate(state: State): any {
         let enumerationCalculate = this.enumerationCalculate(state);
-        return new ListCollection(enumerationCalculate);
+        return enumerationCalculate;
     }
 }

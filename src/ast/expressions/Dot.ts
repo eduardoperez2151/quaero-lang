@@ -27,11 +27,7 @@ export class Dot extends AbstractExpression {
     evaluate(state: State): any {
         let listEvaluation = this.listCol.evaluate(state);
         if (this.isCollection(listEvaluation)) {
-            for (let item of listEvaluation.arr) {
-                if (this.isKeyValue(item) && item.id == this.key) {
-                    return item.exp;
-                }
-            }
+            return listEvaluation[this.key]
         }
         let error = new ErrorTypeInfo("listEvaluation", listEvaluation);
         this.throwExceptionOnErrorCheckType([error]);

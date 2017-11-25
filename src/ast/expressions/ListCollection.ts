@@ -15,7 +15,8 @@ export class ListCollection extends AbstractCollection {
     }
 
     evaluate(state: State): any {
-        let collectionEvaluation = this.collectionEvaluate(state);
-        return new ListCollection(collectionEvaluation);
+        let collectionEvaluation = this.createList(state);
+        console.log(collectionEvaluation);
+        return collectionEvaluation;
     }
 }

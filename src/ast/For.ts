@@ -34,7 +34,7 @@ export class For implements Stmt {
         if (head.value instanceof Variable) {
             let variable = head.value.id;
             let membershipList = head.listExp.evaluate(state);
-            membershipList.arr.forEach(membership => {
+            membershipList.forEach(membership => {
                 state.set(variable, membership);
                 state = this.calculate(state, tail);
             });

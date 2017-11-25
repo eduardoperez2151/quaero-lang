@@ -23,11 +23,11 @@ export abstract class AbstractExpression implements Exp {
     }
 
     protected isList(expressionEvaluation: any): boolean {
-        return expressionEvaluation instanceof ListCollection;
+        return expressionEvaluation instanceof Array;
     }
 
     protected isSet(expressionEvaluation: any): boolean {
-        return expressionEvaluation instanceof SetCollection;
+        return expressionEvaluation instanceof Set;
     }
 
     protected isCollection(expressionEvaluation: any): boolean {

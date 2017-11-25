@@ -19,9 +19,7 @@ export abstract class AbstractGenericComparator extends AbstractBinaryExpression
         let isListEvaluation = this.isList(leftEvaluation) && this.isList(rightEvaluation);
         let isSet = this.isSet(leftEvaluation) && this.isSet(rightEvaluation);
         if (isListEvaluation) {
-            let processedLeftArray = leftEvaluation.processItems();
-            let processedRightArray = rightEvaluation.processItems();
-            return this.compareList(this.operationSymbol, this.comparatorFunction, processedLeftArray, processedRightArray);
+            return this.compareList(this.operationSymbol, this.comparatorFunction, leftEvaluation, rightEvaluation);
         }
         if (isSet){
           return this.compareSet(this.operationSymbol, leftEvaluation, rightEvaluation );
@@ -44,15 +42,15 @@ export abstract class AbstractGenericComparator extends AbstractBinaryExpression
                 return comparatorFunction.call(this, leftArray, rightArray);
         }
     }
-    private compareSet(symbolOperation: string, leftEvaluation: SetCollection, rigthEvaluation: SetCollection): boolean {
+    private compareSet(symbolOperation: string, leftEvaluation, rigthEvaluation): boolean {
 
       var funcIncluded = function ():boolean{
-            var result = leftEvaluation.arr.filter((item) => rigthEvaluation.has(item));
-            return result.length == leftEvaluation.arr.length;
+            var result = leftEvaluation.filter((item) => rigthEvaluation.has(item));
+            return result.length == leftEvaluation.length;
       }
       var funcInclude = function ():boolean{
-            var result = rigthEvaluation.arr.filter((item) => leftEvaluation.has(item));
-            return result.length == rigthEvaluation.arr.length;
+            var result = rigthEvaluation.filter((item) => leftEvaluation.has(item));
+            return result.length == rigthEvaluation.length;
       }
 
         switch (symbolOperation) {

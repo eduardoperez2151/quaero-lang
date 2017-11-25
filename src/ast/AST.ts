@@ -40,13 +40,9 @@ export * from './expressions/Membership';
 export * from './expressions/Opposite';
 export * from './expressions/Cardinal';
 export * from './expressions/Dot';
-export * from './expressions/CBoolean';
 export * from './expressions/Null';
-export * from './expressions/CInt';
-export * from './expressions/CNumber';
 export * from './expressions/Mod';
 export * from './expressions/Div';
-export * from './expressions/CString';
 export * from './expressions/PrintFunction';
 
 // BExp

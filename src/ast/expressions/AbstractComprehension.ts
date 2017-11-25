@@ -46,7 +46,7 @@ export abstract class AbstractComprehension extends AbstractExpression {
             if (head.value instanceof Variable) {
                 let variable = head.value.id;
                 let membershipList = head.listExp.evaluate(clonedState);
-                membershipList.arr.forEach(membership => {
+                membershipList.forEach(membership => {
                     clonedState.set(variable, membership);
                     this.comprehensionCalculate(clonedState, tail, resultList);
                 });

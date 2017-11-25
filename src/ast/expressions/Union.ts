@@ -12,22 +12,13 @@ export class Union extends AbstractBinaryExpression {
     evaluate(state: State): any {
         let leftHandSideEvaluation = this.leftHandSideEvaluation(state);
         let rightHandSideEvaluation = this.rightHandSideEvaluation(state);
-        if (this.isString(leftHandSideEvaluation)) {
-            let leftSide = leftHandSideEvaluation.split("");
-            if (this.isString(rightHandSideEvaluation)) {
-                let rightSide = rightHandSideEvaluation.split("");
-                return new ListCollection(this.createSet(leftSide, rightSide));
-            } else if (this.isCollection(rightHandSideEvaluation)) {
-                return new ListCollection(this.createSet(leftSide, rightHandSideEvaluation.arr));
-            }
-        } else if (this.isCollection(leftHandSideEvaluation) && this.isCollection(rightHandSideEvaluation)) {
-            if (this.isSet(leftHandSideEvaluation) && this.isSet(rightHandSideEvaluation)) {
-                return new SetCollection(this.createSet(leftHandSideEvaluation.arr, rightHandSideEvaluation.arr));
-            }
-            return new ListCollection(this.createSet(leftHandSideEvaluation.arr, rightHandSideEvaluation.arr));
-        } else if (this.isString(rightHandSideEvaluation)) {
-            let rightSide = rightHandSideEvaluation.split("");
-            return new ListCollection(this.createSet(leftHandSideEvaluation.arr, rightSide));
+        if (this.isString(leftHandSideEvaluation)) leftHandSideEvaluation = new ListCollection(leftHandSideEvaluation.split(""));
+        if (this.isString(rightHandSideEvaluation)) rightHandSideEvaluation = new ListCollection(rightHandSideEvaluation.split(""));
+        if(this.isCollection(leftHandSideEvaluation)&& this.isCollection(rightHandSideEvaluation)){
+          if(this.isList(leftHandSideEvaluation) || this.isList(rightHandSideEvaluation)){
+            return this.createSet(leftHandSideEvaluation,rightHandSideEvaluation);
+          }
+          return new Set(this.createSet(leftHandSideEvaluation,rightHandSideEvaluation));
         }
         this.ThrowEvaluationException(rightHandSideEvaluation, leftHandSideEvaluation);
     }
