@@ -1,6 +1,6 @@
 import {State} from '../../interpreter/State';
 import {ErrorTypeInfo} from "./../AST";
-import {AbstractExpression} from "./AbstractExpression";
+import {AbstractExpression} from "./abstract/AbstractExpression";
 
 export class Numeral extends AbstractExpression {
 

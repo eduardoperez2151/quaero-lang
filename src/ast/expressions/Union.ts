@@ -1,7 +1,7 @@
 import {Exp} from '../ASTNode';
 import {ListCollection, SetCollection} from '../AST';
 import {State} from '../../interpreter/State';
-import {AbstractBinaryExpression} from "./AbstractBinaryExpression";
+import {AbstractBinaryExpression} from "./abstract/AbstractBinaryExpression";
 
 export class Union extends AbstractBinaryExpression {
 

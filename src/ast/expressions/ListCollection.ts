@@ -1,5 +1,5 @@
 import {State} from '../../interpreter/State';
-import {AbstractCollection} from "./AbstractCollection";
+import {AbstractCollection} from "./abstract/AbstractCollection";
 
 export class ListCollection extends AbstractCollection {
 

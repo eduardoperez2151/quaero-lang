@@ -2,7 +2,7 @@ import {Exp} from '../ASTNode';
 import {State} from '../../interpreter/State';
 import {ErrorTypeInfo} from "../ErrorTypeInfo";
 import {Variable} from "../statements/Variable";
-import {AbstractExpression} from "./AbstractExpression";
+import {AbstractExpression} from "./abstract/AbstractExpression";
 
 export class Index extends AbstractExpression {
 

@@ -1,5 +1,5 @@
-import { Exp, Stmt } from './ASTNode';
-import { State } from '../interpreter/State';
+import { Exp, Stmt } from '../ASTNode';
+import { State } from '../../interpreter/State';
 
 /**
   Representación de las sentencias condicionales.

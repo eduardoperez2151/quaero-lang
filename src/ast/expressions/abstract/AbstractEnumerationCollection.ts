@@ -1,9 +1,9 @@
-import {Exp} from '../ASTNode';
+import {Exp} from '../../ASTNode';
 
-import {State} from '../../interpreter/State';
+import {State} from '../../../interpreter/State';
 import {AbstractExpression} from "./AbstractExpression";
-import {ErrorTypeInfo} from "../ErrorTypeInfo";
-import {Numeral} from "./Numeral";
+import {ErrorTypeInfo} from "../../ErrorTypeInfo";
+import {Numeral} from "../Numeral";
 
 export abstract class AbstractEnumerationCollection extends AbstractExpression {
 

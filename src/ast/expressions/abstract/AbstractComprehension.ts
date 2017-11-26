@@ -1,9 +1,9 @@
-import {Exp} from "../ASTNode";
-import {Variable} from "../statements/Variable";
-import {Membership} from "./Membership";
-import {State} from "../../interpreter/State";
+import {Exp} from "../../ASTNode";
+import {Variable} from "../../statements/Variable";
+import {Membership} from "../Membership";
+import {State} from "../../../interpreter/State";
 import {AbstractExpression} from "./AbstractExpression";
-import {AbstractArithmeticBooleanOperation} from "./AbstractArithmeticBooleanOperation";
+import {GenericArithmeticBooleanOperation} from "../generic/GenericArithmeticBooleanOperation";
 
 export abstract class AbstractComprehension extends AbstractExpression {
 
@@ -53,7 +53,7 @@ export abstract class AbstractComprehension extends AbstractExpression {
             }
         }
 
-        if (head instanceof AbstractArithmeticBooleanOperation) {
+        if (head instanceof GenericArithmeticBooleanOperation) {
             let condition = head.evaluate(clonedState);
             if (this.isBoolean(condition) && condition) {
                 this.comprehensionCalculate(clonedState, tail, resultList);

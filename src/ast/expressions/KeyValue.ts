@@ -1,6 +1,6 @@
-import {Exp, Stmt} from './ASTNode';
-import {State} from '../interpreter/State';
-import {ErrorTypeInfo} from "./ErrorTypeInfo";
+import {Exp, Stmt} from '../ASTNode';
+import {State} from '../../interpreter/State';
+import {ErrorTypeInfo} from "../ErrorTypeInfo";
 
 export class KeyValue implements Exp {
 

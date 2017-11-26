@@ -1,5 +1,5 @@
-import {KeyValue} from '../AST';
-import {State} from '../../interpreter/State';
+import {KeyValue} from '../../AST';
+import {State} from '../../../interpreter/State';
 import {AbstractExpression} from "./AbstractExpression";
 
 export abstract class AbstractCollection extends AbstractExpression {

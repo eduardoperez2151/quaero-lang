@@ -1,6 +1,6 @@
-import {Exp} from '../ASTNode';
-import {State} from '../../interpreter/State';
-import {SetCollection} from '.././AST';
+import {Exp} from '../../ASTNode';
+import {State} from '../../../interpreter/State';
+import {SetCollection} from '../../AST';
 import {AbstractBinaryExpression} from './AbstractBinaryExpression'
 
 export abstract class AbstractGenericComparator extends AbstractBinaryExpression {

@@ -1,7 +1,7 @@
 import {Exp} from '../ASTNode';
 import {KeyValue} from '../AST';
 import {State} from '../../interpreter/State';
-import {AbstractCollection} from "./AbstractCollection";
+import {AbstractCollection} from "./abstract/AbstractCollection";
 
 export class SetCollection extends AbstractCollection {
 

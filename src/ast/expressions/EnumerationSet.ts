@@ -1,7 +1,7 @@
 import {Exp} from '../ASTNode';
 import {SetCollection} from '../AST';
 import {State} from '../../interpreter/State';
-import {AbstractEnumerationCollection} from "./AbstractEnumerationCollection";
+import {AbstractEnumerationCollection} from "./abstract/AbstractEnumerationCollection";
 
 export class EnumerationSet extends AbstractEnumerationCollection {
 

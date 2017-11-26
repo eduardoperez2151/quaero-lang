@@ -1,6 +1,6 @@
 import {Exp} from '../ASTNode';
 import {State} from '../../interpreter/State';
-import {AbstractExpression} from "./AbstractExpression";
+import {AbstractExpression} from "./abstract/AbstractExpression";
 import {ErrorTypeInfo} from "../ErrorTypeInfo";
 
 export class Negation extends AbstractExpression {

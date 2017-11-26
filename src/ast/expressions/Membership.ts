@@ -1,7 +1,7 @@
 import {Exp} from '../ASTNode';
 import {State} from '../../interpreter/State';
 import {ErrorTypeInfo} from "../ErrorTypeInfo";
-import {AbstractExpression} from "./AbstractExpression";
+import {AbstractExpression} from "./abstract/AbstractExpression";
 
 export class Membership extends AbstractExpression {
 

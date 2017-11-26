@@ -1,7 +1,7 @@
-import {ErrorTypeInfo, Exp, ListCollection, SetCollection} from '../AST';
-import {State} from '../../interpreter/State';
+import {ErrorTypeInfo, Exp, ListCollection, SetCollection} from '../../AST';
+import {State} from '../../../interpreter/State';
 import {KeyValue} from "../KeyValue";
-import {Variable} from "../statements/Variable";
+import {Variable} from "../../statements/Variable";
 
 
 export abstract class AbstractExpression implements Exp {

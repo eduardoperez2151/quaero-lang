@@ -3,25 +3,17 @@
 @{%
 
 import {
-  Addition,
+ GenericArithmeticExpression,
+ GenericArithmeticBooleanOperation,
+ GenericBooleanExpression,
   Assignment,
-  CompareEqual,
-  CompareNotEqual,
-  CompareLessOrEqual,
-  CompareLess,
-  CompareGreatOrEqual,
-  CompareGreat,
   ComprehensionList,
   ComprehensionSet,
-  Conjunction,
-  Disjunction,
   EnumerationList,
   EnumerationSet,
   ExpAsStmt,
   IfThenElse,
   IfThen,
-  Multiplication,
-  Division,
   Negation,
   SetCollection,
   ListCollection,
@@ -37,7 +29,6 @@ import {
   Literal,
   LengthExp,
   Sequence,
-  Subtraction,
   TruthValue,
   Variable,
   IfElse,
@@ -48,9 +39,7 @@ import {
   KeyValue,
   Index,
   Return,
-  Mod,
   Null,
-  Div,
   PrintFunction,
 } from '../ast/AST';
 
@@ -142,30 +131,30 @@ collectionItem ->
  |  key  ":" expression  "," collectionItem                           {%  ([identifier, ,expression, ,collectionItem])  =>  {collectionItem.unshift(new KeyValue(identifier,expression)); return collectionItem;}    %}
 
 expression ->
-    expression "&&" comparison                                        {%  ([leftHandSide, , rightHandSide])             =>  (new Conjunction(leftHandSide, rightHandSide))      %}
-  | expression "||" comparison                                        {%  ([leftHandSide, , rightHandSide])             =>  (new Disjunction(leftHandSide, rightHandSide))      %}
+    expression "&&" comparison                                        {%  ([leftHandSide, , rightHandSide])             =>  (new GenericBooleanExpression(leftHandSide, rightHandSide, "&&",(a,b)=>a && b))      %}
+  | expression "||" comparison                                        {%  ([leftHandSide, , rightHandSide])             =>  (new GenericBooleanExpression(leftHandSide, rightHandSide, "||",(a,b)=>a || b))      %}
   | comparison "if" expression "else" comparison                      {%  ([leftHandSide, ,expression, ,rightHandSide]) =>  (new IfElse(leftHandSide,expression,rightHandSide)) %}
   | comparison                                                        {%  id  %}
 
 comparison ->
-    comparison  "=="  additionSubstraction                            {%  ([leftHandSide, , rightHandSide]) =>  (new CompareEqual(leftHandSide, rightHandSide))         %}
-  | comparison  "/="  additionSubstraction                            {%  ([leftHandSide, , rightHandSide]) =>  (new CompareNotEqual(leftHandSide, rightHandSide))      %}
-  | comparison  "<="  additionSubstraction                            {%  ([leftHandSide, , rightHandSide]) =>  (new CompareLessOrEqual(leftHandSide, rightHandSide))   %}
-  | comparison  "<"   additionSubstraction                            {%  ([leftHandSide, , rightHandSide]) =>  (new CompareLess(leftHandSide, rightHandSide))          %}
-  | comparison  ">="  additionSubstraction                            {%  ([leftHandSide, , rightHandSide]) =>  (new CompareGreatOrEqual(leftHandSide, rightHandSide))  %}
-  | comparison  ">"   additionSubstraction                            {%  ([leftHandSide, , rightHandSide]) =>  (new CompareGreat(leftHandSide, rightHandSide))         %}
+    comparison  "=="  additionSubstraction                            {%  ([leftHandSide, , rightHandSide]) =>  (new GenericArithmeticBooleanOperation(leftHandSide, rightHandSide, "==", (a, b) => a == b))         %}
+  | comparison  "/="  additionSubstraction                            {%  ([leftHandSide, , rightHandSide]) =>  (new GenericArithmeticBooleanOperation(leftHandSide, rightHandSide, "/=", (a, b) => a != b))      %}
+  | comparison  "<="  additionSubstraction                            {%  ([leftHandSide, , rightHandSide]) =>  (new GenericArithmeticBooleanOperation(leftHandSide, rightHandSide, "<=", (a, b) => a <= b))   %}
+  | comparison  "<"   additionSubstraction                            {%  ([leftHandSide, , rightHandSide]) =>  (new GenericArithmeticBooleanOperation(leftHandSide, rightHandSide, "<", (a, b) => a < b))          %}
+  | comparison  ">="  additionSubstraction                            {%  ([leftHandSide, , rightHandSide]) =>  (new GenericArithmeticBooleanOperation(leftHandSide, rightHandSide, ">=", (a, b) => a >= b))  %}
+  | comparison  ">"   additionSubstraction                            {%  ([leftHandSide, , rightHandSide]) =>  (new GenericArithmeticBooleanOperation(leftHandSide, rightHandSide, ">", (a, b) => a > b))         %}
   | additionSubstraction                                              {%  id  %}
 
 additionSubstraction ->
-    additionSubstraction  "+"   multiplicationDivision                {%  ([leftHandSide, , rightHandSide]) =>  (new Addition(leftHandSide, rightHandSide))       %}
-  | additionSubstraction  "-"   multiplicationDivision                {%  ([leftHandSide, , rightHandSide]) =>  (new Subtraction(leftHandSide, rightHandSide))   %}
+    additionSubstraction  "+"   multiplicationDivision                {%  ([leftHandSide, , rightHandSide]) =>  (new GenericArithmeticExpression(leftHandSide, rightHandSide,"+", (a, b) => a + b))       %}
+  | additionSubstraction  "-"   multiplicationDivision                {%  ([leftHandSide, , rightHandSide]) =>  (new GenericArithmeticExpression(leftHandSide, rightHandSide,"-",(a,b)=> a - b))   %}
   | additionSubstraction  "++"  multiplicationDivision                {%  ([leftHandSide, , rightHandSide]) =>  (new Concatenation(leftHandSide, rightHandSide))  %}
   | additionSubstraction  "--"  multiplicationDivision                {%  ([leftHandSide, , rightHandSide]) =>  (new Difference(leftHandSide, rightHandSide))     %}
   | multiplicationDivision                                            {%  id  %}
 
 multiplicationDivision ->
-    multiplicationDivision  "*"   negation                            {%  ([leftHandSide, , rightHandSide]) =>  (new Multiplication(leftHandSide, rightHandSide)) %}
-  | multiplicationDivision  "/"   negation                            {%  ([leftHandSide, , rightHandSide]) =>  (new Division(leftHandSide, rightHandSide))       %}
+    multiplicationDivision  "*"   negation                            {%  ([leftHandSide, , rightHandSide]) =>  (new GenericArithmeticExpression(leftHandSide, rightHandSide, "*",(a,b)=> a * b)) %}
+  | multiplicationDivision  "/"   negation                            {%  ([leftHandSide, , rightHandSide]) =>  (new GenericArithmeticExpression(leftHandSide, rightHandSide, "/",(a,b)=> a / b))       %}
   | multiplicationDivision  "\\/" negation                            {%  ([leftHandSide, , rightHandSide]) =>  (new Union(leftHandSide, rightHandSide))          %}
   | multiplicationDivision  "/\\" negation                            {%  ([leftHandSide, , rightHandSide]) =>  (new Intersection(leftHandSide, rightHandSide))   %}
   | membership                                                        {%  id  %}

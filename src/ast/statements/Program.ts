@@ -1,8 +1,8 @@
-import { Exp } from './ASTNode';
-import { Stmt } from './ASTNode';
-import { State } from '../interpreter/State';
-import { Function } from './statements/Function';
-import { Sequence } from './AST';
+import { Exp } from '../ASTNode';
+import { Stmt } from '../ASTNode';
+import { State } from '../../interpreter/State';
+import { Function } from './Function';
+import { Sequence } from '../AST';
 
 /**
   Representación de Programa.

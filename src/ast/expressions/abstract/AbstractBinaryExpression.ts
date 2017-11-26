@@ -1,6 +1,6 @@
-import {Exp} from '../ASTNode';
-import {State} from '../../interpreter/State';
-import {ErrorTypeInfo} from "../ErrorTypeInfo";
+import {Exp} from '../../ASTNode';
+import {State} from '../../../interpreter/State';
+import {ErrorTypeInfo} from "../../ErrorTypeInfo";
 import {AbstractExpression} from "./AbstractExpression";
 
 export abstract class AbstractBinaryExpression extends AbstractExpression {

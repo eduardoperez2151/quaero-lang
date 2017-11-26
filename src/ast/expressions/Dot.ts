@@ -1,7 +1,7 @@
 import {Exp} from '../ASTNode';
 import {ListCollection, SetCollection, KeyValue} from '../AST';
 import {State} from '../../interpreter/State';
-import {AbstractExpression} from "./AbstractExpression";
+import {AbstractExpression} from "./abstract/AbstractExpression";
 import {ErrorTypeInfo} from "../ErrorTypeInfo";
 
 export class Dot extends AbstractExpression {
