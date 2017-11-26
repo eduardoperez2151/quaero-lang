@@ -1,13 +1,12 @@
 import {Exp} from '../../ASTNode';
 import {State} from '../../../interpreter/State';
-import {SetCollection} from '../../AST';
-import {AbstractBinaryExpression} from './AbstractBinaryExpression'
+import {AbstractBinaryExpression} from '../abstract/AbstractBinaryExpression'
 
-export abstract class AbstractGenericComparator extends AbstractBinaryExpression {
+export class GenericBinaryOperation extends AbstractBinaryExpression {
 
     comparatorFunction: Function;
 
-    protected constructor(leftHandSide: Exp, rightHandSide: Exp, operationSymbol: string, comparatorFunction: Function) {
+    constructor(leftHandSide: Exp, rightHandSide: Exp, operationSymbol: string, comparatorFunction: Function) {
         super(leftHandSide, rightHandSide, operationSymbol);
         this.comparatorFunction = comparatorFunction;
     }
@@ -44,14 +43,14 @@ export abstract class AbstractGenericComparator extends AbstractBinaryExpression
     }
     private compareSet(symbolOperation: string, leftEvaluation, rigthEvaluation): boolean {
 
-      var funcIncluded = function ():boolean{
-            var result = leftEvaluation.filter((item) => rigthEvaluation.has(item));
+        let funcIncluded = function (): boolean {
+            let result = leftEvaluation.filter((item) => rigthEvaluation.has(item));
             return result.length == leftEvaluation.length;
-      }
-      var funcInclude = function ():boolean{
-            var result = rigthEvaluation.filter((item) => leftEvaluation.has(item));
+        };
+        let funcInclude = function (): boolean {
+            let result = rigthEvaluation.filter((item) => leftEvaluation.has(item));
             return result.length == rigthEvaluation.length;
-      }
+        };
 
         switch (symbolOperation) {
           case "<":
@@ -76,5 +75,7 @@ export abstract class AbstractGenericComparator extends AbstractBinaryExpression
         this.ThrowEvaluationException(leftSideEvaluation, rightHandSideEvaluation);
     }
 
-    protected abstract evaluation(leftSideEvaluation, rightHandSideEvaluation): any;
+    protected evaluation(leftSideEvaluation: any, rightHandSideEvaluation: any): any {
+        return this.evaluateComparation(leftSideEvaluation, rightHandSideEvaluation);
+    }
 }

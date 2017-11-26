@@ -1,7 +1,7 @@
-import { Exp, Stmt} from '../ASTNode';
-import { State } from '../../interpreter/State';
-import {GenericArithmeticBooleanOperation} from '../expressions/generic/GenericArithmeticBooleanOperation'
-import { Sequence,Membership,Variable } from '../AST';
+import {Exp, Stmt} from '../ASTNode';
+import {State} from '../../interpreter/State';
+import {Membership, Variable} from '../AST';
+import {GenericBinaryOperation} from "../expressions/generic/GenericBinaryOperation";
 
 /**
   Representación de for .
@@ -41,7 +41,7 @@ export class For implements Stmt {
         }
     }
 
-    if (head instanceof GenericArithmeticBooleanOperation) {
+    if (head instanceof GenericBinaryOperation) {
         let condition = head.evaluate(state);
         if (typeof condition === "boolean" && condition) {
             state = this.calculate(state, tail);

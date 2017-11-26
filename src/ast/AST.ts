@@ -16,8 +16,6 @@ export * from './expressions/CallFunction';
 export * from './statements/Return';
 
 // AExp
-export * from './expressions/generic/GenericArithmeticBooleanOperation';
-export * from './expressions/generic/GenericArithmeticExpression';
 export * from './expressions/ComprehensionList';
 export * from './expressions/ComprehensionSet';
 export * from './expressions/Numeral';
@@ -42,7 +40,7 @@ export * from './expressions/Null';
 export * from './expressions/PrintFunction';
 
 // BExp
-export * from './expressions/generic/GenericBooleanExpression';
+export * from './expressions/generic/GenericBinaryOperation';
 export * from './expressions/Negation';
 export * from './expressions/TruthValue';
 

@@ -3,7 +3,7 @@ import {Variable} from "../../statements/Variable";
 import {Membership} from "../Membership";
 import {State} from "../../../interpreter/State";
 import {AbstractExpression} from "./AbstractExpression";
-import {GenericArithmeticBooleanOperation} from "../generic/GenericArithmeticBooleanOperation";
+import {GenericBinaryOperation} from "../generic/GenericBinaryOperation";
 
 export abstract class AbstractComprehension extends AbstractExpression {
 
@@ -53,7 +53,7 @@ export abstract class AbstractComprehension extends AbstractExpression {
             }
         }
 
-        if (head instanceof GenericArithmeticBooleanOperation) {
+        if (head instanceof GenericBinaryOperation) {
             let condition = head.evaluate(clonedState);
             if (this.isBoolean(condition) && condition) {
                 this.comprehensionCalculate(clonedState, tail, resultList);
