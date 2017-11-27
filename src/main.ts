@@ -91,6 +91,7 @@ function convertNumber(valor: any): number {
 }
 
 function convertBoolean(valor: any): boolean {
+    if((valor instanceof Array || valor instanceof Set) && [...valor].length ===0)return false;
     switch (valor) {
         case null:
         case "":

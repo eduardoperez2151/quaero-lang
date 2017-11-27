@@ -170,10 +170,10 @@ value ->
   "(" expression  ")"                                                 {%  ([, expression, ])      =>  (expression)                %}
   | collection                                                        {%  id  %}
   | number                                                            {%  ([number])              =>  (new Numeral(number))       %}
-  | "length"  "(" additionSubstraction  ")"                           {%  ([, ,expression,])      =>  (new LengthExp(expression)) %}
-  | "#" value                                                         {%  ([, list])              =>  (new Cardinal(list))        %}
-  | value  "[" value "]"                                              {%  ([list, , index,])      =>  (new Index(list,index))     %}
-  | value  "." key                                                    {%  ([collection, ,key])    =>  (new Dot(collection,key))   %}
+  | "length"  "(" value  ")"                                     {%  ([, ,expression,])      =>  (new LengthExp(expression)) %}
+  | "#" value                                                    {%  ([, list])              =>  (new Cardinal(list))        %}
+  | value  "[" value "]"                                           {%  ([list, , index,])      =>  (new Index(list,index))     %}
+  | value  "." key                                               {%  ([collection, ,key])    =>  (new Dot(collection,key))   %}
   | "true"                                                            {%  ()                      =>  (new TruthValue(true))      %}
   | "false"                                                           {%  ()                      =>  (new TruthValue(false))     %}
   | identifier                                                        {%  ([id])                  =>  (new Variable(id))          %}

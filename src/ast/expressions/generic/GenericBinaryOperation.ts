@@ -17,6 +17,7 @@ export class GenericBinaryOperation extends AbstractBinaryExpression {
         let isStringEvaluation = this.isString(leftEvaluation) && this.isString(rightEvaluation);
         let isListEvaluation = this.isList(leftEvaluation) && this.isList(rightEvaluation);
         let isSet = this.isSet(leftEvaluation) && this.isSet(rightEvaluation);
+        if(isNaN(leftEvaluation) || isNaN(rightEvaluation)){return false;}
         if (isListEvaluation) {
             return this.compareList(this.operationSymbol, this.comparatorFunction, leftEvaluation, rightEvaluation);
         }
@@ -25,16 +26,15 @@ export class GenericBinaryOperation extends AbstractBinaryExpression {
         }
         return (isBooleanEvaluation || isNumberEvaluation || isStringEvaluation) ? this.comparatorFunction.call(this, leftEvaluation, rightEvaluation) : null;
     }
-
     private compareList(symbolOperation: string, comparatorFunction: Function, leftArray: Array<any>, rightArray: Array<any>): boolean {
         let checkLength = comparatorFunction.call(this, leftArray.length, rightArray.length);
         switch (symbolOperation) {
             case "==":
-                return checkLength && leftArray.every(function (element, index) {
+                return checkLength && leftArray.every(function rec(element, index) {
                     return comparatorFunction.call(this, element, rightArray[index]);
                 });
             case "/=":
-                return checkLength || leftArray.some(function (element, index) {
+                return checkLength || leftArray.some(function rec(element, index) {
                     return comparatorFunction.call(this, element, rightArray[index]);
                 });
             default:
@@ -44,12 +44,14 @@ export class GenericBinaryOperation extends AbstractBinaryExpression {
     private compareSet(symbolOperation: string, leftEvaluation, rigthEvaluation): boolean {
 
         let funcIncluded = function (): boolean {
-            let result = leftEvaluation.filter((item) => rigthEvaluation.has(item));
-            return result.length == leftEvaluation.length;
+            let result = [...leftEvaluation].filter((item) => rigthEvaluation.has(item));
+            console.log(result);
+            return result.length <= leftEvaluation.size;
         };
         let funcInclude = function (): boolean {
-            let result = rigthEvaluation.filter((item) => leftEvaluation.has(item));
-            return result.length == rigthEvaluation.length;
+            let result = [...rigthEvaluation].filter((item) => leftEvaluation.has(item));
+            console.log(result);
+            return result.length >= rigthEvaluation.size;
         };
 
         switch (symbolOperation) {
