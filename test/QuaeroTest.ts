@@ -104,4 +104,15 @@ describe('Test Quaero:', () => {
         expect(result).toBeFalsy();
     });
 
+    test('Mod_div_entera', () => {
+        let state:State = testUtil.executeInterpreter('mod.qr');
+        expect(state).not.toBeFalsy();
+        let result1=state.get('result1');
+        let result2=state.get('result2');
+        expect(result1).not.toBeFalsy();
+        expect(result2).not.toBeFalsy();
+        expect(result1).toBe(0);
+        expect(result2).toBe(1);
+    });
+
 });
