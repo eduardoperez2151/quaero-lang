@@ -1,0 +1,9 @@
+@
+    function may(a,b){
+        return a>b;
+    }
+
+    main:{
+        result = may(6,4);
+    }
+@
