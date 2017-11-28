@@ -1,0 +1,15 @@
+@
+    function potencia(b,e){
+        r=1;
+        for (_ <- [1..e])
+            r = r * b;
+        return r;
+    }
+
+    main:{
+        result1=potencia(1,87);
+        result2=potencia(2,12);
+        result3=potencia(0,28);
+        result4=potencia(8,1);
+    }
+@

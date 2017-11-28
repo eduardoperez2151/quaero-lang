@@ -115,4 +115,21 @@ describe('Test Quaero:', () => {
         expect(result2).toBe(1);
     });
 
+    test('Potencia', () => {
+        let state:State = testUtil.executeInterpreter('potencia.qr');
+        expect(state).not.toBeFalsy();
+        let result1=state.get('result1');
+        let result2=state.get('result2');
+        let result3=state.get('result3');
+        let result4=state.get('result4');
+        expect(result1).not.toBeFalsy();
+        expect(result2).not.toBeFalsy();
+        expect(result3).not.toBeFalsy();
+        expect(result3).not.toBeFalsy();
+        expect(result1).toBe(1);
+        expect(result2).toBe(4096)
+        expect(result3).toBe(0);
+        expect(result4).toBe(8);
+    });
+
 });
