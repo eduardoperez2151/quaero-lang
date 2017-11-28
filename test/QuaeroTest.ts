@@ -97,4 +97,11 @@ describe('Test Quaero:', () => {
         expect(result).toBeFalsy();
     });
 
+    test('Compare_mayorequals with function', () => {
+        let state:State = testUtil.executeInterpreter('mayorequals.qr');
+        expect(state).not.toBeFalsy();
+        let result=state.get('result');
+        expect(result).toBeFalsy();
+    });
+
 });
