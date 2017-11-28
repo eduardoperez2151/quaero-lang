@@ -83,4 +83,11 @@ describe('Test Quaero:', () => {
         expect(result).not.toBeFalsy();
     });
 
+    test('Compare_mayor with function', () => {
+        let state:State = testUtil.executeInterpreter('mayor.qr');
+        expect(state).not.toBeFalsy();
+        let result=state.get('result');
+        expect(result).not.toBeFalsy();
+    });
+
 });
