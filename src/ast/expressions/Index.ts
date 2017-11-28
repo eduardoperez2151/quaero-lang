@@ -39,7 +39,7 @@ export class Index extends AbstractExpression {
                 return listEvaluation[indexEvaluation];
             }
         } else if (this.isString(indexEvaluation) && this.isCollection(listEvaluation)) {
-            return listEvaluation[indexEvaluation];
+            return listEvaluation["keyValues"].get(indexEvaluation);
         }
         let errors: [ErrorTypeInfo] = [new ErrorTypeInfo("listEvaluation", listEvaluation), new ErrorTypeInfo("indexEvaluation", indexEvaluation)];
         super.throwExceptionOnErrorCheckType(errors);

@@ -172,7 +172,7 @@ value ->
   | number                                                            {%  ([number])              =>  (new Numeral(number))       %}
   | "length"  "(" value  ")"                                     {%  ([, ,expression,])      =>  (new LengthExp(expression)) %}
   | "#" value                                                    {%  ([, list])              =>  (new Cardinal(list))        %}
-  | value  "[" value "]"                                           {%  ([list, , index,])      =>  (new Index(list,index))     %}
+  | value  "[" expression "]"                                           {%  ([list, , index,])      =>  (new Index(list,index))     %}
   | value  "." key                                               {%  ([collection, ,key])    =>  (new Dot(collection,key))   %}
   | "true"                                                            {%  ()                      =>  (new TruthValue(true))      %}
   | "false"                                                           {%  ()                      =>  (new TruthValue(false))     %}
@@ -182,7 +182,7 @@ value ->
   | "null"                                                            {%  ()                      =>  (new Null())                %}
 key ->
   identifier                                                          {%  id  %}
-  | literal                                                           {%  id  %} ##Bruno:se deberia de poder?; Edu:Creo que no  ej lista=[1,2,3,x:4], lista["x"] es igual a lista.x pero no deberiamos de poder llamar lista."x" esto no deberia ser asi, capaz me equivoco :\
+  | literal                                                           {%  ([id]) => (JSON.parse(id))  %} ##Bruno:se deberia de poder?; Edu:Creo que no  ej lista=[1,2,3,x:4], lista["x"] es igual a lista.x pero no deberiamos de poder llamar lista."x" esto no deberia ser asi, capaz me equivoco :\
 
 # Atoms
 

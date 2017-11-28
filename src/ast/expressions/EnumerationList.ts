@@ -17,6 +17,7 @@ export class EnumerationList extends AbstractEnumerationCollection {
 
     evaluate(state: State): any {
         let enumerationCalculate = this.enumerationCalculate(state);
+        enumerationCalculate["keyValues"] = new Map();
         return enumerationCalculate;
     }
 }

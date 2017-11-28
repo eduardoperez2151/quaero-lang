@@ -2,6 +2,7 @@ import {Exp} from '../ASTNode';
 import {State} from '../../interpreter/State';
 import {ErrorTypeInfo} from "../ErrorTypeInfo";
 import {AbstractExpression} from "./abstract/AbstractExpression";
+import {GenericBinaryOperation} from "./generic/GenericBinaryOperation";
 
 export class Membership extends AbstractExpression {
 
@@ -26,7 +27,15 @@ export class Membership extends AbstractExpression {
         let listExpEvaluation = this.listExp.evaluate(state);
         let valueEvaluation =  this.value.evaluate(state);
         if (this.isList(listExpEvaluation)) {
-            return listExpEvaluation.includes(valueEvaluation);
+          if(this.isCollection(valueEvaluation)){
+            for(let i = 0;i<listExpEvaluation.length;i++){
+              let listValue = listExpEvaluation[i]
+              if(this.isCollection(listValue)){
+                return new GenericBinaryOperation(listValue, valueEvaluation, "==", (a, b) => a == b).preEval();
+              }
+            }
+          }
+          return listExpEvaluation.includes(valueEvaluation);
         } else if(this.isSet(listExpEvaluation)){
             return listExpEvaluation.has(valueEvaluation);
         }else if (this.isString(listExpEvaluation)) {

@@ -43,9 +43,11 @@ export abstract class AbstractCollection extends AbstractExpression {
         for (let i =0;i<this.arr.length;i++){
           let aux = this.arr[i].evaluate(state);
           if (aux instanceof Map){
-            result[aux.get("key")] = aux.get("value");
-            result[i] = aux.get("value");
-            map.set(aux.get("key"),aux.get("value"));
+            let key = aux.get("key");
+            let value = aux.get("value");
+            result[key] = value;
+            result[i] = value;
+            map.set(key,value);
           }else{
             result[i] = aux;
           }
@@ -57,12 +59,14 @@ export abstract class AbstractCollection extends AbstractExpression {
         let result = new Set();
         let aux;
         let map = new Map()
-        for (let i =0;i<this.arr.length;i++){
+        for (let i =0;i<[...this.arr].length;i++){
           let aux = this.arr[i].evaluate(state);
           if (aux instanceof Map){
-            result[aux.get("key")] = aux.get("value");
-            result.add(aux.get("value"));
-            map.set(aux.get("key"), aux.get("value"));
+            let key = aux.get("key");
+            let value = aux.get("value");
+            result[key] = value;
+            result.add(value);
+            map.set(key, value);
           }else{
             result.add(aux);
           }

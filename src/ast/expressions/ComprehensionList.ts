@@ -11,6 +11,7 @@ export class ComprehensionList extends AbstractComprehension {
 
     evaluate(state: State): any {
         let comprehensionResult=this.comprehensionEvaluation(state);
+        comprehensionResult["keyValues"] = new Map();
         return comprehensionResult;
     }
 }
