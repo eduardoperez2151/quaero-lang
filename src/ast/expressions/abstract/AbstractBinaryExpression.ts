@@ -52,7 +52,6 @@ export abstract class AbstractBinaryExpression extends AbstractExpression {
     protected createArray (string){
       let array = string.split("");
       array["keyValues"] = new Map();
-      return array;      
+      return array;
     }
-
 }

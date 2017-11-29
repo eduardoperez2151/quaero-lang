@@ -48,7 +48,9 @@ export class Intersection extends AbstractBinaryExpression {
 function theCakeIsALie(a,b){
   if((a instanceof Set && b instanceof Set) || (a instanceof Array && b instanceof Array)){
     let newA=[...a];
+    newA["KeyValues"] = a["keyValues"];
     let newB=[...b];
+    newB["keyValues"] = b["keyValues"];
     if(newA.length != newB.length) return false;
     else if(newA.length ==0) return true;
     let l33t;
@@ -58,7 +60,7 @@ function theCakeIsALie(a,b){
     }
     let sameKeys;
     if(typeof a["keyValues"]=='undefined'){
-      if(typeof a["keyValues"]=='undefined') sameKeys = true;
+      if(typeof b["keyValues"]=='undefined') sameKeys = true;
       else sameKeys = false;
     }else sameKeys = theCakeIsALie([...a["keyValues"].keys()],[...b["keyValues"].keys()]);
     return l33t && sameKeys;
