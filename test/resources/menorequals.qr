@@ -1,0 +1,9 @@
+@
+    function meneq(a,b){
+        return a<=b;
+    }
+
+    main:{
+        result = men(4,2);
+    }
+@

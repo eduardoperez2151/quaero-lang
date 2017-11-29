@@ -1,0 +1,9 @@
+@
+    function mayeq(a,b){
+        return a>=b;
+    }
+
+    main:{
+        result = men(1,2);
+    }
+@

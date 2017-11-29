@@ -1,0 +1,9 @@
+@
+    function men(a,b){
+        return a<b;
+    }
+
+    main:{
+        result = men(2,4);
+    }
+@
