@@ -12,15 +12,8 @@ export class Concatenation extends AbstractBinaryExpression {
     evaluate(state: State): any {
         let leftHandSideEvaluation = this.leftHandSideEvaluation(state);
         let rightHandSideEvaluation = this.rightHandSideEvaluation(state);
-
-        if (this.isString(leftHandSideEvaluation)) {
-          leftHandSideEvaluation = leftHandSideEvaluation.split("");
-          leftHandSideEvaluation["keyValues"] = new Map();
-        }
-        if (this.isString(rightHandSideEvaluation)) {
-          rightHandSideEvaluation = rightHandSideEvaluation.split("");
-          rightHandSideEvaluation["keyValues"] = new Map();
-        }
+        if (this.isString(leftHandSideEvaluation)) leftHandSideEvaluation = this.createArray(leftHandSideEvaluation);
+        if (this.isString(rightHandSideEvaluation)) rightHandSideEvaluation = this.createArray(rightHandSideEvaluation);
         if(this.isList(leftHandSideEvaluation) && this.isList(rightHandSideEvaluation)){
           let concatenation = leftHandSideEvaluation.concat(rightHandSideEvaluation);
           concatenation["keyValues"] = new Map();

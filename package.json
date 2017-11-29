@@ -20,7 +20,8 @@
     "moo": "^0.4.0",
     "nearley": "^2.10.2",
     "readline-sync": "^1.4.7",
-    "ts-jest": "^21.2.2"
+    "ts-jest": "^21.2.2",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "gulp": "^3.9.1",

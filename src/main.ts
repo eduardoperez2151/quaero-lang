@@ -69,6 +69,9 @@ function mod(a, b): number {
         return null;
     }
 }
+function toArray(set) {
+    return [...set];
+}
 
 function convertString(valor: any): string {
     return String(valor);
@@ -110,5 +113,6 @@ function setPredFunctions(state: State): State {
     state.set("int", convertInt);
     state.set("number", convertNumber);
     state.set("boolean", convertBoolean);
+    state.set("toArray", toArray);
     return state
 }

@@ -49,5 +49,10 @@ export abstract class AbstractBinaryExpression extends AbstractExpression {
     unParse(): string {
         return `(${this.leftHandSide.unParse()} ${this.operationSymbol} ${this.rightHandSide.unParse()})`;
     }
+    protected createArray (string){
+      let array = string.split("");
+      array["keyValues"] = new Map();
+      return array;      
+    }
 
 }
