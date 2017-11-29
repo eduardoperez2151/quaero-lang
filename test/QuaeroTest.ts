@@ -75,8 +75,8 @@ describe('Test Quaero:', () => {
         let result=state.get('result');
         expect(result).toBeFalsy();
     });
-    
-    test('Compare_minor with function', () => {
+    /*
+    test('Compare_menor with function', () => {
         let state:State = testUtil.executeInterpreter('menor.qr');
         expect(state).not.toBeFalsy();
         let result=state.get('result');
@@ -131,5 +131,6 @@ describe('Test Quaero:', () => {
         expect(result3).toBe(0);
         expect(result4).toBe(8);
     });
+    */
 
 });
