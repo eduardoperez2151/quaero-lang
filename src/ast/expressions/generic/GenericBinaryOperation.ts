@@ -1,7 +1,7 @@
 import {Exp} from '../../ASTNode';
 import {State} from '../../../interpreter/State';
 import {AbstractBinaryExpression} from '../abstract/AbstractBinaryExpression'
-
+var _ = require("underscore");
 export class GenericBinaryOperation extends AbstractBinaryExpression {
 
     comparatorFunction: Function;
@@ -52,34 +52,18 @@ export class GenericBinaryOperation extends AbstractBinaryExpression {
         let checkLength = comparatorFunction.call(this, leftArray.length, rightArray.length);
         switch (symbolOperation) {
             case "==":
-                return checkLength && leftArray.every(function rec(element, index) {
-                    if((rightArray[index] instanceof Array || rightArray[index] instanceof Set)){
-                      if(element instanceof Array || element instanceof Set){
-                        return new GenericBinaryOperation(element, rightArray[index], symbolOperation, comparatorFunction).preEval();
-                      }else return false;
-                    }
-                    else if(element instanceof Array || element instanceof Set) return false;
-                    else{
-                      return comparatorFunction.call(this, element, rightArray[index]);
-                    }
-                });
+                return checkLength && leftArray.every((value,index) => _.isEqual(value,rightArray[index]));
             case "/=":
-                return checkLength || leftArray.some(function rec(element, index) {
-                  if((element instanceof Array || element instanceof Set) && (rightArray[index] instanceof Array || rightArray[index] instanceof Set)){
-                    return new GenericBinaryOperation(element, rightArray[index], symbolOperation, comparatorFunction).preEval();
-                  }
-                  return comparatorFunction.call(this, element, rightArray[index]);
-                });
+                return checkLength || leftArray.some((value,index) => !(_.isEqual(value,rightArray[index])));
             default: //Falla en [-1]>[-2] ya que javascript en array compara pasandolos a string, ahora si en la lista parecen sets que se deberia hacer ya que por < o > serian incluciones
               return comparatorFunction.call(this, leftArray, rightArray);
         }
     }
     private compareSet(symbolOperation: string, leftEvaluation, rigthEvaluation, funct): boolean {
-
         let funcIncluded = function (): boolean {
           let result = [...leftEvaluation].filter((item) => {
             if((item instanceof Array || item instanceof Set)){
-              let rightArray = [...rigthEvaluation];1
+              let rightArray = [...rigthEvaluation];
               let rightValue;
               for (let i=0;i<rightArray.length;i++){
                 rightValue = rightArray[i];

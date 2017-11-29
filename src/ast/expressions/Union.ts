@@ -2,6 +2,8 @@ import {Exp} from '../ASTNode';
 import {ListCollection, SetCollection} from '../AST';
 import {State} from '../../interpreter/State';
 import {AbstractBinaryExpression} from "./abstract/AbstractBinaryExpression";
+import {GenericBinaryOperation} from "./generic/GenericBinaryOperation";
+var _ = require("underscore");
 
 export class Union extends AbstractBinaryExpression {
 
@@ -12,21 +14,14 @@ export class Union extends AbstractBinaryExpression {
     evaluate(state: State): any {
         let leftHandSideEvaluation = this.leftHandSideEvaluation(state);
         let rightHandSideEvaluation = this.rightHandSideEvaluation(state);
-        if (this.isString(leftHandSideEvaluation)) {
-          leftHandSideEvaluation = leftHandSideEvaluation.split("");
-          leftHandSideEvaluation["keyValues"] = new Map();
-        }
-        if (this.isString(rightHandSideEvaluation)) {
-          rightHandSideEvaluation = rightHandSideEvaluation.split("");
-          rightHandSideEvaluation["keyValues"] = new Map();
-        }
+        if (this.isString(leftHandSideEvaluation)) leftHandSideEvaluation = this.createArray(leftHandSideEvaluation);
+        if (this.isString(rightHandSideEvaluation)) rightHandSideEvaluation = this.createArray(rightHandSideEvaluation);
         if(this.isCollection(leftHandSideEvaluation)&& this.isCollection(rightHandSideEvaluation)){
           let union;
-          union = this.createSet(leftHandSideEvaluation,rightHandSideEvaluation);
-          if(this.isList(leftHandSideEvaluation) || this.isList(rightHandSideEvaluation)){
-            union = [...union];
+          union = this.doUnion(leftHandSideEvaluation,rightHandSideEvaluation);
+          if(!(this.isList(leftHandSideEvaluation) || this.isList(rightHandSideEvaluation))){
+            union = new Set([...union]);
           }
-
           union["keyValues"] = new Map();
           union = this.setKeys(union,leftHandSideEvaluation["keyValues"]);
           union = this.setKeys(union,rightHandSideEvaluation["keyValues"]);
@@ -35,7 +30,19 @@ export class Union extends AbstractBinaryExpression {
         this.ThrowEvaluationException(rightHandSideEvaluation, leftHandSideEvaluation);
     }
 
-    private createSet(leftHandSideEvaluation: any, rightHandSideEvaluation: any) {
-        return new Set([...leftHandSideEvaluation, ...rightHandSideEvaluation]);
+    private doUnion(leftHandSideEvaluation: any, rightHandSideEvaluation: any) {
+        let setAux = [...leftHandSideEvaluation, ...rightHandSideEvaluation];
+        return this.removeRepeated(setAux);
+
+    }
+    private removeRepeated(array){
+      let result = [];
+      for (let i = 0;i<array.length;i++){
+        if(result.length > 0){
+          let existInResult = result.find(item => _.isEqual(array[i],item));
+          if(!existInResult) result.push(array[i]);
+        }else result.push(array[i]);
+      }
+      return result;
     }
 }

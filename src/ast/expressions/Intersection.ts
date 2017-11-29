@@ -2,7 +2,8 @@ import {Exp} from '../ASTNode';
 import {ListCollection, SetCollection, KeyValue} from '../AST';
 import {State} from '../../interpreter/State';
 import {AbstractBinaryExpression} from "./abstract/AbstractBinaryExpression";
-
+import {GenericBinaryOperation} from "./generic/GenericBinaryOperation";
+var _ = require("underscore");
 export class Intersection extends AbstractBinaryExpression {
 
     constructor(leftHandSide: Exp, rightHandSide: Exp) {
@@ -12,21 +13,13 @@ export class Intersection extends AbstractBinaryExpression {
     evaluate(state: State): any {
         let leftHandSideEvaluation = this.leftHandSideEvaluation(state);
         let rightHandSideEvaluation = this.rightHandSideEvaluation(state);
-        if (this.isString(leftHandSideEvaluation)) {
-          leftHandSideEvaluation = leftHandSideEvaluation.split("");
-          leftHandSideEvaluation["keyValues"] = new Map();
-        }
-        if (this.isString(rightHandSideEvaluation)) {
-          rightHandSideEvaluation = rightHandSideEvaluation.split("");
-          rightHandSideEvaluation["keyValues"] = new Map();
-        }
+        if (this.isString(leftHandSideEvaluation)) leftHandSideEvaluation = this.createArray(leftHandSideEvaluation);
+        if (this.isString(rightHandSideEvaluation)) rightHandSideEvaluation = this.createArray(rightHandSideEvaluation);
         if(this.isCollection(leftHandSideEvaluation)&& this.isCollection(rightHandSideEvaluation)){
-          let leftArray = [...leftHandSideEvaluation];
-          let rightSet = new Set([...rightHandSideEvaluation]);
           let intersection;
-          intersection = leftArray.filter(x => rightSet.has(x));
+          intersection = this.doIntersection([...leftHandSideEvaluation],[...rightHandSideEvaluation]);
           if(this.isSet(leftHandSideEvaluation) && this.isSet(rightHandSideEvaluation)){
-            intersection = new Set(intersection);;
+            intersection =new  Set(intersection);
           }
           intersection["keyValues"] = new Map();
           intersection = this.setKeys(intersection,leftHandSideEvaluation["keyValues"]);
@@ -35,4 +28,18 @@ export class Intersection extends AbstractBinaryExpression {
         }
         this.ThrowEvaluationException(rightHandSideEvaluation, leftHandSideEvaluation);
     }
+
+    private doIntersection(array,array2){
+      let result = [];
+      for (let i = 0;i<array.length;i++){
+        let existInArray2 = false;
+        existInArray2 = array2.find(value => _.isEqual(array[i],value));
+        let existInResult;
+        if(result.length>0){
+          existInResult = result.find(value => _.isEqual(array[i],value));
+        }else existInResult = false;
+        if(existInArray2 && !existInResult) result.push(array[i]);
+    }
+    return result;
+  }
 }
