@@ -1,8 +1,4 @@
 @
-    function mod(a,b){
-        return a % b
-    }
-
     main:{
         result1=mod(10,5);
         result2=mod(11,5);

@@ -33,6 +33,6 @@ export class CallFunction implements Exp {
       let functionArguments = func.args;
       this.params.forEach((parameter, index) => functionState.set(functionArguments[index], parameter.evaluate(functionState)));
       let returnValue = func.body.evaluate(functionState).get("return");
-      return returnValue ? returnValue : null;
+      return (typeof returnValue != 'undefined') ? returnValue : null;
     }
 }

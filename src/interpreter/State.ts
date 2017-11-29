@@ -8,8 +8,8 @@ export class State {
   }
 
   toString(): string {
-    return `{ ${(Array.from(this.vars.entries())).filter(([key, value]) =>(! (value instanceof Function) && !(typeof value === 'function'))).map(([key, value]) => (`${key} = ${value}`)).join("; ")} }`;
-    //return `{ ${(Array.from(this.vars.entries())).map(([key, value]) => (`${key} = ${value}`)).join("; ")} }`;
+    //return `{ ${(Array.from(this.vars.entries())).filter(([key, value]) =>(! (value instanceof Function) && !(typeof value === 'function'))).map(([key, value]) => (`${key} = ${value}`)).join("; ")} }`;
+    return `{ ${(Array.from(this.vars.entries())).map(([key, value]) => (`${key} = ${value}`)).join("; ")} }`;
   }
 
   get(id: string): any {

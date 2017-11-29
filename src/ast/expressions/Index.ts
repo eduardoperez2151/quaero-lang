@@ -26,11 +26,6 @@ export class Index extends AbstractExpression {
     evaluate(state: State): any {
         let listEvaluation = this.value.evaluate(state);
         let indexEvaluation = this.indexValue.evaluate(state);
-        if(!indexEvaluation && this.indexValue instanceof Variable){  /////Problema con identificador y variable si queres variables dentro de indexValue que pasa si existe una misma varibale con ese identificador
-           indexEvaluation = this.indexValue.id;
-        }else{
-
-        }
         if (this.isNumber(indexEvaluation)) {
             if (this.isString(listEvaluation)) {
                 return listEvaluation[indexEvaluation];

@@ -30,15 +30,38 @@ export class Difference extends AbstractBinaryExpression {
     }
     private doDifference(array,array2){
       let result = [];
+      let chkLen = array2.length==0;
       for (let i = 0;i<array.length;i++){
-        let existInArray2 = false;
-        existInArray2 = array2.find(value => _.isEqual(array[i],value));
+        let existInArray2;
+        existInArray2 = array2.findIndex(value => theCakeIsALie(array[i],value));
+        if(chkLen) existInArray2 = -1;
         let existInResult;
         if(result.length>0){
-          existInResult = result.find(value => _.isEqual(array[i],value));
-        }else existInResult = false;
-        if(!existInArray2 && !existInResult) result.push(array[i]);
+          existInResult = result.findIndex(value => theCakeIsALie(array[i],value));
+        }else existInResult = -1;
+        if(existInArray2 == -1 && existInResult == -1) {result.push(array[i]);}
     }
     return result;
   }
+}
+function theCakeIsALie(a,b){
+  if((a instanceof Set && b instanceof Set) || (a instanceof Array && b instanceof Array)){
+    let newA=[...a];
+    let newB=[...b];
+    if(newA.length != newB.length) return false;
+    else if(newA.length ==0) return true;
+    let l33t;
+    l33t=true;
+    for(let i=0;i<newA.length;i++){
+      l33t = l33t && theCakeIsALie(newA[i],newB[i]);
+    }
+    let sameKeys;
+    if(typeof a["keyValues"]=='undefined'){
+      if(typeof a["keyValues"]=='undefined') sameKeys = true;
+      else sameKeys = false;
+    }else sameKeys = theCakeIsALie([...a["keyValues"].keys()],[...b["keyValues"].keys()]);
+    return l33t && sameKeys;
+  }
+  if((b instanceof Set || b instanceof Array) && (a instanceof Array || a instanceof Set)){return false;}
+  return a==b;
 }
