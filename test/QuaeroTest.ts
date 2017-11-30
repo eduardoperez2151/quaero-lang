@@ -377,6 +377,16 @@ describe('Test Quaero:', () => {
         expect(result1).toBe(false);
     });
 
+    test('QuickSort', () => {
+        let state:State = testUtil.executeInterpreter('quicksort.qr');
+        let unSortedList=state.get('unSortedList');
+        let sortedList= state.get('sortedList');
+        expect(unSortedList).not.toBeNull();
+        expect(sortedList).not.toBeNull();
+        expect(unSortedList.length).toEqual(sortedList.length);
+        expect(unSortedList.sort((a,b)=>a-b)).toEqual(sortedList);
+    });
+
     test('List Comparison', () => {
         let state:State = testUtil.executeInterpreter('ListComparison.qr');
         expect(state).not.toBeFalsy();
@@ -404,10 +414,5 @@ describe('Test Quaero:', () => {
         expect(result_11).toBe(true);
 
     });
-
-    /*test('DuplicateKeyError', () => {
-        let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result = [a:2,3,4,a:5]}@');
-        expect(state.get("result")).toThrowError("Hay elementos con claves repetidas");
-    });*/
 
 });

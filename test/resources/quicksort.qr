@@ -2,14 +2,17 @@
     function quicksort(list){
         if (list==[]) return [];
         else {
-            piv=list[0];
-            l=[y for y <- list, y <= piv];
-            r=[y for y <- list, y > piv]
-            return quicksort(l) ++ quicksort(r);
+            x=list[0];
+
+            xs=slice(list,1,#list);
+            l=[y for y <- xs, y <= x];
+            print(xs);
+            r=[y for y <- xs, y > x];
+            return quicksort(l) ++[x]++ quicksort(r);
         }
     }
     main:{
-        a=[3,5,7,1,2,87,78,9,4];
-        b=quickSort(a);
+        unSortedList=[3,5,7,1,2,87,78,9,4];
+        sortedList=quicksort(unSortedList);
     }
 @
