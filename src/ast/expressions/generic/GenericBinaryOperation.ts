@@ -13,7 +13,10 @@ export class GenericBinaryOperation extends AbstractBinaryExpression {
     protected evaluateComparation(leftEvaluation: any, rightEvaluation: any): boolean {
         let isBooleanEvaluation = this.isBoolean(leftEvaluation) && this.isBoolean(rightEvaluation);
         let isNumberEvaluation = this.isNumber(leftEvaluation) && this.isNumber(rightEvaluation);
-        if(!isNumberEvaluation && ['+',"-",'/','*'].indexOf(this.operationSymbol)>0){
+        if(!isNumberEvaluation && ['+',"-",'/','*'].indexOf(this.operationSymbol)>-1){
+            return null;
+        }
+        if(!isBooleanEvaluation && (this.operationSymbol == '||' || this.operationSymbol == '&&')){
             return null;
         }
         let isStringEvaluation = this.isString(leftEvaluation) && this.isString(rightEvaluation);
