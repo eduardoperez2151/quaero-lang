@@ -1,5 +1,6 @@
 import { Exp } from '../ASTNode';
 import { State } from '../../interpreter/State';
+import {ErrorTypeInfo} from "../ErrorTypeInfo";
 
 export class Opposite implements Exp {
 
@@ -18,6 +19,14 @@ export class Opposite implements Exp {
   }
 
   evaluate(state: State): number {
-    return (-1)*this.value.evaluate(state);
+    let evaluation=this.value.evaluate(state);
+    if(typeof  evaluation === 'number'){
+        return (-1)*evaluation;
+    }
+      let errors: [ErrorTypeInfo] = [new ErrorTypeInfo("value", evaluation)];
+      throw new EvalError(`\n######## ERROR DE TIPOS ########\n${errors.join("\n") }\n################################`);
+
+
+
   }
 }
