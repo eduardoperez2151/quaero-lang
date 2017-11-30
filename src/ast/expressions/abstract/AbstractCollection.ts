@@ -68,7 +68,7 @@ export abstract class AbstractCollection extends AbstractExpression {
             map.set(key, value);
             aux = value;
           }
-          let existInResult = [...result].findIndex(item => AbstractExpression.theCakeIsALie(item,aux));
+          let existInResult = [...result].findIndex(item => AbstractExpression.deepEquals(item,aux));
           if(existInResult == -1) result.add(aux);
         }
         result["keyValues"] = map;

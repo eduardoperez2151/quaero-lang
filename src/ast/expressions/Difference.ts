@@ -32,9 +32,9 @@ export class Difference extends AbstractBinaryExpression {
       let result = [];
       for (let i = 0;i<array.length;i++){
         let existInArray2 = -1;
-        if (array2.length>0) existInArray2 = array2.findIndex(value => AbstractBinaryExpression.theCakeIsALie(array[i],value));
+        if (array2.length>0) existInArray2 = array2.findIndex(value => AbstractBinaryExpression.deepEquals(array[i],value));
         let existInResult = -1;
-        if(result.length>0)  existInResult = result.findIndex(value => AbstractBinaryExpression.theCakeIsALie(array[i],value));
+        if(result.length>0)  existInResult = result.findIndex(value => AbstractBinaryExpression.deepEquals(array[i],value));
         if(existInArray2 == -1 && existInResult == -1) {result.push(array[i]);}
     }
     return result;

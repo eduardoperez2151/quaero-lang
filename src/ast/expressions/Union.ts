@@ -40,7 +40,7 @@ export class Union extends AbstractBinaryExpression {
       for (let i = 0;i<array.length;i++){
         if(result.length > 0){
           let existInResult = result.findIndex(item => {
-              return AbstractBinaryExpression.theCakeIsALie(array[i],item);}
+              return AbstractBinaryExpression.deepEquals(array[i],item);}
           );
           if(existInResult == -1) result.push(array[i]);
         }else result.push(array[i]);

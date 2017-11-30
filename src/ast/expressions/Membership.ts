@@ -32,7 +32,7 @@ export class Membership extends AbstractExpression {
           listExpEvaluation["keyValues"] = new Map();
         }
         if (this.isCollection(listExpEvaluation)){
-          return [...listExpEvaluation].some(item => AbstractBinaryExpression.theCakeIsALie(valueEvaluation,item))
+          return [...listExpEvaluation].some(item => AbstractBinaryExpression.deepEquals(valueEvaluation,item))
         }
         let errors:[ErrorTypeInfo] =[new ErrorTypeInfo("valueEvaluation", valueEvaluation),
             new ErrorTypeInfo("listExpEvaluation", listExpEvaluation)];

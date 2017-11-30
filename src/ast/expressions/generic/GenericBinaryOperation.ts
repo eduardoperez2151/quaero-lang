@@ -37,10 +37,10 @@ export class GenericBinaryOperation extends AbstractBinaryExpression {
     private compareList2(symbolOperation: string, leftEvaluation, rigthEvaluation){
       if(!AbstractBinaryExpression.isGreaterEqual(leftEvaluation,rigthEvaluation) && !AbstractBinaryExpression.islesserEqual(leftEvaluation,rigthEvaluation)){return false;}
       if(symbolOperation == '=='){
-        return AbstractBinaryExpression.theCakeIsALie(leftEvaluation,rigthEvaluation);
+        return AbstractBinaryExpression.deepEquals(leftEvaluation,rigthEvaluation);
       }
       if(symbolOperation == '/='){
-        return ! AbstractBinaryExpression.theCakeIsALie(leftEvaluation,rigthEvaluation);
+        return ! AbstractBinaryExpression.deepEquals(leftEvaluation,rigthEvaluation);
       }
       if(symbolOperation == '<'){
         return ! AbstractBinaryExpression.isGreaterEqual(leftEvaluation,rigthEvaluation);
@@ -57,15 +57,15 @@ export class GenericBinaryOperation extends AbstractBinaryExpression {
     }
     private compareSet2(symbolOperation:string,leftEvaluation,rightEvaluation){
       let funcIncluded = function(): boolean{
-        let aIncludedInB = [...leftEvaluation].every(leftItem =>[...rightEvaluation].some(rightItem => AbstractBinaryExpression.theCakeIsALie(leftItem,rightItem)));
+        let aIncludedInB = [...leftEvaluation].every(leftItem =>[...rightEvaluation].some(rightItem => AbstractBinaryExpression.deepEquals(leftItem,rightItem)));
         let aIncludedInBKeys = [...leftEvaluation["keyValues"].keys()].every(
-          leftItem =>[...leftEvaluation["keyValues"].keys()].some(rightItem => AbstractBinaryExpression.theCakeIsALie(leftItem,rightItem)));
+          leftItem =>[...leftEvaluation["keyValues"].keys()].some(rightItem => AbstractBinaryExpression.deepEquals(leftItem,rightItem)));
         return aIncludedInB && aIncludedInBKeys;
       }
       let funcInclude = function(): boolean{
-        let aIncludesB = [...rightEvaluation].every(rightItem =>[...leftEvaluation].some(leftItem => AbstractBinaryExpression.theCakeIsALie(rightItem,leftItem)));
+        let aIncludesB = [...rightEvaluation].every(rightItem =>[...leftEvaluation].some(leftItem => AbstractBinaryExpression.deepEquals(rightItem,leftItem)));
         let aIncludesBKeys = [...rightEvaluation["keyValues"].keys()].every(
-          rightItem =>[...leftEvaluation["keyValues"].keys()].some(leftItem => AbstractBinaryExpression.theCakeIsALie(rightItem,leftItem)))
+          rightItem =>[...leftEvaluation["keyValues"].keys()].some(leftItem => AbstractBinaryExpression.deepEquals(rightItem,leftItem)))
         return aIncludesB && aIncludesBKeys;
       }
       switch (symbolOperation) {
