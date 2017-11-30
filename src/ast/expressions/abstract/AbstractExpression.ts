@@ -77,7 +77,59 @@ export abstract class AbstractExpression implements Exp {
         return l33t && sameKeys;
       }
       if(b instanceof Set || b instanceof Array || a instanceof Array || a instanceof Set){return false;}
+      if(typeof a != typeof b)return false;
       return a==b;
     }
+    static isGreaterEqual(a,b){
+      if((a instanceof Set && b instanceof Set) || (a instanceof Array && b instanceof Array)){
+        a = [...a];
+        b = [...b];
+        if(a.length == b.length && a.length ==0) return true;
+        let result= true;
+        for(let i = 0;i<a.length;i++){
+          let itemA = a[i];
+          let itemB = b[i];
+          let isEqual = this.isEqualLexico(itemA,itemB);
+          let isGreater = this.isGreaterEqual(itemA,itemB);
+          if(((!isEqual && isGreater) || typeof itemB === 'undefined') && result) return true;
+          if(!isEqual && !isGreater && typeof itemB !== 'undefined') result = false;
+        }
+        return (result && a.length >= b.length) ? true:false
+      }
 
+      return a>b;
+    }
+    static islesserEqual(a,b){
+      if((a instanceof Set && b instanceof Set) || (a instanceof Array && b instanceof Array)){
+        a = [...a];
+        b = [...b];
+        if(a.length == b.length && a.length ==0) return true;
+        let result= true;
+        for(let i = 0;i<a.length;i++){
+          let itemA = a[i];
+          let itemB = b[i];
+          let isEqual = this.isEqualLexico(itemA,itemB);
+          let isLesser = this.islesserEqual(itemA,itemB);
+          if((!isEqual && isLesser) && result) return true;
+          if((!isEqual && !isLesser) || typeof itemB === 'undefined') result = false;
+        }
+        return (result && a.length <= b.length) ? true:false
+      }
+      return a<b;
+    }
+    static isEqualLexico(a,b){
+      if((a instanceof Set && b instanceof Set) || (a instanceof Array && b instanceof Array)){
+        a = [...a];
+        b = [...b];
+        if(a.length != b.length) return false;
+        if(a.length ==0) return  true;
+        let result=true;
+        for(let i=0;i<a.length;i++){
+          result = result && this.isEqualLexico(a[i],b[i]);
+        }
+        return result;
+      }
+      if(b instanceof Set || b instanceof Array || a instanceof Array || a instanceof Set){return false;}
+      return a==b;
+    }
 }

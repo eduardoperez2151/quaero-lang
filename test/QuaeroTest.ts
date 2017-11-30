@@ -342,12 +342,12 @@ describe('Test Quaero:', () => {
         let result1=state.get('result');
         expect(result1).toBe(true);
     });
-
+/*
     test('[50,-3]<[50] Expect False', () => {
         let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result = [50,20] < [50];}@');
         let result1=state.get('result');
         expect(result1).toBe(false);
-    });
+    });*/
     test('true < false Expect False', () => {
         let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result = true<false;}@');
         let result1=state.get('result');
@@ -406,5 +406,516 @@ describe('Test Quaero:', () => {
         expect(result_11).toBe(true);
 
     });
+    test('[1,2,3] == [1,2,3]', () => {
+        let state:State = testUtil.executeInterpreterForLazyPipol("@main:{result=[1,2,3]==[1,2,3];}@");
+        let result1=state.get('result');
+        expect(result1).toBe(true);
+    });
+    test('["1",2,3] ===["1",2,3]', () => {
+        let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=["1",2,3]==["1",2,3];}@');
+        let result1=state.get('result');
+        expect(result1).toBe(true);
+    });
+    test('[1,2,3]==[3,2,1] expect false', () => {
+        let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,3]==[3,2,1];}@');
+        let result1=state.get('result');
+        expect(result1).toBe(false);
+    });
+  test('[[1,[2],3]==[[1,[2]],3] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[[1,[2]],3]==[[1,[2]],3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[[1,{2}]],3]==[[1,[2]],3] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[[1,{2}],3]==[[1,[2]],3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('[1,2,3]==[a:1,2,3] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,3]==[a:1,2,3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('[a:1,b:2,3]==[a:1,b:2,3] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[a:1,b:2,3]==[a:1,b:2,3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
 
+  test('[1,2,3]/=[1,2,3] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,3]/=[1,2,3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('["1",2,3]/=["1",2,3] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=["1",2,3]/=["1",2,3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('[1,2,3]/=[3,2,1] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,3]/=[3,2,1];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[[1,[2]],3]/=[[1,[2]],3] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[[1,[2]],3]/=[[1,[2]],3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('[[1,{2}],3]/=[[1,[2]],3] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[[1,{2}],3]/=[[1,[2]],3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[1,2,3]/=[a:1,2,3] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,3]/=[a:1,2,3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[a:1,b:2,3]/=[a:1,b:2,3] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[a:1,b:2,3]/=[a:1,b:2,3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('[b:1,a:2,3]/=[a:1,b:2,3] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[b:1,a:2,3]/=[a:1,b:2,3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[1,2,3]<[2,3,4] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,3]<[2,3,4];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('["a","b","c"]<["b","c","d"] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=["a","b","c"]<["b","c","d"];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('["z","x","y"]<["b","c","d"] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=["z","x","y"]<["b","c","d"];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('[1,2,3]<[1,2,3] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,3]<[1,2,3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('[2,3,4]<[1,2,3] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[2,3,4]<[1,2,3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('[1,2,9]<[5,6,8] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,9]<[5,6,8];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[1,2,3]<[9,9,9] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,3]<[9,9,9];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[1,2,3]<[9] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,3]<[9];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[a:1,b:2,c:3]<[2,3,4] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[a:1,b:2,c:3]<[2,3,4];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('["1","2","3"]<[2,3,4] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=["1","2","3"]<[2,3,4];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[[1],"2","3"]<[2,3,4] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=["1","2","3"]<[2,3,4];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[{1},[2],"3"]<[2,3,4] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[{1},[2],"3"]<[2,3,4];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('["a","b","c"]<["x","y","z"] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=["a","b","c"]<["x","y","z"];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('["a","b",1]<["x","y",9] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=["a","b",1]<["x","y",9];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[1,2,3]>[2,3,4] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,3]>[2,3,4];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('[1,2,3]>[1,2,3] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,3]>[1,2,3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('[2,3,4]>[1,2,3] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[2,3,4]>[1,2,3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[1,2,9]>[5,6,8] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,9]>[5,6,8];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('[1,2,3]>[9,9,9] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,3]>[9,9,9];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('[1,2,3]>[9] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,3]>[9];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('[2,3,4]>[a:1,b:2,c:3] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[2,3,4]>[a:1,b:2,c:3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('["1","2","3"]>[2,3,4] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=["1","2","3"]>[2,3,4];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('[[1],"2","3"]>[2,3,4] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[[1],"2","3"]>[2,3,4];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('[{1},[2],"3"]>[2,3,4] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[{1},[2],"3"]>[2,3,4];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('["a","b","c"]>["x","y","z"] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=["a","b","c"]>["x","y","z"];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('["a","b",1]>["x","y",9] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=["a","b",1]>["x","y",9];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('["x","y",9]>["a","b",1] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=["x","y",9]>["a","b",1];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[1,2,3]<=[1,2,3] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=["x","y",9]>["a","b",1];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[1,2,3]<=[1,2,3] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,3]<=[1,2,3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[2,3,4]<=[1,2,3] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[2,3,4]<=[1,2,3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('[1,2,9]<=[5,6,8] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,9]<=[5,6,8];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[1,2,3]<=[9,9,9] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,3]<=[9,9,9];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[1,2,3]<=[9] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,3]<=[9];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[a:1,b:2,c:3]<=[2,3,4] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[a:1,b:2,c:3]<=[2,3,4];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('["1","2","3"]<=[2,3,4]; expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=["1","2","3"]<=[2,3,4];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[[1],"2","3"]<=[2,3,4] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[[1],"2","3"]<=[2,3,4];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[{1},[2],"3"]<=[2,3,4] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[{1},[2],"3"]<=[2,3,4];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('["a","b","c"]<=["x","y","z"] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=["a","b","c"]<=["x","y","z"];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('["a","b",1]<=["x","y",9] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=["a","b",1]<=["x","y",9];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[[1,[2]],3]<=[[1,[2]],3] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[[1,[2]],3]<=[[1,[2]],3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[[1,{2}],3]<=[[1,[2]],3] expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[[1,{2}],3]<=[[1,[2]],3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('[a:1,b:2,3]<=[a:1,b:2,3] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[a:1,b:2,3]<=[a:1,b:2,3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('[1,2,3]<=[a:1,2,3] expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,3]<=[a:1,2,3];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test(' {1,2} < {1,3,2}  expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result={1,2} < {1,3,2};}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test(' {1,{2}} < {1,3,{2}}  expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result={1,{2}} < {1,3,{2}};}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test(' {1,[2]} < {1,3,[2]}  expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result={1,{2}} < {1,3,{2}};}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test(' {1,[a:2]} < {1,3,[2]}  expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result={1,[a:2]} < {1,3,[2]};}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test(' {1,[a:2]} < {1,3,[a:2]}  expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result={1,[a:2]} < {1,3,[a:2]};}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test(' {1,2,3} > {1,3}  expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result={1,2,3} > {1,3};}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test(' {1,2,{{{{3}}}}} > {1,{{{{3}}}}}  expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result={1,2,{{{{3}}}}} > {1,{{{{3}}}}};}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('!true expect false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=!true;}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('!false expect true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=!false;}@');
+      let result1=state.get('result');
+      expect(result1).toBe(!false);
+  });
+  test('! 1<-[1,2,3] expecte false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=! (1<-[1,2,3]);}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('true && true expecte true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=true&&true;}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('false && true expecte false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=false && true;}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('true || true expecte true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=true||true;}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('false || true expecte true', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=false || true;}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('false || false expecte false', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=false || false;}@');
+      let result1=state.get('result');
+      expect(result1).toBe(false);
+  });
+  test('2>1 && 3>2', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=2>1 && 3>2;}@');
+      let result1=state.get('result');
+      expect(result1).toBe(true);
+  });
+  test('#[1,2,3,4]', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=#[1,2,3,4];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(4);
+  });
+  test('#[1,[2,3],4]', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=#[1,[2,3],4];}@');
+      let result1=state.get('result');
+      expect(result1).toBe(3);
+  });
+  test('#{1,2,3,4}', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=#{1,2,3,4};}@');
+      let result1=state.get('result');
+      expect(result1).toBe(4);
+  });
+  test('[1,2,3]++[1,2,3]', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,3]++[1,2,3];}@');
+      let result1=state.get('result');
+      expect(true).toBe(_.isEqual(result1,[1,2,3,1,2,3]));
+
+  });
+  test('[1,2,3]++[]', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,3]++[];}@');
+      let result1=state.get('result');
+      expect(true).toBe(_.isEqual(result1,[1,2,3]));
+  });
+  test('[]++[1,2,3]', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[]++[1,2,3];}@');
+      let result1=state.get('result');
+      expect(true).toBe(_.isEqual(result1,[1,2,3]));
+  });
+  test('a=[1,[a:2],3]++[1,2,3]; a[1].a', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{a=[1,[a:2],3]++[1,2,3]; result = a[1].a;}@');
+      let result1=state.get('result');
+      expect(true).toBe(_.isEqual(result1,2));
+  });
+  test('[1,2,3]--[1,2,3]', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,3]--[1,2,3];}@');
+      let result1=state.get('result');
+      expect(true).toBe(_.isEqual(result1,[]));
+  });
+  test('[1,2,3]--[]', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,3]--[];}@');
+      let result1=state.get('result');
+      expect(true).toBe(_.isEqual(result1,[1,2,3]));
+  });
+  test('[]--[1,2,3]', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[]--[1,2,3];}@');
+      let result1=state.get('result');
+      expect(true).toBe(_.isEqual(result1,[]));
+  });
+  test('a=[1,[a:2],3]--[1,2,3]', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,[a:2],3]--[1,2,3];}@');
+      let result1=state.get('result');
+      expect(true).toBe(_.isEqual(result1,[[2]]));
+  });
+  test('[4,5]\\/[1,2,3]', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[4,5]\\/[1,2,3];}@');
+      let result1=state.get('result');
+      expect(true).toBe(_.isEqual(result1,[4,5,1,2,3]));
+  });
+  test('[4,5,5,5]\\/[1,2,3,4]', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result = [4,5,5,5]\\/[1,2,3,4];}@');
+      let result1=state.get('result');
+      expect(true).toBe(_.isEqual(result1,[4,5,1,2,3]));
+  });
+  test('[1,2,2,2,1]/\\[1,1,2,3]', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result=[1,2,2,2,1]/\\[1,1,2,3];}@');
+      let result1=state.get('result');
+      expect(true).toBe(_.isEqual(result1,[1,2]));
+  });
+  test('[1,2,2,2,1]/\\[3]', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result = [1,2,2,2,1]/\\[3];}@');
+      let result1=state.get('result');
+      expect(true).toBe(_.isEqual(result1,[]));
+  });
+  test('"Hola"++" Mundo"', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result = "Hola"++" Mundo";}@');
+      let result1=state.get('result');
+      expect(true).toBe(_.isEqual(result1,"Hola Mundo".split("")));
+  });
+  test('[0..10]', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result = [0..10];}@');
+      let result1=state.get('result');
+      expect(true).toBe(_.isEqual(result1,[0,1,2,3,4,5,6,7,8,9,10]));
+  });
+  test('[0,2..10]', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result =[0,2..10];}@');
+      let result1=state.get('result');
+      expect(true).toBe(_.isEqual(result1,[0,2,4,6,8,10]));
+  });
+  test('[0,3..10]', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result = [0,3..10];}@');
+      let result1=state.get('result');
+      expect(true).toBe(_.isEqual(result1,[0,3,6,9]));
+  });
+  test('[10,7..0]', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result = [10,7..0];}@');
+      let result1=state.get('result');
+      expect(true).toBe(_.isEqual(result1,[10,7,4,1]));
+  });
+  test('[0,0.31..1]', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result = [0,0.31..1];}@');
+      let result1=state.get('result');
+      expect(true).toBe(_.isEqual(result1,[0,0.31,0.62,0.9299999999999999]));
+  });
+  test('a=2+3;b=4;result = [1] if a>b else {1}', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{a=2+3;b=4;result = [1] if a>b else {1};}@');
+      let result1=state.get('result');
+      expect(true).toBe(_.isEqual(result1,[1]));
+  });
+  test('a=2+3;b=99;result = [1] if a>b else {2}', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{a=2+3;b=99;result = [1] if a>b else {2};}@');
+      let result1=state.get('result');
+      expect(true).toBe(_.isEqual([...result1],[2]));
+  });
+  test('{x * y for x <- [1..3], y <- [1..3], x <= y}', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result = {x * y for x <- [1..3], y <- [1..3], x <= y};}@');
+      let result1=state.get('result');
+      expect(true).toBe(_.isEqual([...result1],[1,2,3,4,6,9]));
+  });
+  test('x = 2; if (x > 0) y = x; else y = -x', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{ x = 2; if (x > 0) y = x; else y = -x;}@');
+      let result1=state.get('y');
+      expect(result1).toBe(2);
+  });
+  test('x = -2; if (x > 0) y = x; else y = -x', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{ x = 2; if (x > 0) y = x; else y = -x;}@');
+      let result1=state.get('y');
+      expect(result1).toBe(2);
+  });
+  test('x = -45; if (x < 0) x = -x}', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{x = -45; if (x < 0) x = -x;}@');
+      let result1=state.get('x');
+      expect(result1).toBe(45);
+  });
+test('x = 45; if (x < 0) x = -x', () => {
+      let state:State = testUtil.executeInterpreterForLazyPipol('@main:{x = 45; if (x < 0) {x = -x;}}@');
+      let result1=state.get('x');
+      expect(result1).toBe(45);
+  });
 });

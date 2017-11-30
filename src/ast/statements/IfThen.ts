@@ -23,7 +23,7 @@ export class IfThen implements Stmt {
 
   evaluate(state: State): State {
     if (typeof this.cond.evaluate(state) === "boolean") {
-      return this.cond ? this.thenBody.evaluate(state):state;
+      return this.cond.evaluate(state) ? this.thenBody.evaluate(state):state;
     }
     throw new EvalError("Error al evaluar la exprexion: debe ser de tipo booleana");
   }

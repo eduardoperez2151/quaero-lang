@@ -1,6 +1,7 @@
 import {Exp} from "../../ASTNode";
 import {Variable} from "../../statements/Variable";
 import {Membership} from "../Membership";
+import {TruthValue} from "../TruthValue";
 import {State} from "../../../interpreter/State";
 import {AbstractExpression} from "./AbstractExpression";
 import {GenericBinaryOperation} from "../generic/GenericBinaryOperation";
@@ -53,7 +54,7 @@ export abstract class AbstractComprehension extends AbstractExpression {
             }
         }
 
-        if (head instanceof GenericBinaryOperation) {
+        if (head instanceof GenericBinaryOperation || head instanceof TruthValue) {
             let condition = head.evaluate(clonedState);
             if (this.isBoolean(condition) && condition) {
                 this.comprehensionCalculate(clonedState, tail, resultList);
