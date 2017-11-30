@@ -4,7 +4,7 @@ export class State {
   vars: Map<string, any>;
 
   constructor() {
-    this.vars = new Map<string, any>();
+    this.vars = setPredFunctions(new Map<string, any>());
   }
 
   toString(): string {
@@ -28,4 +28,73 @@ export class State {
     return state;
   }
 
+}
+function print(valor: any) {
+    console.log(valor);
+}
+
+function div(a, b): number {
+    if (typeof a === 'number' && typeof b === 'number') {
+        return Math.floor(a / b);
+    } else {
+        return null
+    }
+}
+
+function mod(a, b): number {
+    if (typeof a === 'number' && typeof b === 'number') {
+        return a % b;
+    } else {
+        return null;
+    }
+}
+function toArray(set) {
+    return [...set];
+}
+
+function convertString(valor: any): string {
+    return String(valor);
+}
+
+function convertInt(valor: any): number {
+    if (typeof valor === "number" || typeof valor === 'string') {
+        return Math.floor(Number(valor));
+    } else {
+        return null;
+    }
+}
+
+function convertNumber(valor: any): number {
+    if (typeof valor === "number" || typeof valor === 'string') {
+        return Number(valor);
+    } else {
+        return null;
+    }
+}
+
+function convertBoolean(valor: any): boolean {
+    if((valor instanceof Array || valor instanceof Set) && [...valor].length ===0)return false;
+    switch (valor) {
+        case null:
+        case "":
+        case 0:
+            return false;
+        default:
+            return true;
+    }
+}
+function slice(array, ini, end){
+  return array.slice(ini,end);
+}
+function setPredFunctions(map) {
+    map.set("print", print);
+    map.set("div", div);
+    map.set("mod", mod);
+    map.set("string", convertString);
+    map.set("int", convertInt);
+    map.set("number", convertNumber);
+    map.set("boolean", convertBoolean);
+    map.set("toArray", toArray);
+    map.set("slice", slice);
+    return map;
 }

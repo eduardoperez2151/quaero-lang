@@ -14,7 +14,6 @@ import {State} from './interpreter/State';
 console.log("Quero :: REPL");
 
 var state = new State();
-state = setPredFunctions(state);
 while (true) {
     const lexer = new MyLexer(tokens);
     const parser = new Parser(ParserRules, ParserStart, {lexer});
@@ -48,71 +47,4 @@ while (true) {
     } catch (parseError) {
         console.log(parseError);
     }
-}
-
-function print(valor: any) {
-    console.log(valor);
-}
-
-function div(a, b): number {
-    if (typeof a === 'number' && typeof b === 'number') {
-        return Math.floor(a / b);
-    } else {
-        return null
-    }
-}
-
-function mod(a, b): number {
-    if (typeof a === 'number' && typeof b === 'number') {
-        return a % b;
-    } else {
-        return null;
-    }
-}
-function toArray(set) {
-    return [...set];
-}
-
-function convertString(valor: any): string {
-    return String(valor);
-}
-
-function convertInt(valor: any): number {
-    if (typeof valor === "number" || typeof valor === 'string') {
-        return Math.floor(Number(valor));
-    } else {
-        return null;
-    }
-}
-
-function convertNumber(valor: any): number {
-    if (typeof valor === "number" || typeof valor === 'string') {
-        return Number(valor);
-    } else {
-        return null;
-    }
-}
-
-function convertBoolean(valor: any): boolean {
-    if((valor instanceof Array || valor instanceof Set) && [...valor].length ===0)return false;
-    switch (valor) {
-        case null:
-        case "":
-        case 0:
-            return false;
-        default:
-            return true;
-    }
-}
-
-function setPredFunctions(state: State): State {
-    state.set("print", print);
-    state.set("div", div);
-    state.set("mod", mod);
-    state.set("string", convertString);
-    state.set("int", convertInt);
-    state.set("number", convertNumber);
-    state.set("boolean", convertBoolean);
-    state.set("toArray", toArray);
-    return state
 }
