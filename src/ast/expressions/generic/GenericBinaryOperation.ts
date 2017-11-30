@@ -21,34 +21,13 @@ export class GenericBinaryOperation extends AbstractBinaryExpression {
             return this.compareList2(this.operationSymbol,leftEvaluation, rightEvaluation);
         }
         if (isSet){
-          return this.compareSet2(this.operationSymbol, leftEvaluation, rightEvaluation,);
+          return this.compareSet2(this.operationSymbol, leftEvaluation, rightEvaluation);
         }
 
         return (isBooleanEvaluation || isNumberEvaluation || isStringEvaluation) ? this.comparatorFunction.call(this, leftEvaluation, rightEvaluation) : this.operationSymbol === '==' || this.operationSymbol === '/=' ? false : null;
     }
 
-    private compareList(symbolOperation: string, comparatorFunction: Function, leftArray: Array<any>, rightArray: Array<any>): boolean {
-        let comparison, compareLess, compareEquals = false;
-        if (symbolOperation == "==" || symbolOperation == "<") {
-            comparison = this.compare(symbolOperation, comparatorFunction, leftArray, rightArray);
-            return comparison;
-        } else {
-            compareLess = this.compare("<", (a, b) => a < b, leftArray, rightArray);
-            compareEquals = this.compare("==", (a, b) => a == b, leftArray, rightArray);
-        }
-        switch (symbolOperation) {
-            case "/=":
-                return !compareEquals;
-            case ">":
-                return !compareLess && !compareEquals;
-            case ">=":
-                return !compareLess;
-            case "<=":
-                return compareLess || compareEquals;
-            default:
-                return false;
-        }
-    }
+
     private compareList2(symbolOperation: string, leftEvaluation, rigthEvaluation){
       if(!AbstractBinaryExpression.isGreaterEqual(leftEvaluation,rigthEvaluation) && !AbstractBinaryExpression.islesserEqual(leftEvaluation,rigthEvaluation)){return false;}
       if(symbolOperation == '=='){
@@ -91,69 +70,13 @@ export class GenericBinaryOperation extends AbstractBinaryExpression {
         case "==":
           return funcInclude.call(this) && funcIncluded.call(this);
         case "/=":
-          return !(funcInclude.call(this) && funcIncluded.call(this));
+          return !((funcInclude.call(this) && funcIncluded.call(this)));
         default:
           console.log("La función [" + symbolOperation + "] no está definida para los conjuntos.");
           return false;
       }
 
     }
-    private compareSet(symbolOperation: string, leftEvaluation, rigthEvaluation, funct): boolean {
-        let funcIncluded = function (): boolean {
-            let result = [...leftEvaluation].filter((item) => {
-                if ((item instanceof Array || item instanceof Set)) {
-                    let rightArray = [...rigthEvaluation];
-                    let rightValue;
-                    for (let i = 0; i < rightArray.length; i++) {
-                        rightValue = rightArray[i];
-                        if (rightValue instanceof Array || rightValue instanceof Set) {
-                            return new GenericBinaryOperation(item, rightValue, "==", (a, b) => a == b).preEval();
-                        } else return false;
-                    }
-                }
-                //else if(item instanceof Array || item instanceof Set) return false;
-                else {
-                    return rigthEvaluation.has(item);
-                }
-            });
-            let b = result.length <= leftEvaluation.size;
-            return result.length <= leftEvaluation.size;
-        };
-        let funcInclude = function (): boolean {
-            let result = [...rigthEvaluation].filter((item) => {
-                if ((item instanceof Array || item instanceof Set)) {
-                    let leftArray = [...leftEvaluation];
-                    1
-                    let leftValue;
-                    for (let i = 0; i < leftArray.length; i++) {
-                        leftValue = leftArray[i];
-                        if (leftValue instanceof Array || leftValue instanceof Set) {
-                            return new GenericBinaryOperation(item, leftValue, "==", (a, b) => a == b).preEval();
-                        } else return false;
-                    }
-                }
-                //else if(item instanceof Array || item instanceof Set) return false;
-                else {
-                    return leftEvaluation.has(item);
-                }
-            });
-            let b = result.length >= rigthEvaluation.size;
-            return result.length >= rigthEvaluation.size;
-        };
-
-        switch (symbolOperation) {
-            case "<":
-                return funcIncluded.call(this);
-            case ">":
-                return funcInclude.call(this);
-            case "==":
-                return funcInclude.call(this) && funcIncluded.call(this);
-            default:
-                console.log("La función [" + symbolOperation + "] no está definida para los conjuntos.");
-                return false;
-        }
-    }
-
     evaluate(state: State): any {
         let leftSideEvaluation = this.leftHandSideEvaluation(state);
         let rightHandSideEvaluation = this.rightHandSideEvaluation(state);
@@ -166,63 +89,6 @@ export class GenericBinaryOperation extends AbstractBinaryExpression {
 
     protected evaluation(leftSideEvaluation: any, rightHandSideEvaluation: any): any {
         return this.evaluateComparation(leftSideEvaluation, rightHandSideEvaluation);
-    }
-
-    preEval() {
-        return this.evaluateComparation(this.leftHandSide, this.rightHandSide)
-    }
-
-    private compare(symbolOperation: string, comparatorFunction: Function, leftArray: Array<any>, rightArray: Array<any>): boolean {
-        let exit = false;
-        let result = false;
-
-        function compareAux(element, index) {
-            if (!exit) {
-                let arrayType = rightArray[index] instanceof Array && element instanceof Array;
-                let arraySet = rightArray[index] instanceof Set && element instanceof Set;
-                if (arrayType || arraySet) {
-                    result = new GenericBinaryOperation(element, rightArray[index], symbolOperation, comparatorFunction).preEval();
-                    return result;
-                }
-                if (symbolOperation == "<" && element != rightArray[index]) {
-                    exit = true;
-                }
-                result = comparatorFunction.call(this, element, rightArray[index]);
-                return result;
-            }
-        }
-
-        let symbolEquals = symbolOperation == "==";
-        if (symbolEquals) {
-            leftArray.every(compareAux);
-        } else {
-            leftArray.some(compareAux);
-        }
-        return symbolEquals ? this.compareEquals(leftArray, rightArray, result) : this.compareLess(leftArray, rightArray, result);
-    }
-
-    private compareEquals(leftArray: Array<any>, rightArray: Array<any>, comparison: boolean): boolean {
-        let checkLength = leftArray.length == rightArray.length;
-        if (checkLength && leftArray.length == 0) return true;
-        return checkLength && comparison;
-    }
-
-    private compareLess(leftArray: Array<any>, rightArray: Array<any>, comparison: boolean): boolean {
-        let checkLess = leftArray.length < rightArray.length;
-        return this.compareAux("==", (a, b) => a == b, leftArray, rightArray) ? checkLess : comparison;
-    }
-
-    private compareAux(symbolOperation: string, comparatorFunction: Function, leftArray: Array<any>, rightArray: Array<any>): boolean {
-        function compareAux(element, index) {
-            let arrayType = rightArray[index] instanceof Array && element instanceof Array;
-            let arraySet = rightArray[index] instanceof Set && element instanceof Set;
-            if (arrayType || arraySet) {
-                return new GenericBinaryOperation(element, rightArray[index], symbolOperation, comparatorFunction).preEval();
-            }
-            return comparatorFunction.call(this, element, rightArray[index]);
-        }
-
-        return leftArray.every(compareAux);
     }
 
 }

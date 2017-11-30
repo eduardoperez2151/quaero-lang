@@ -5,7 +5,6 @@ import {Parser} from "nearley";
 import {tokens} from "./lexer/Tokens";
 import {MyLexer} from "./lexer/Lexer"
 import {ParserRules, ParserStart} from "./parser/Grammar";
-
 import {Stmt} from './ast/AST';
 
 import {State} from './interpreter/State';
@@ -15,11 +14,9 @@ console.log("Quero :: REPL");
 
 var state = new State();
 while (true) {
-    const lexer = new MyLexer(tokens);
-    const parser = new Parser(ParserRules, ParserStart, {lexer});
-
-    const input = readlineSync.question('> ');
-
+  const lexer = new MyLexer(tokens);
+  const parser = new Parser(ParserRules, ParserStart, {lexer});
+  const input = readlineSync.question('> ');
     try {
         // Parse user input
         parser.feed(input);
@@ -47,4 +44,5 @@ while (true) {
     } catch (parseError) {
         console.log(parseError);
     }
+
 }
