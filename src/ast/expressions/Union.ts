@@ -40,33 +40,11 @@ export class Union extends AbstractBinaryExpression {
       for (let i = 0;i<array.length;i++){
         if(result.length > 0){
           let existInResult = result.findIndex(item => {
-            return theCakeIsALie(array[i],item);});
+              return AbstractBinaryExpression.theCakeIsALie(array[i],item);}
+          );
           if(existInResult == -1) result.push(array[i]);
         }else result.push(array[i]);
       }
       return result;
     }
-}
-function theCakeIsALie(a,b){
-  if((a instanceof Set && b instanceof Set) || (a instanceof Array && b instanceof Array)){
-    let newA=[...a];
-    newA["KeyValues"] = a["keyValues"];
-    let newB=[...b];
-    newB["keyValues"] = b["keyValues"];
-    if(newA.length != newB.length) return false;
-    else if(newA.length ==0) return true;
-    let l33t;
-    l33t=true;
-    for(let i=0;i<newA.length;i++){
-      l33t = l33t && theCakeIsALie(newA[i],newB[i]);
-    }
-    let sameKeys;
-    if(typeof a["keyValues"]=='undefined'){
-      if(typeof b["keyValues"]=='undefined') sameKeys = true;
-      else sameKeys = false;
-    }else sameKeys = theCakeIsALie([...a["keyValues"].keys()],[...b["keyValues"].keys()]);
-    return l33t && sameKeys;
-  }
-  if((b instanceof Set || b instanceof Array) && (a instanceof Array || a instanceof Set)){return false;}
-  return a==b;
 }

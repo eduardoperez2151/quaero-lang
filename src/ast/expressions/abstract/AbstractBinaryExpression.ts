@@ -54,4 +54,33 @@ export abstract class AbstractBinaryExpression extends AbstractExpression {
       array["keyValues"] = new Map();
       return array;
     }
+    static theCakeIsALie(a,b){
+      if(a instanceof Set && b instanceof Set){
+        let keysA = [...a["keyValues"].keys()];
+        let keysB = [...b["keyValues"].keys()];
+        if(a.size != b.size  || keysA.length != keysB.length) return false;
+        else if(a.size ==0) return true;
+        let aIncludedInB = [...a].every(itemA =>[...b].some(itemB => this.theCakeIsALie(itemA,itemB)));
+        let aIncludedInBKeys = [...a["keyValues"].keys()].every(itemA =>[...b["keyValues"].keys()].some(itemB => this.theCakeIsALie(itemA,itemB)))
+        if(aIncludedInB && aIncludedInBKeys) return true;
+        return false
+      }
+      if(a instanceof Array && b instanceof Array){
+        if(a.length != b.length) return false;
+        else if(a.length ==0) return true;
+        let l33t=true;
+        for(let i=0;i<a.length;i++){
+          l33t = l33t && this.theCakeIsALie(a[i],b[i]);
+        }
+        let sameKeys;
+        if(typeof a["keyValues"]=='undefined'){
+          if(typeof b["keyValues"]=='undefined') sameKeys = true;
+          else sameKeys = false;
+        }else sameKeys = this.theCakeIsALie([...a["keyValues"].keys()],[...b["keyValues"].keys()]);
+        return l33t && sameKeys;
+      }
+      if(b instanceof Set || b instanceof Array || a instanceof Array || a instanceof Set){return false;}
+      return a==b;
+    }
+
 }
