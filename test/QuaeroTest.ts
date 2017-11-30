@@ -350,12 +350,12 @@ describe('Test Quaero:', () => {
         let result1=state.get('result');
         expect(result1).toBe(true);
     });
-    /*
+
     test('[50,-3]<[50] Expect False', () => {
         let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result = [50,20] < [50];}@');
         let result1=state.get('result');
         expect(result1).toBe(false);
-    });*/
+    });
     test('true < false Expect False', () => {
         let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result = true<false;}@');
         let result1=state.get('result');

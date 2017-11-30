@@ -84,7 +84,9 @@ function convertBoolean(valor: any): boolean {
     }
 }
 function slice(array, ini, end){
-  return array.slice(ini,end);
+  let result = array.slice(ini,end);
+  result["keyValues"] = new Map();
+  return result;
 }
 function setPredFunctions(map) {
     map.set("print", print);
