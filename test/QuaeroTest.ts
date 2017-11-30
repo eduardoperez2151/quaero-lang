@@ -385,11 +385,19 @@ describe('Test Quaero:', () => {
         let result_3 = state.get('result_3');
         let result_4 = state.get('result_4');
         let result_5 = state.get('result_5');
+        let result_6 = state.get('result_6');
+        let result_7 = state.get('result_7');
+        let result_8 = state.get('result_8');
+        let result_9 = state.get('result_9');
         expect(result_1).toBe(true);
         expect(result_2).toBe(true);
         expect(result_3).toBe(true);
         expect(result_4).toBe(false);
         expect(result_5).toBe(true);
+        expect(result_6).toBe(true);
+        expect(result_7).toBe(true);
+        expect(result_8).toBe(false);
+        expect(result_9).toBe(true);
 
     });
 

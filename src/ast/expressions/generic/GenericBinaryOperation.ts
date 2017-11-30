@@ -151,6 +151,7 @@ export class GenericBinaryOperation extends AbstractBinaryExpression {
 
     private compareEquals(leftArray: Array<any>, rightArray: Array<any>, comparison:boolean): boolean{
       var checkLength = leftArray.length == rightArray.length;
+      if (checkLength && leftArray.length == 0) return true;
       return checkLength && comparison;
     }
     private compareLess(leftArray: Array<any>, rightArray: Array<any>, comparison:boolean): boolean{
