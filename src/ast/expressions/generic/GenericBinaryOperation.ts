@@ -129,7 +129,8 @@ export class GenericBinaryOperation extends AbstractBinaryExpression {
           var arrayType = rightArray[index] instanceof Array && element instanceof Array;
           var arraySet  = rightArray[index] instanceof Set && element instanceof Set;
           if (arrayType || arraySet){
-            return new GenericBinaryOperation(element, rightArray[index], symbolOperation, comparatorFunction).preEval();
+            result = new GenericBinaryOperation(element, rightArray[index], symbolOperation, comparatorFunction).preEval();
+            return result;
           }
           if (symbolOperation == "<" && element != rightArray[index]){
             exit = true;
