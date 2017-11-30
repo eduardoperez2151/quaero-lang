@@ -13,6 +13,9 @@ export class GenericBinaryOperation extends AbstractBinaryExpression {
     protected evaluateComparation(leftEvaluation: any, rightEvaluation: any): boolean {
         let isBooleanEvaluation = this.isBoolean(leftEvaluation) && this.isBoolean(rightEvaluation);
         let isNumberEvaluation = this.isNumber(leftEvaluation) && this.isNumber(rightEvaluation);
+        if(!isNumberEvaluation && ['+',"-",'/','*'].indexOf(this.operationSymbol)>0){
+            return null;
+        }
         let isStringEvaluation = this.isString(leftEvaluation) && this.isString(rightEvaluation);
         let isListEvaluation = this.isList(leftEvaluation) && this.isList(rightEvaluation);
         let isSet = this.isSet(leftEvaluation) && this.isSet(rightEvaluation);
