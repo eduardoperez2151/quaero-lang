@@ -170,14 +170,6 @@ describe('Test Quaero:', () => {
         expect(result1).toBe("¡hola mundo!");
     });
 
-
-    /*
-    test('Assign"\u00a1\"hola\tmundo!\""', () => {
-        let state:State = testUtil.executeInterpreterForLazyPipol('@main:{"\u00a1\"hola\tmundo!\"";}@');
-        let result1=state.get('result');
-        expect(result1).toBe("\u00a1\"hola\tmundo!\"");
-    });*/
-
     test('AssignNull', () => {
         let state:State = testUtil.executeInterpreterForLazyPipol("@main:{result = null;}@");
         let result1=state.get('result');

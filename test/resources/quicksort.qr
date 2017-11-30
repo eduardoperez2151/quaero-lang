@@ -3,10 +3,8 @@
         if (list==[]) return [];
         else {
             x=list[0];
-
             xs=slice(list,1,#list);
             l=[y for y <- xs, y <= x];
-            print(xs);
             r=[y for y <- xs, y > x];
             return quicksort(l) ++[x]++ quicksort(r);
         }
