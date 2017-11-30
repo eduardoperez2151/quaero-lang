@@ -377,6 +377,22 @@ describe('Test Quaero:', () => {
         expect(result1).toBe(false);
     });
 
+    test('List Comparison', () => {
+        let state:State = testUtil.executeInterpreter('ListComparison.qr');
+        expect(state).not.toBeFalsy();
+        let result_1 = state.get('result_1');
+        let result_2 = state.get('result_2');
+        let result_3 = state.get('result_3');
+        let result_4 = state.get('result_4');
+        let result_5 = state.get('result_5');
+        expect(result_1).toBe(true);
+        expect(result_2).toBe(true);
+        expect(result_3).toBe(true);
+        expect(result_4).toBe(false);
+        expect(result_5).toBe(true);
+
+    });
+
     /*test('DuplicateKeyError', () => {
         let state:State = testUtil.executeInterpreterForLazyPipol('@main:{result = [a:2,3,4,a:5]}@');
         expect(state.get("result")).toThrowError("Hay elementos con claves repetidas");

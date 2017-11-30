@@ -28,36 +28,26 @@ export class GenericBinaryOperation extends AbstractBinaryExpression {
         return (isBooleanEvaluation || isNumberEvaluation || isStringEvaluation) ? this.comparatorFunction.call(this, leftEvaluation, rightEvaluation) : false;
     }
         private compareList(symbolOperation: string, comparatorFunction: Function, leftArray: Array<any>, rightArray: Array<any>): boolean {
-        //let checkLength = comparatorFunction.call(this, leftArray.length, rightArray.length);
-        let checkLength = leftArray.length == rightArray.length;
-        //return this.compare(symbolOperation, comparatorFunction, leftArray,rightArray);
-        let comparison = this.compare(symbolOperation, comparatorFunction, leftArray,rightArray);
-        switch (symbolOperation) {
-            case "==":
-              return checkLength && comparison;
-            case "/=":
-                return ! checkLength || ! comparison;
-            case "<":
-                return comparison || (checkLength ? false : this.compare("==", (a,b) => a == b, leftArray,rightArray));
-            case ">":
-                return comparison;
-            case ">=":
-                //return comparison && (checkLength ? true : ! this.compare("==", (a,b) => a == b, leftArray,rightArray));
-            default:
-                var symbols_bool = symbolOperation == "<=" || symbolOperation == ">=" || symbolOperation == ">";
-                return symbols_bool ? comparison : false;
-        }
-    }
-    private compareList2(symbolOperation: string, comparatorFunction: Function, leftArray: Array<any>, rightArray: Array<any>): boolean {
-        let checkLength = comparatorFunction.call(this, leftArray.length, rightArray.length);
-        switch (symbolOperation) {
-            case "==":
-                return checkLength && leftArray.every((value,index) => _.isEqual(value,rightArray[index]));
-            case "/=":
-                return checkLength || leftArray.some((value,index) => !(_.isEqual(value,rightArray[index])));
-            default: //Falla en [-1]>[-2] ya que javascript en array compara pasandolos a string, ahora si en la lista parecen sets que se deberia hacer ya que por < o > serian incluciones
-              return comparatorFunction.call(this, leftArray, rightArray);
-        }
+          var comparison, compareLess, compareEquals = false;
+          if (symbolOperation == "==" ||  symbolOperation == "<"){
+             comparison = this.compare(symbolOperation, comparatorFunction, leftArray,rightArray);
+             return comparison;
+          }else{
+            compareLess = this.compare("<", (a,b) => a < b, leftArray, rightArray);
+            compareEquals = this.compare("==", (a,b) => a == b, leftArray, rightArray);
+          }
+          switch (symbolOperation) {
+              case "/=":
+                  return ! compareEquals;
+              case ">":
+                  return ! compareLess && ! compareEquals;
+              case ">=":
+                  return ! compareLess;
+              case "<=":
+                  return compareLess || compareEquals ;
+              default:
+                  return false;
+          }
     }
     private compareSet(symbolOperation: string, leftEvaluation, rigthEvaluation, funct): boolean {
         let funcIncluded = function (): boolean {
@@ -130,25 +120,54 @@ export class GenericBinaryOperation extends AbstractBinaryExpression {
     preEval(){
       return this.evaluateComparation(this.leftHandSide,this.rightHandSide)
     }
-    private compareEquals(leftArray: Array<any>, rightArray: Array<any>): boolean {
-      return this.compare("==", (a,b) => a == b, leftArray, rightArray);
-    }
-    private compareLess(leftArray: Array<any>, rightArray: Array<any>): boolean {
-      return this.compare("<", (a,b) => a < b, leftArray, rightArray);
-    }
 
     private compare(symbolOperation: string, comparatorFunction: Function, leftArray: Array<any>, rightArray: Array<any>): boolean {
-      function rec(element, index) {
-          if (typeof rightArray[index] === "undefined") return true;
+      var exit  = false;
+      var result = false;
+      function compareAux(element, index) {
+        if (! exit){
+          var arrayType = rightArray[index] instanceof Array && element instanceof Array;
+          var arraySet  = rightArray[index] instanceof Set && element instanceof Set;
+          if (arrayType || arraySet){
+            return new GenericBinaryOperation(element, rightArray[index], symbolOperation, comparatorFunction).preEval();
+          }
+          if (symbolOperation == "<" && element != rightArray[index]){
+            exit = true;
+          }
+          result = comparatorFunction.call(this, element, rightArray[index]);
+          return result;
+        }
+      }
+      var symbolEquals = symbolOperation == "==";
+      if (symbolEquals){
+        leftArray.every(compareAux);
+      }else{
+        leftArray.some(compareAux);
+      }
+      return symbolEquals ?
+        this.compareEquals(leftArray, rightArray, result) :
+        this.compareLess(leftArray, rightArray, result);
+    }
+
+    private compareEquals(leftArray: Array<any>, rightArray: Array<any>, comparison:boolean): boolean{
+      var checkLength = leftArray.length == rightArray.length;
+      return checkLength && comparison;
+    }
+    private compareLess(leftArray: Array<any>, rightArray: Array<any>, comparison:boolean): boolean{
+      var checkLess = leftArray.length < rightArray.length;
+      return this.compareAux("==", (a,b) => a == b, leftArray, rightArray) ? checkLess : comparison ;
+    }
+
+    private compareAux(symbolOperation: string, comparatorFunction: Function, leftArray: Array<any>, rightArray: Array<any>): boolean {
+      function compareAux(element, index) {
           var arrayType = rightArray[index] instanceof Array && element instanceof Array;
           var arraySet  = rightArray[index] instanceof Set && element instanceof Set;
           if (arrayType || arraySet){
             return new GenericBinaryOperation(element, rightArray[index], symbolOperation, comparatorFunction).preEval();
           }
           return comparatorFunction.call(this, element, rightArray[index]);
-        }
-      var symbol_equal_less_bigger = symbolOperation == "==" || symbolOperation == "<=" || symbolOperation == ">=";
-      return symbol_equal_less_bigger ? leftArray.every(rec) : leftArray.some(rec) ;
+      }
+      return leftArray.every(compareAux);
     }
 
 }
